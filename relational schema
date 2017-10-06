@@ -13,16 +13,15 @@ CREATE TABLE users (
     CONSTRAINT is_human
     CHECK (DoB >= 1910-01-01 AND DoB < CURDATE()),
     CONSTRAINT password_is_strong
-    CHECK (
-    
+    CHECK (password LIKE '%[0-9]% AND password LIKE '%[A-Z]%' AND password LIKE '%[a-z]%' AND len(password) >= 8)
 );
 
 CREATE TABLE comments (
     comment_id int AUTO_INCREMENT,
     photo_id int,
     user_id int,
-    text varchar(300),
-    comment_date DATE,
+    text varchar(300) NOT NULL,
+    comment_date DATE NOT NULL,
     PRIMARY KEY (comment_id),
     FOREIGN KEY (photo_id) REFERENCES photos(photo_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
@@ -31,8 +30,8 @@ CREATE TABLE comments (
 CREATE TABLE albums (
     album_id int  AUTO_INCREMENT,
     user_id int,
-    album_name varchar(255),
-    DoC DATE,
+    album_name varchar(255) NOT NULL,
+    DoC DATE NOT NULL,
     PRIMARY KEY (album_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
@@ -41,7 +40,7 @@ CREATE TABLE albums (
 CREATE TABLE photos
 (
   photo_id int  AUTO_INCREMENT,
-  data longblob ,
+  data longblob NOT NULL,
   caption VARCHAR(255),
   INDEX upid_idx (user_id),
   PRIMARY KEY (photo_id)
@@ -50,11 +49,9 @@ CREATE TABLE photos
 CREATE TABLE tags
 (
   tag_id int  AUTO_INCREMENT,
-  description VARCHAR(255),
+  description VARCHAR(25) NOT NULL,
   PRIMARY KEY (tag_id)
 );
-
-
 
 
 CREATE TABLE contains
@@ -89,8 +86,6 @@ CREATE TABLE likes
   FOREIGN KEY (photo_id)
   REFERENCES photos(photo_id)
 );
-
-
 
 
 CREATE TABLE tagged_with
