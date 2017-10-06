@@ -1,0 +1,116 @@
+Authors: Wensi You && Lance Galletti  Date: 2017/10/05    CS660 PA1 part1 
+
+CREATE TABLE users (
+    user_id int  AUTO_INCREMENT,
+    email varchar(255) UNIQUE,
+    password varchar(255),
+    first_name varchar(255),
+    last_name varchar(255),
+    DoB DATE,
+    hometown varchar(255),
+    gender char(1),
+    password varchar(255),
+    PRIMARY KEY (user_id)
+);
+
+CREATE TABLE comments (
+    comment_id int AUTO_INCREMENT,
+    photo_id int,
+    user_id int,
+    text varchar(255),
+    comment_date DATE,
+    PRIMARY KEY (comment_id),
+    FOREIGN KEY (photo_id) REFERENCES photos(photo_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE albums (
+    album_id int  AUTO_INCREMENT,
+    user_id int,
+    album_name varchar(255),
+    DoC DATE,
+    PRIMARY KEY (album_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+
+CREATE TABLE photos
+(
+  photo_id int  AUTO_INCREMENT,
+  data longblob ,
+  caption VARCHAR(255),
+  INDEX upid_idx (user_id),
+  PRIMARY KEY (photo_id)
+);
+
+CREATE TABLE tags
+(
+  tag_id int  AUTO_INCREMENT,
+  description VARCHAR(255),
+  PRIMARY KEY (tag_id)
+);
+
+
+
+
+CREATE TABLE contains
+(
+  user_id int,
+  album_id int,
+  PRIMARY KEY (album_id),
+  FOREIGN KEY (user_id)
+  REFERENCES users(user_id),
+  FOREIGN KEY (album_id)
+  REFERENCES albums(album_id)
+);
+
+CREATE TABLE friend_with
+(
+  user_id int,
+  ?
+  PRIMARY KEY (user_id),
+  ?
+);
+
+CREATE TABLE likes
+(
+  user_id int,
+  photo_id int,
+  PRIMARY KEY (user_id, photo_id),
+  FOREIGN KEY (user_id)
+  REFERENCES users(user_id),
+  FOREIGN KEY (photo_id)
+  REFERENCES photos(photo_id)
+);
+
+
+
+
+CREATE TABLE tagged_with
+(
+  photo_id int,
+  tag_id int,
+  PRIMARY KEY (photo_id, tag_id),
+  FOREIGN KEY (photo_id)
+  REFERENCES photos(photo_id),
+  FOREIGN KEY (tag_id)
+  REFERENCES tags(tag_id)
+);
+
+
+
+
+The assumptions we make:
+1. an album must be created by exactly one user (one-to-many and total participation constraints)
+2. a comment must be written by exactly one user (one-to-many and total participation constraints)
+3. a comment must be written about exactly one photo (one-to-many and total participation constraints).
+Therefore,
+we create one table for "albums" and "creates";
+we create one table for "comments", "writes" and "written-about".
+
+Other integrity constraints:
+(1) entity "users" has primary key constraint: its primary key is "user_id"
+(2) entity "albums" has primary key constraint: its primary key is "album_id"
+(3) entity "photos" has primary key constraint: its primary key is "photo_id"
+(4) entity "comments" has primary key constraint: its primary key is "comment_id"
+(5) entity "tags" has primary key constraint: its primary key is "tag_id"
