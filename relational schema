@@ -72,8 +72,10 @@ CREATE TABLE friend_with
 (
   user1_id int,
   user2_id int,
-  PRIMARY KEY (user_id),
-  FOREIGN KEY (user_id)
+  PRIMARY KEY (user1_id, user2_id),
+  FOREIGN KEY (user1_id)
+  REFERENCES Users(user_id)
+  FOREIGN KEY (user2_id)
   REFERENCES Users(user_id)
 );
 
