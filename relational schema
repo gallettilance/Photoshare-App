@@ -2,22 +2,26 @@ Authors: Wensi You && Lance Galletti  Date: 2017/10/05    CS660 PA1 part1
 
 CREATE TABLE users (
     user_id int  AUTO_INCREMENT,
-    email varchar(255) UNIQUE,
-    password varchar(255),
-    first_name varchar(255),
-    last_name varchar(255),
-    DoB DATE,
-    hometown varchar(255),
-    gender char(1),
-    password varchar(255),
+    email varchar(255) UNIQUE NOT NULL,
+    password varchar(255) NOT NULL,
+    first_name varchar(255) NOT NULL,
+    last_name varchar(255) NOT NULL,
+    DoB DATE NOT NULL,
+    hometown varchar(255) NOT NULL,
+    gender char(1) NOT NULL,
     PRIMARY KEY (user_id)
+    CONSTRAINT is_human
+    CHECK (DoB >= 1910-01-01 AND DoB < CURDATE()),
+    CONSTRAINT password_is_strong
+    CHECK (
+    
 );
 
 CREATE TABLE comments (
     comment_id int AUTO_INCREMENT,
     photo_id int,
     user_id int,
-    text varchar(255),
+    text varchar(300),
     comment_date DATE,
     PRIMARY KEY (comment_id),
     FOREIGN KEY (photo_id) REFERENCES photos(photo_id),
@@ -55,21 +59,22 @@ CREATE TABLE tags
 
 CREATE TABLE contains
 (
-  user_id int,
   album_id int,
-  PRIMARY KEY (album_id),
-  FOREIGN KEY (user_id)
-  REFERENCES users(user_id),
+  photo_id int,
+  PRIMARY KEY (album_id, photo_id),
+  FOREIGN KEY (photo_id)
+  REFERENCES users(photo_id),
   FOREIGN KEY (album_id)
   REFERENCES albums(album_id)
 );
 
 CREATE TABLE friend_with
 (
-  user_id int,
-  ?
+  user1_id int,
+  user2_id int,
   PRIMARY KEY (user_id),
-  ?
+  FOREIGN KEY (user_id)
+  REFERENCES Users(user_id)
 );
 
 CREATE TABLE likes
@@ -107,6 +112,7 @@ The assumptions we make:
 Therefore,
 we create one table for "albums" and "creates";
 we create one table for "comments", "writes" and "written-about".
+4. if user1 is friends with user2 then user2 is friends with user1.
 
 Other integrity constraints:
 (1) entity "users" has primary key constraint: its primary key is "user_id"
