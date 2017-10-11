@@ -26,14 +26,15 @@ def login():
 def signup():
     return render_template('signup.html')
 
-@app.route('/authenticate', methods=['POST', 'GET'])
-def authenticate():
-    return render_template("profile.html", name=request.form['email'])
+@app.route('/profile', methods=['POST', 'GET'])
+def profile():
+    result = request.form
+    email = result['email']
+    password = result['password']
+    if email != 'Lance' or password != '123':
+        return redirect(url_for('signup'))
+    return render_template("profile.html", name=result['email'])
 
-
-@app.route('/profile/<name>')
-def profile(name):
-    return render_template("profile.html", name=name)
 
 
 if __name__=='__main__':
