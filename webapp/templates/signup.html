@@ -1,8 +1,8 @@
-<link rel="stylesheet" type="text/css" href="../css/style.css">
+<link rel="stylesheet" type="text/css" href="../static/style.css">
 
 <form class='signupform'>
     Username/email:<br>
-    <input type="text" name="username"><br>
+    <input type="text" name="username" value="{{request.form.email}}"><br>
     Password:<br>
     <input type="text" name="password1"><br>
     Re-enter Passord:<br>
