@@ -1,1 +1,25 @@
-<h1>uplaod stuff here: {{ name }} </h1>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+<title> Upload </title>
+
+<h1 class='profile_header'> Upload Photos Here {{ name }} </h1>
+
+<a href="{{ url_for('logout') }}"><button class='logout'> LOG OUT </button></a>
+
+<div class='wrapper'>
+    <form class="loginform" action="{{ url_for('put_photos_in_database') }}" method=POST>
+        <ul class='center'>
+            <li>
+                Album Name<br>
+                <input type=text name=album value="{{request.form.album}}" maxlength=15><br>
+            </li>
+            <li>
+                Photos <br>
+                <input type=file name=img value="{{request.form.img}}" multiple><br>
+            </li>
+            <li>
+                <input type=submit value=upload>
+            </li>
+        </ul>
+    </form>
+</div>

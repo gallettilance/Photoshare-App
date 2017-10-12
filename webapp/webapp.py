@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flaskext.mysql import MySQL
+import os
 
 app = Flask(__name__, template_folder='templates')
 db = MySQL()
@@ -31,6 +32,7 @@ def create_profile():
     result = request.form
     if result['password1'] != result['password2']:
         return render_template('signup.html', message="Password Mismatch")
+    session['email'] = result['email']
     return render_template('profile.html', name=result['email'])
 
 @app.route('/profile', methods=['POST', 'GET'])
@@ -40,23 +42,31 @@ def profile():
     password = result['password']
     if email != 'Lance' or password != '123':
         return redirect(url_for('signup'))
-    return render_template("profile.html", name=result['email'])
+    session['email'] = result['email']
+    return render_template("profile.html", name=result['email'].split('@')[0])
 
-@app.route('/albums/<name>', methods=['GET', 'POST'])
+@app.route('/albums', methods=['GET', 'POST'])
 def albums():
-    return render_template('albums.html')
+    return render_template('albums.html', name=session.get('email', None).split('@')[0], recent=None)
 
-@app.route('/friendsearch/<name>', methods=['GET', 'POST'])
-def friendsearch():
-    return render_template('friendsearch.html')
+@app.route('/friend_search', methods=['GET', 'POST'])
+def friend_search():
+    return render_template('friendsearch.html', name=session.get('email', None).split('@')[0])
     
-@app.route('/upload/<name>', methods=['GET', 'POST'])
+@app.route('/upload', methods=['GET', 'POST'])
 def upload():
-    return render_template('upload.html')
+    return render_template('upload.html', name=session.get('email', None).split('@')[0])
     
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     return render_template('index.html')
 
+@app.route('/put_photos_in_database', methods=['GET', 'POST'])
+def put_photos_in_database():
+    result = request.form
+    session['album'] = result['album']
+    return render_template('albums.html', name=session.get('email', None).split('@')[0], recent=session.get('album', None))
+
 if __name__=='__main__':
+    app.secret_key = os.urandom(100)
     app.run(debug=True)

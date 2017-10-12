@@ -1,13 +1,13 @@
-<title> Welcome to Boston University! </title>
-<link rel="stylesheet" type="text/css" href="../static/style.css">
+<title> {{ name }}'s Profile </title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 <h1 class='profile_header'> Hey {{ name }} </h1>
 
 <a href="{{ url_for('logout') }}"><button class='logout'> LOG OUT </button></a>
 
 <div class='wrapper'>
     <ul class='center'>
-        <li> <a href="{{ url_for('upload/{{name}}') }}"> UPLOAD </a> </li>
-        <li><a href="{{ url_for('albums/{{name}}') }}"> MY ALBUMS </a> </li>
-        <li><a href="{{ url_for('friendsearch/{{name}}') }}"> FRIENDS </a> </li>
+        <li> <a href="{{ url_for('upload') }}"> UPLOAD </a> </li>
+        <li><a href="{{ url_for('albums') }}"> MY ALBUMS </a> </li>
+        <li><a href="{{ url_for('friend_search') }}"> FRIENDS </a> </li>
     </ul>
 </div>

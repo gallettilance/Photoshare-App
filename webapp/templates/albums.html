@@ -1,1 +1,15 @@
-<h1> view albums here {{ name }} </h1>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+<title> Upload </title>
+
+<h1 class='profile_header'> See Albums Here {{ name }} </h1>
+
+<a href="{{ url_for('logout') }}"><button class='logout'> LOG OUT </button></a>
+
+<br>
+
+{% if recent %}
+    <h1> You recently uploaded {{ recent }}!</h1>
+{% else %}
+    <h1> Upload some albums </h1>
+{% endif %}
