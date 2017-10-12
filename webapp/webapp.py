@@ -35,7 +35,21 @@ def profile():
         return redirect(url_for('signup'))
     return render_template("profile.html", name=result['email'])
 
+@app.route('/albums', methods=['GET', 'POST'])
+def albums():
+    return render_template('albums.html')
 
+@app.route('/friendsearch', methods=['GET', 'POST'])
+def friendsearch():
+    return render_template('friendsearch.html')
+    
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    return render_template('upload.html')
+    
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    return render_template('index.html')
 
 if __name__=='__main__':
     app.run(debug=True)

@@ -1,3 +1,9 @@
 <title> Welcome to Boston University! </title>
 <link rel="stylesheet" type="text/css" href="../static/style.css">
-<h1> Hello There, {{ name }} </h1>
+<h1 class='profile_header'> Hey {{ name }} <a href="{{ url_for('logout') }}"><button class='logout'> LOG OUT </button></a> </h1>
+
+<a href="{{ url_for('upload_photos') }}"><button class='photoUpload'> UPLOAD </button></a>
+
+<a href="{{ url_for('myalbums') }}"><button class='myalbums'> MY ALBUMS </button></a>
+
+<a href="{{ url_for('search_friends') }}"><button class='friendsearch'> FRIENDS </button></a>

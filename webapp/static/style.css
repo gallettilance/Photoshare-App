@@ -9,6 +9,83 @@ p {
     color: black;
 }
 
+.profile_header {
+    background-color: #008CBA; /* Blue */
+    color: white;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    vertical-align:middle;
+    text-align:center;
+    height:100px;
+    line-height:100px;
+}
+
+.photoUpload {
+    background-color: #008CBA; /* Blue */
+    border: none;
+    color: white;
+    padding: 30px 64px;
+    display:inline-block;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    vertical-align:middle;
+    margin: -20px -50px; 
+    position:absolute;
+    top:50%; 
+    left:55%;
+}
+
+.myalbums {
+    background-color: #008CBA; /* Blue */
+    border: none;
+    color: white;
+    padding: 30px 64px;
+    display:inline-block;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    vertical-align:middle;
+    margin: -20px -50px; 
+    position:absolute;
+    top:50%; 
+    left:35%;
+}
+
+.friendsearch {
+    background-color: #008CBA; /* Blue */
+    border: none;
+    color: white;
+    padding: 30px 64px;
+    display:inline-block;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    vertical-align:middle;
+    margin: -20px -50px; 
+    position:absolute;
+    top:50%; 
+    left:15%;
+}
+
+.logout {
+    background-color: #008CBA; /* Blue */
+    border: none;
+    color: white;
+    padding: 40px 64px;
+    float:right;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    vertical-align:middle;
+    margin: -20px -50px; 
+    position:absolute;
+    top:5%; 
+    right:0%;
+}
+
 .signUp {
     background-color: #008CBA; /* Blue */
     border: none;
@@ -42,6 +119,22 @@ p {
 }
 
 .signup:hover {
+    background-color: #007094;
+}
+
+.logout:hover {
+    background-color: #007094;
+}
+
+.friendsearch:hover {
+    background-color: #007094;
+}
+
+.myalbums:hover {
+    background-color: #007094;
+}
+
+.photoupload:hover {
     background-color: #007094;
 }
 
