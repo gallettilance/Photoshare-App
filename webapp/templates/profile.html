@@ -6,8 +6,8 @@
 
 <div class='wrapper'>
     <ul class='center'>
-        <li> <a href="{{ url_for('upload') }}"> UPLOAD </a> </li>
-        <li><a href="{{ url_for('albums') }}"> MY ALBUMS </a> </li>
-        <li><a href="{{ url_for('friendsearch') }}"> FRIENDS </a> </li>
+        <li> <a href="{{ url_for('upload/{{name}}') }}"> UPLOAD </a> </li>
+        <li><a href="{{ url_for('albums/{{name}}') }}"> MY ALBUMS </a> </li>
+        <li><a href="{{ url_for('friendsearch/{{name}}') }}"> FRIENDS </a> </li>
     </ul>
 </div>

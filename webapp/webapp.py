@@ -42,15 +42,15 @@ def profile():
         return redirect(url_for('signup'))
     return render_template("profile.html", name=result['email'])
 
-@app.route('/albums', methods=['GET', 'POST'])
+@app.route('/albums/<name>', methods=['GET', 'POST'])
 def albums():
     return render_template('albums.html')
 
-@app.route('/friendsearch', methods=['GET', 'POST'])
+@app.route('/friendsearch/<name>', methods=['GET', 'POST'])
 def friendsearch():
     return render_template('friendsearch.html')
     
-@app.route('/upload', methods=['GET', 'POST'])
+@app.route('/upload/<name>', methods=['GET', 'POST'])
 def upload():
     return render_template('upload.html')
     

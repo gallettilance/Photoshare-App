@@ -17,7 +17,7 @@ ul {
     width:400px;
 }
 
-li a {
+li {
     display: block;
     color:white;
     text-align:center;
@@ -25,7 +25,7 @@ li a {
     text-decoration: none;
 }
 
-li a:hover {
+li:hover {
     background-color: #007094;
 }
 
@@ -40,6 +40,12 @@ li a:hover {
     text-align:center;
     height:100px;
     line-height:100px;
+}
+
+.wrapper {
+    text-align:center;
+    position:relative;
+    top:130px;
 }
 
 .upload {
@@ -149,22 +155,3 @@ li a:hover {
     background-color: #007094;
 }
 
-.wrapper {
-    text-align:center;
-    position:relative;
-    top:130px;
-}
-
-form {
-    margin: -20px -50px; 
-    position:absolute;
-    text-align: center;
-}
-
-.signupform {
-    top:25%;
-}
-
-.loginform {
-    top:45%;
-}

@@ -1,13 +1,21 @@
 <link rel="stylesheet" type="text/css" href="../static/style.css">
 
-<form class="loginform" action="{{ url_for('profile') }}" method=POST>
-    <dl>
-        <dt>Username:</dt>
-        <dd><input type=text name=email value="{{request.form.email}}"></dd><br>
-    </dl>
-    <dl>
-        <dt>Password:</dt>
-        <dd><input type=password name=password value="{{request.form.password}}"></dd>
-    </dl>
-    <input type=submit value=login>
-</form>
+<h1 class='profile_header'> Please Log In </h1>
+
+<div class='wrapper'>
+    <form class="loginform" action="{{ url_for('profile') }}" method=POST>
+        <ul class='center'>
+            <li>
+                Username<br>
+                <input type=text name=email value="{{request.form.email}}"><br>
+            </li>
+            <li>
+                Password<br>
+                <input type=password name=password value="{{request.form.password}}"><br>
+            </li>
+            <li>
+                <input type=submit value=login>
+            </li>
+        </ul>
+    </form>
+</div>
