@@ -9,6 +9,26 @@ p {
     color: black;
 }
 
+ul {
+    background-color: #008CBA;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width:400px;
+}
+
+li a {
+    display: block;
+    color:white;
+    text-align:center;
+    padding: 30px 64px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #007094;
+}
+
 .profile_header {
     background-color: #008CBA; /* Blue */
     color: white;
@@ -22,23 +42,18 @@ p {
     line-height:100px;
 }
 
-.photoUpload {
+.upload {
     background-color: #008CBA; /* Blue */
     border: none;
     color: white;
     padding: 30px 64px;
     display:inline-block;
-    text-align: center;
     text-decoration: none;
     font-size: 20px;
-    vertical-align:middle;
-    margin: -20px -50px; 
-    position:absolute;
-    top:50%; 
-    left:55%;
+    margin: -20px -50px;
 }
 
-.myalbums {
+.albums {
     background-color: #008CBA; /* Blue */
     border: none;
     color: white;
@@ -48,10 +63,7 @@ p {
     text-decoration: none;
     font-size: 20px;
     vertical-align:middle;
-    margin: -20px -50px; 
-    position:absolute;
-    top:50%; 
-    left:35%;
+    margin: -20px -50px;
 }
 
 .friendsearch {
@@ -64,26 +76,21 @@ p {
     text-decoration: none;
     font-size: 20px;
     vertical-align:middle;
-    margin: -20px -50px; 
-    position:absolute;
-    top:50%; 
-    left:15%;
+    margin: -20px -50px;
 }
 
 .logout {
     background-color: #008CBA; /* Blue */
     border: none;
     color: white;
-    padding: 40px 64px;
-    float:right;
-    text-align: center;
-    text-decoration: none;
-    font-size: 20px;
-    vertical-align:middle;
-    margin: -20px -50px; 
+    padding: 42px 60px;
     position:absolute;
-    top:5%; 
-    right:0%;
+    right:10px;
+    top:8px;
+}
+
+.center {
+    display:inline-block;
 }
 
 .signUp {
@@ -142,15 +149,16 @@ p {
     background-color: #007094;
 }
 
-div {
-  width: 100px;
-  height: 100px;
+.wrapper {
+    text-align:center;
+    position:relative;
+    top:130px;
 }
 
 form {
     margin: -20px -50px; 
     position:absolute;
-    left:50%;
+    text-align: center;
 }
 
 .signupform {
