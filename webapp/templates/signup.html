@@ -2,24 +2,26 @@
 
 <h1 class='profile_header'> {{ message }} </h1>
 
+<a href="{{ url_for('home') }}"><button class='logout' style="left:10px"> BACK </button></a>
+
 <div class='wrapper'>
     <form class='signupform' action="{{ url_for('create_profile') }}" method=POST>
         email:<br>
-        <input type=email name=email value="{{request.form.email}}"><br>
+        <input type=email name=email value="{{request.form.email}}" required maxlength=25 placeholder="Email"><br>
         Password:<br>
-        <input type=password name=password1 value="{{request.form.password1}}" minlength=6><br>
+        <input type=password name=password1 value="{{request.form.password1}}" minlength=6 maxlength=25 required placeholder="password"><br>
         Re-enter Passord:<br>
-        <input type=password name=password2 value="{{request.form.password2}}"><br>
+        <input type=password name=password2 value="{{request.form.password2}}" minlength=6 maxlength=25 required placeholder="re-type password"><br>
         first name:<br>
-        <input type=text name=first_name value="{{request.form.first_name}}"><br>
+        <input type=text name=first_name value="{{request.form.first_name}}" minlength=2 maxlength=25 required placeholder="first name"><br>
         last name:<br>
-        <input type=text name=last_name value="{{request.form.last_name}}"><br>
+        <input type=text name=last_name value="{{request.form.last_name}}" minlength=2 maxlength=25 required placeholder="last name"><br>
         Gender:<br>
-        <input type=text name=gender value="{{request.form.gender}}"><br>
+        <input type=text name=gender value="{{request.form.gender}}" size=1 required placeholder=" "><br>
         Hometown:<br>
-        <input type=text name=hometown value="{{request.form.hometown}}"><br>
+        <input type=text name=hometown value="{{request.form.hometown}}"  maxlength=25 required placeholder="Home Town"><br>
         Date of Birth:<br>
-        <input type=date name=DoB value="{{request.form.DoB}}"><br><br>
+        <input type=date name=DoB value="{{request.form.DoB}}" required><br><br>
         <input type="submit" value="SIGN UP">
     </form>
 </div>

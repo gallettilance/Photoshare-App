@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flaskext.mysql import MySQL
 import os
+import time
+import numpy as np
+import pandas as pd
 
 app = Flask(__name__, template_folder='templates')
 db = MySQL()
@@ -20,34 +23,54 @@ def home():
     return render_template('index.html')
 
 @app.route('/login', methods=['POST', 'GET'])
-def login():
-    return render_template('login.html')
+def login(message='Please Log In'):
+    return render_template('login.html', message=message)
 
 @app.route('/signup', methods=['POST', 'GET'])
-def signup():
-    return render_template('signup.html', message="Please complete the form to sign up")
+def signup(message="Please complete the form to sign up"):
+    return render_template('signup.html', message=message)
 
 @app.route('/create_profile', methods=['POST','GET'])
 def create_profile():
     result = request.form
     if result['password1'] != result['password2']:
-        return render_template('signup.html', message="Password Mismatch")
+        return signup("Password Mismatch")
+    query = 'SELECT email FROM users'
+    cursor.execute(query)
+    email= result['email']
+    for item in cursor:
+        if item == email:
+            return signup("You already have an account - please log in")
     session['email'] = result['email']
-    return render_template('profile.html', name=result['email'])
+    query = 'INSERT INTO users(email, password, first_name, last_name, DoB, hometown, gender) VALUES (%s, %s, %s, %s, %s, %s, %s)'
+    DoB = time.strptime(result['DoB'], '%Y-%m-%d')
+    cursor.execute(query,
+                   (result['email'], result['password1'], result['first_name'], result['last_name'],
+                    time.strftime('%Y-%m-%d %H:%M:%S', DoB), result['hometown'], result['gender']))
+    return render_template("profile.html", name=session['email'].split('@')[0])
 
 @app.route('/profile', methods=['POST', 'GET'])
 def profile():
-    result = request.form
-    email = result['email']
-    password = result['password']
-    if email != 'Lance' or password != '123':
-        return redirect(url_for('signup'))
-    session['email'] = result['email']
-    return render_template("profile.html", name=result['email'].split('@')[0])
+    if request.method == 'POST':
+        result = request.form
+        email = result['email']
+        password = result['password']
+        query = 'SELECT email, password FROM users'
+        cursor.execute(query)
+        for item in cursor:
+            if item[0] == email:
+                if item[1] == password:
+                    session['email'] = result['email']
+                    return render_template("profile.html", name=result['email'].split('@')[0])
+                else:
+                    return login('Wrong Password')
+        return signup("No Account with this email and password, would you like to create an account?")
+
+    return render_template("profile.html", name=session['email'].split('@')[0])
 
 @app.route('/albums', methods=['GET', 'POST'])
-def albums():
-    return render_template('albums.html', name=session.get('email', None).split('@')[0], recent=None)
+def albums(recent=None):
+    return render_template('albums.html', name=session.get('email', None).split('@')[0], recent=recent)
 
 @app.route('/friend_search', methods=['GET', 'POST'])
 def friend_search():
@@ -65,7 +88,7 @@ def logout():
 def put_photos_in_database():
     result = request.form
     session['album'] = result['album']
-    return render_template('albums.html', name=session.get('email', None).split('@')[0], recent=session.get('album', None))
+    return albums(session.get('album', None))
 
 if __name__=='__main__':
     app.secret_key = os.urandom(100)

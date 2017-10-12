@@ -2,9 +2,11 @@
 
 <title> Upload </title>
 
-<h1 class='profile_header'> See Albums Here {{ name }} </h1>
+<h1 class='profile_header'> See Albums Here </h1>
 
 <a href="{{ url_for('logout') }}"><button class='logout'> LOG OUT </button></a>
+
+<a href="{{ url_for('profile') }}"><button class='logout' style="left:10px"> {{ name }} </button></a>
 
 <br>
 
