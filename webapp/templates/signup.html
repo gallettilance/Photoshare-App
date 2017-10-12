@@ -1,21 +1,23 @@
 <link rel="stylesheet" type="text/css" href="../static/style.css">
 
-<form class='signupform'>
-    Username/email:<br>
-    <input type="text" name="username" value="{{request.form.email}}"><br>
+<h1 class='profile_header'> {{ message }} </h1>
+
+<form class='signupform' action="{{ url_for('create_profile') }}" method=POST>
+    email:<br>
+    <input type=text name=email value="{{request.form.email}}"><br>
     Password:<br>
-    <input type="text" name="password1"><br>
+    <input type=password name=password1 value="{{request.form.password1}}"><br>
     Re-enter Passord:<br>
-    <input type="text" name="password2"><br>
+    <input type=password name=password2 value="{{request.form.password2}}"><br>
     first name:<br>
-    <input type="text" name="first_name"><br>
+    <input type=text name=first_name value="{{request.form.first_name}}"><br>
     last name:<br>
-    <input type="text" name="last_name"><br>
+    <input type=text name=last_name value="{{request.form.last_name}}"><br>
     Gender:<br>
-    <input type="text" name="gender"><br>
+    <input type=text name=gender value="{{request.form.gender}}"><br>
     Hometown:<br>
-    <input type="text" name="hometown"><br>
+    <input type=text name=hometown value="{{request.form.hometown}}"><br>
     Date of Birth:<br>
-    <input type="text" name="DoB"><br><br>
-    <input type="submit" value="Submit">
+    <input type=date name=DoB value="{{request.form.DoB}}"><br><br>
+    <input type="submit" value="SIGN UP">
 </form>

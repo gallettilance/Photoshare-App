@@ -1,7 +1,5 @@
-import flask
 from flask import Flask, render_template, request, flash, redirect, url_for
 from flaskext.mysql import MySQL
-import flask.ext.login as flask_login
 
 app = Flask(__name__, template_folder='templates')
 db = MySQL()
@@ -26,7 +24,14 @@ def login():
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
-    return render_template('signup.html')
+    return render_template('signup.html', message="Please complete the form to sign up")
+
+@app.route('/create_profile', methods=['POST','GET'])
+def create_profile():
+    result = request.form
+    if result['password1'] != result['password2']:
+        return render_template('signup.html', message="Password Mismatch")
+    return render_template('profile.html', name=result['email'])
 
 @app.route('/profile', methods=['POST', 'GET'])
 def profile():
