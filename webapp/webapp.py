@@ -35,18 +35,23 @@ def create_profile():
     result = request.form
     if result['password1'] != result['password2']:
         return signup("Password Mismatch")
+    email=result['email']
     query = 'SELECT email FROM users'
     cursor.execute(query)
-    email= result['email']
     for item in cursor:
-        if item == email:
-            return signup("You already have an account - please log in")
-    session['email'] = result['email']
+        if item[0] == email:
+            return login("You may already have an account - please log in")
+
+    session['email'] = email
     query = 'INSERT INTO users(email, password, first_name, last_name, DoB, hometown, gender) VALUES (%s, %s, %s, %s, %s, %s, %s)'
     DoB = time.strptime(result['DoB'], '%Y-%m-%d')
-    cursor.execute(query,
+    try:
+        cursor.execute(query,
                    (result['email'], result['password1'], result['first_name'], result['last_name'],
                     time.strftime('%Y-%m-%d %H:%M:%S', DoB), result['hometown'], result['gender']))
+    except:
+        return signup("Oops, something went wrong - please try again")
+
     return render_template("profile.html", name=session['email'].split('@')[0])
 
 @app.route('/profile', methods=['POST', 'GET'])
@@ -57,6 +62,8 @@ def profile():
         password = result['password']
         query = 'SELECT email, password FROM users'
         cursor.execute(query)
+        if cursor.rowcount == 0:
+            return signup("No Account with this email and password, would you like to create an account?")
         for item in cursor:
             if item[0] == email:
                 if item[1] == password:
