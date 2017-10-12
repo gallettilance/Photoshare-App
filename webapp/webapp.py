@@ -1,5 +1,7 @@
+import flask
 from flask import Flask, render_template, request, flash, redirect, url_for
 from flaskext.mysql import MySQL
+import flask.ext.login as flask_login
 
 app = Flask(__name__, template_folder='templates')
 db = MySQL()
