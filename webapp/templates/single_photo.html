@@ -1,0 +1,19 @@
+<link rel="stylesheet" type="text/css" href="../static/style.css">
+
+<title> {{ album_name }}</title>
+
+<h1 class='profile_header'> {{ album_name }} </h1>
+
+<a href="{{ url_for('logout') }}"><button class='logout'> LOG OUT </button></a>
+
+<a href="{{ url_for('profile') }}"><button class='logout' style="left:10px"> {{ name }} </button></a>
+
+{% if comments %}
+{% for com in comments %}
+<div class="comments"> {{ comments[0] }} said: {{ comments[1] }}</div>
+{% endfor %}
+{% endif %}
+<form class='comments' action="{{ url_for('comment') }}" method=POST>
+    <input type="text" name=newcomment value="{{request.form.newcomment}}"  maxlength=300 required placeholder="{{ name }}: make a comment?" ><br>
+    <input type="submit" value="COMMENT">
+</form>
