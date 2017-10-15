@@ -9,11 +9,12 @@
 
 <div class='wrapper'>
     <ul class='center'>
-        <li> <a href="{{ url_for('upload') }}"> UPLOAD </a> </li>
-        <li><a href="{{ url_for('albums') }}"> ALBUMS </a> </li>
-        <li><a href="{{ url_for('friends') }}"> FRIENDS </a> </li>
-	    <li><a href="{{ url_for('search') }}"> SEARCH </a></li>
-	    <li><a href="{{ url_for('photo_recommend') }}"> YOU MAY ALSO LIKE </a></li>
-	
+
+        <li><a href="{{ url_for('upload') }}" style="text-decoration: none; color:white"> UPLOAD </a> </li>
+        <li><a href="{{ url_for('albums') }}" style="text-decoration: none; color:white"> ALBUMS </a> </li>
+        <li><a href="{{ url_for('friends') }}" style="text-decoration: none; color:white"> FRIENDS </a> </li>
+        <li><a href="{{ url_for('search') }}" style="text-decoration: none; color:white"> SEARCH </a></li>
+	    <li><a href="{{ url_for('photo_recommend') }}" style="text-decoration: none; color:white"> YOU MAY ALSO LIKE </a></li>
+
     </ul>
 </div>

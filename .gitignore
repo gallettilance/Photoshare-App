@@ -1,3 +1,4 @@
 #ignore docs and emacs backup files
 *.docx
 [#]*[#]
+.#*

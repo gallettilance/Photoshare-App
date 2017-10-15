@@ -45,7 +45,8 @@ def create_profile():                             #signup function
             return login("You may already have an account - please log in")
 
     session['email'] = email
-    query = 'INSERT INTO users(email, password, first_name, last_name, DoB, hometown, gender) VALUES (%s, %s, %s, %s, %s, %s, %s)'
+    query = 'INSERT INTO users(email, password, first_name, ' \
+            'last_name, DoB, hometown, gender) VALUES (%s, %s, %s, %s, %s, %s, %s)'
     DoB = time.strptime(result['DoB'], '%Y-%m-%d')
     try:       # query= 'INSERT INTO users(...) VALUES(%s,..)'   and cursor.execute(query, (vlaues....))
         cursor.execute(query,
@@ -82,8 +83,20 @@ def profile():                                      #login function
 
 
 @app.route('/albums', methods=['GET', 'POST'])
-def albums(recent=None):
-    return render_template('albums.html', name=session.get('email', None).split('@')[0], recent=recent)
+def albums():
+    query = 'SELECT user_id, email FROM users'
+    cursor.execute(query)
+    for user in cursor:
+        if user[1] == session.get('email', None):
+            userid = user[0]
+
+    query = 'SELECT album_name, user_id FROM albums'
+    cursor.execute(query)
+    all_albums = []
+    for album in cursor:
+        if album[1] == userid:
+            all_albums.append(album[0])
+    return render_template('albums.html', name=session.get('email', None).split('@')[0], albums=all_albums)
 
 @app.route('/friend_search', methods=['GET', 'POST'])
 def friend_search():
@@ -139,13 +152,37 @@ def visit():
 def photo_search():
     return render_template('photo_search.html')
 
-
-
-@app.route('/put_photos_in_database', methods=['GET', 'POST'])
-def put_photos_in_database():
+@app.route('/create_album', methods=['GET', 'POST'])
+def create_album():
     result = request.form
-    session['album'] = result['album']
-    return albums(session.get('album', None))
+    query = 'SELECT user_id, email FROM users'
+    cursor.execute(query)
+    for user in cursor:
+        if user[1]==session.get('email', None):
+            userid=user[0]
+
+    query = 'INSERT INTO albums(user_id, album_name, DOC) VALUES (%s, %s, %s)'
+    DoC = '2017-10-10'
+    cursor.execute(query, (userid, result['album'], DoC))
+
+    query = 'SELECT album_name, user_id FROM albums'
+    cursor.execute(query)
+    all_albums = []
+    for album in cursor:
+        if album[1]==userid:
+            all_albums.append(album[0])
+
+    return render_template('albums.html', name=session.get('email', None).split('@')[0], albums=all_albums)
+
+@app.route('/album_photos/<album_name>', methods=['GET', 'POST'])
+def album_photos(data=None, album_name=""):
+    return render_template('photos.html', data=data, album_name=album_name, name=session.get('email').split('@')[0])
+
+@app.route('/comment', methods=['GET', 'POST'])
+def comment():
+    nc = request.form['newcomment']
+    return render_template('single_photo.html', comments=[session.get('email', None).split('@')[0], nc])
+
 
 if __name__=='__main__':
     app.secret_key = os.urandom(100)

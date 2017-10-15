@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
+<<<<<<< HEAD
     <bookmark url="file://$PROJECT_DIR$/webapp.py" line="58" />
+=======
+    <bookmark url="file://$PROJECT_DIR$/webapp.py" line="57" />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
   </component>
   <component name="ChangeListManager">
     <list default="true" id="411d73d6-801c-40ef-b83b-0a0877a446a8" name="Default" comment="" />
@@ -13,6 +17,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+<<<<<<< HEAD
     <SUITE FILE_PATH="coverage/webapp$webapp.coverage" NAME="webapp Coverage Results" MODIFIED="1507926750149" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/" />
   </component>
   <component name="FileEditorManager">
@@ -23,26 +28,179 @@
             <state relative-caret-position="90">
               <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding />
+=======
+    <SUITE FILE_PATH="coverage/webapp$webapp.coverage" NAME="webapp Coverage Results" MODIFIED="1507909114056" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="webapp.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/webapp.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="494">
+              <caret line="140" column="23" lean-forward="true" selection-start-line="140" selection-start-column="23" selection-end-line="140" selection-end-column="23" />
+              <folding>
+                <element signature="e#0#84#0" expanded="true" />
+                <marker date="1507905407317" expanded="true" signature="1136:1159" ph="SELECT email... users" />
+                <marker date="1507905407317" expanded="true" signature="1359:1492" ph="INSERT INTO users... " />
+                <marker date="1507905407317" expanded="true" signature="2163:2196" ph="SELECT email... users" />
+                <marker date="1507905407317" expanded="true" signature="2951:2983" ph="SELECT user_... users" />
+                <marker date="1507905407317" expanded="true" signature="3128:3166" ph="SELECT album... albums" />
+                <marker date="1507905407317" expanded="true" signature="3964:3996" ph="SELECT user_... users" />
+                <marker date="1507905407317" expanded="true" signature="4137:4201" ph="INSERT INTO albums... " />
+                <marker date="1507905407317" expanded="true" signature="4298:4336" ph="SELECT album... albums" />
+              </folding>
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
+=======
+      <file leaf-file-name="photos.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/photos.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="36">
+              <caret line="2" column="22" lean-forward="false" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+              <folding>
+                <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="albums.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/albums.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="20" column="6" lean-forward="true" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
+              <folding>
+                <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#0;n#li#0;n#ul#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#0;n#li#1;n#ul#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="profile.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/profile.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="14" column="6" lean-forward="false" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+              <folding>
+                <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#0;n#li#0;n#ul#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#0;n#li#1;n#ul#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#0;n#li#2;n#ul#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="756">
+              <caret line="42" column="23" lean-forward="true" selection-start-line="42" selection-start-column="23" selection-end-line="42" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="friendsearch.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/friendsearch.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="54">
+              <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+              <folding>
+                <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="single_photo.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/single_photo.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="17" column="41" lean-forward="true" selection-start-line="17" selection-start-column="41" selection-end-line="17" selection-end-column="41" />
+              <folding>
+                <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="signup.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/signup.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="450">
+              <caret line="25" column="11" lean-forward="true" selection-start-line="25" selection-start-column="11" selection-end-line="25" selection-end-column="11" />
+              <folding>
+                <element signature="n#style#0;n#button#0;n#a#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="upload.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/upload.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="396">
+              <caret line="22" column="48" lean-forward="true" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="48" />
+              <folding>
+                <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="login.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/login.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="54">
+              <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+              <folding>
+                <element signature="n#style#0;n#button#0;n#a#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/python/webapp.py" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/static/style.css" />
+=======
+        <option value="$PROJECT_DIR$/templates/index.html" />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
         <option value="$PROJECT_DIR$/templates/friendsearch.html" />
-        <option value="$PROJECT_DIR$/templates/albums.html" />
-        <option value="$PROJECT_DIR$/templates/upload.html" />
-        <option value="$PROJECT_DIR$/templates/profile.html" />
         <option value="$PROJECT_DIR$/templates/signup.html" />
         <option value="$PROJECT_DIR$/templates/login.html" />
+        <option value="$PROJECT_DIR$/templates/upload.html" />
+        <option value="$PROJECT_DIR$/templates/single_photo.html" />
         <option value="$PROJECT_DIR$/webapp.py" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/templates/index.html" />
         <option value="$PROJECT_DIR$/templates/visit.html" />
+=======
+        <option value="$PROJECT_DIR$/templates/photos.html" />
+        <option value="$PROJECT_DIR$/static/style.css" />
+        <option value="$PROJECT_DIR$/templates/profile.html" />
+        <option value="$PROJECT_DIR$/templates/albums.html" />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
       </list>
     </option>
   </component>
@@ -100,8 +258,13 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+<<<<<<< HEAD
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+=======
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CS460_660/CS460Flask" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -163,16 +326,28 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
+<<<<<<< HEAD
     <frame x="137" y="108" width="1440" height="837" extended-state="0" />
+=======
+    <frame x="0" y="-4" width="1920" height="1084" extended-state="6" />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32941177" sideWeight="0.51805556" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.48194444" order="2" side_tool="false" content_ui="tabs" />
+=======
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32959184" sideWeight="0.51666665" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959184" sideWeight="0.48333332" order="2" side_tool="false" content_ui="tabs" />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -200,7 +375,11 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/static/style.css">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="420">
+=======
+        <state relative-caret-position="504">
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
           <caret line="28" column="10" lean-forward="false" selection-start-line="28" selection-start-column="10" selection-end-line="28" selection-end-column="10" />
           <folding />
         </state>
@@ -208,7 +387,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/signup.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="345">
+=======
+        <state relative-caret-position="414">
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
           <caret line="23" column="62" lean-forward="false" selection-start-line="23" selection-start-column="62" selection-end-line="23" selection-end-column="62" />
           <folding>
             <element signature="n#style#0;n#button#0;n#a#0;n#!!top" expanded="true" />
@@ -218,17 +401,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/profile.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="180">
           <caret line="12" column="72" lean-forward="true" selection-start-line="12" selection-start-column="72" selection-end-line="12" selection-end-column="72" />
           <folding>
             <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+=======
+        <state relative-caret-position="216">
+          <caret line="12" column="72" lean-forward="true" selection-start-line="12" selection-start-column="72" selection-end-line="12" selection-end-column="72" />
+          <folding>
+            <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#0;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#1;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#2;n#ul#0;n#div#0;n#!!top" expanded="true" />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/upload.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="60">
+=======
+        <state relative-caret-position="72">
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
           <caret line="4" column="46" lean-forward="false" selection-start-line="4" selection-start-column="46" selection-end-line="4" selection-end-column="46" />
           <folding>
             <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
@@ -238,7 +435,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/login.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="90">
+=======
+        <state relative-caret-position="108">
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
           <caret line="6" column="21" lean-forward="true" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
           <folding>
             <element signature="n#style#0;n#button#0;n#a#0;n#!!top" expanded="true" />
@@ -248,6 +449,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/webapp.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="1290">
           <caret line="91" column="40" lean-forward="true" selection-start-line="91" selection-start-column="40" selection-end-line="91" selection-end-column="40" />
           <folding>
@@ -257,6 +459,20 @@
             <marker date="1508030767000" expanded="true" signature="3622:3711" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3777:3818" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3912:4023" ph="..." />
+=======
+        <state relative-caret-position="1548">
+          <caret line="91" column="40" lean-forward="true" selection-start-line="91" selection-start-column="40" selection-end-line="91" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#84#0" expanded="true" />
+            <marker date="1507905407317" expanded="true" signature="1136:1159" ph="SELECT email... users" />
+            <marker date="1507905407317" expanded="true" signature="1359:1492" ph="INSERT INTO users... " />
+            <marker date="1507905407317" expanded="true" signature="2163:2196" ph="SELECT email... users" />
+            <marker date="1507905407317" expanded="true" signature="2951:2983" ph="SELECT user_... users" />
+            <marker date="1507905407317" expanded="true" signature="3128:3166" ph="SELECT album... albums" />
+            <marker date="1507905407317" expanded="true" signature="3964:3996" ph="SELECT user_... users" />
+            <marker date="1507905407317" expanded="true" signature="4137:4201" ph="INSERT INTO albums... " />
+            <marker date="1507905407317" expanded="true" signature="4298:4336" ph="SELECT album... albums" />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
           </folding>
         </state>
       </provider>
@@ -285,6 +501,8 @@
           <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#0;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#1;n#ul#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -303,11 +521,22 @@
           <caret line="39" column="25" lean-forward="true" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
           <folding>
             <element signature="e#0#84#0" expanded="true" />
+<<<<<<< HEAD
             <marker date="1508030767000" expanded="true" signature="3281:3385" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3461:3556" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3622:3711" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3777:3818" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3912:4023" ph="..." />
+=======
+            <marker date="1507905407317" expanded="true" signature="1136:1159" ph="SELECT email... users" />
+            <marker date="1507905407317" expanded="true" signature="1359:1492" ph="INSERT INTO users... " />
+            <marker date="1507905407317" expanded="true" signature="2163:2196" ph="SELECT email... users" />
+            <marker date="1507905407317" expanded="true" signature="2951:2983" ph="SELECT user_... users" />
+            <marker date="1507905407317" expanded="true" signature="3128:3166" ph="SELECT album... albums" />
+            <marker date="1507905407317" expanded="true" signature="3964:3996" ph="SELECT user_... users" />
+            <marker date="1507905407317" expanded="true" signature="4137:4201" ph="INSERT INTO albums... " />
+            <marker date="1507905407317" expanded="true" signature="4298:4336" ph="SELECT album... albums" />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
           </folding>
         </state>
       </provider>
@@ -328,6 +557,9 @@
           <caret line="6" column="21" lean-forward="true" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
           <folding>
             <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#0;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#1;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#2;n#ul#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -366,6 +598,9 @@
           <caret line="2" column="31" lean-forward="false" selection-start-line="2" selection-start-column="31" selection-end-line="2" selection-end-column="31" />
           <folding>
             <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#0;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#1;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#2;n#ul#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -386,11 +621,22 @@
           <caret line="38" column="27" lean-forward="true" selection-start-line="38" selection-start-column="27" selection-end-line="38" selection-end-column="27" />
           <folding>
             <element signature="e#0#84#0" expanded="true" />
+<<<<<<< HEAD
             <marker date="1508030767000" expanded="true" signature="3281:3385" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3461:3556" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3622:3711" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3777:3818" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3912:4023" ph="..." />
+=======
+            <marker date="1507905407317" expanded="true" signature="1136:1159" ph="SELECT email... users" />
+            <marker date="1507905407317" expanded="true" signature="1359:1492" ph="INSERT INTO users... " />
+            <marker date="1507905407317" expanded="true" signature="2163:2196" ph="SELECT email... users" />
+            <marker date="1507905407317" expanded="true" signature="2951:2983" ph="SELECT user_... users" />
+            <marker date="1507905407317" expanded="true" signature="3128:3166" ph="SELECT album... albums" />
+            <marker date="1507905407317" expanded="true" signature="3964:3996" ph="SELECT user_... users" />
+            <marker date="1507905407317" expanded="true" signature="4137:4201" ph="INSERT INTO albums... " />
+            <marker date="1507905407317" expanded="true" signature="4298:4336" ph="SELECT album... albums" />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
           </folding>
         </state>
       </provider>
@@ -419,11 +665,22 @@
           <caret line="34" column="42" lean-forward="true" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="42" />
           <folding>
             <element signature="e#0#84#0" expanded="true" />
+<<<<<<< HEAD
             <marker date="1508030767000" expanded="true" signature="3281:3385" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3461:3556" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3622:3711" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3777:3818" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3912:4023" ph="..." />
+=======
+            <marker date="1507905407317" expanded="true" signature="1136:1159" ph="SELECT email... users" />
+            <marker date="1507905407317" expanded="true" signature="1359:1492" ph="INSERT INTO users... " />
+            <marker date="1507905407317" expanded="true" signature="2163:2196" ph="SELECT email... users" />
+            <marker date="1507905407317" expanded="true" signature="2951:2983" ph="SELECT user_... users" />
+            <marker date="1507905407317" expanded="true" signature="3128:3166" ph="SELECT album... albums" />
+            <marker date="1507905407317" expanded="true" signature="3964:3996" ph="SELECT user_... users" />
+            <marker date="1507905407317" expanded="true" signature="4137:4201" ph="INSERT INTO albums... " />
+            <marker date="1507905407317" expanded="true" signature="4298:4336" ph="SELECT album... albums" />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
           </folding>
         </state>
       </provider>
@@ -444,6 +701,9 @@
           <caret line="2" column="3" lean-forward="false" selection-start-line="2" selection-start-column="3" selection-end-line="2" selection-end-column="3" />
           <folding>
             <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#0;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#1;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#2;n#ul#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -492,6 +752,9 @@
           <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#0;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#1;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#2;n#ul#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -502,11 +765,22 @@
           <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding>
             <element signature="e#0#84#0" expanded="true" />
+<<<<<<< HEAD
             <marker date="1508030767000" expanded="true" signature="3281:3385" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3461:3556" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3622:3711" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3777:3818" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3912:4023" ph="..." />
+=======
+            <marker date="1507905407317" expanded="true" signature="1136:1159" ph="SELECT email... users" />
+            <marker date="1507905407317" expanded="true" signature="1359:1492" ph="INSERT INTO users... " />
+            <marker date="1507905407317" expanded="true" signature="2163:2196" ph="SELECT email... users" />
+            <marker date="1507905407317" expanded="true" signature="2951:2983" ph="SELECT user_... users" />
+            <marker date="1507905407317" expanded="true" signature="3128:3166" ph="SELECT album... albums" />
+            <marker date="1507905407317" expanded="true" signature="3964:3996" ph="SELECT user_... users" />
+            <marker date="1507905407317" expanded="true" signature="4137:4201" ph="INSERT INTO albums... " />
+            <marker date="1507905407317" expanded="true" signature="4298:4336" ph="SELECT album... albums" />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
           </folding>
         </state>
       </provider>
@@ -545,6 +819,9 @@
           <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#0;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#1;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#2;n#ul#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -555,11 +832,22 @@
           <caret line="16" column="30" lean-forward="true" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
           <folding>
             <element signature="e#0#84#0" expanded="true" />
+<<<<<<< HEAD
             <marker date="1508030767000" expanded="true" signature="3281:3385" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3461:3556" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3622:3711" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3777:3818" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3912:4023" ph="..." />
+=======
+            <marker date="1507905407317" expanded="true" signature="1136:1159" ph="SELECT email... users" />
+            <marker date="1507905407317" expanded="true" signature="1359:1492" ph="INSERT INTO users... " />
+            <marker date="1507905407317" expanded="true" signature="2163:2196" ph="SELECT email... users" />
+            <marker date="1507905407317" expanded="true" signature="2951:2983" ph="SELECT user_... users" />
+            <marker date="1507905407317" expanded="true" signature="3128:3166" ph="SELECT album... albums" />
+            <marker date="1507905407317" expanded="true" signature="3964:3996" ph="SELECT user_... users" />
+            <marker date="1507905407317" expanded="true" signature="4137:4201" ph="INSERT INTO albums... " />
+            <marker date="1507905407317" expanded="true" signature="4298:4336" ph="SELECT album... albums" />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
           </folding>
         </state>
       </provider>
@@ -571,6 +859,7 @@
     <entry file="file://$PROJECT_DIR$/../CS460_660/CS460Flask/templates/index.html" />
     <entry file="file://$PROJECT_DIR$/templates/friendsearch.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="120">
           <caret line="8" column="24" lean-forward="false" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
           <folding>
@@ -591,6 +880,10 @@
             <marker date="1508030767000" expanded="true" signature="3777:3818" ph="..." />
             <marker date="1508030767000" expanded="true" signature="3912:4023" ph="..." />
           </folding>
+=======
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
         </state>
       </provider>
     </entry>
@@ -602,64 +895,128 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/templates/friends.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+=======
+    <entry file="file://$PROJECT_DIR$/webapp.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="140" column="23" lean-forward="true" selection-start-line="140" selection-start-column="23" selection-end-line="140" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#84#0" expanded="true" />
+            <marker date="1507905407317" expanded="true" signature="1136:1159" ph="SELECT email... users" />
+            <marker date="1507905407317" expanded="true" signature="1359:1492" ph="INSERT INTO users... " />
+            <marker date="1507905407317" expanded="true" signature="2163:2196" ph="SELECT email... users" />
+            <marker date="1507905407317" expanded="true" signature="2951:2983" ph="SELECT user_... users" />
+            <marker date="1507905407317" expanded="true" signature="3128:3166" ph="SELECT album... albums" />
+            <marker date="1507905407317" expanded="true" signature="3964:3996" ph="SELECT user_... users" />
+            <marker date="1507905407317" expanded="true" signature="4137:4201" ph="INSERT INTO albums... " />
+            <marker date="1507905407317" expanded="true" signature="4298:4336" ph="SELECT album... albums" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/photos.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="22" lean-forward="false" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+          <folding>
+            <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+          </folding>
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/upload.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="60">
           <caret line="4" column="46" lean-forward="false" selection-start-line="4" selection-start-column="46" selection-end-line="4" selection-end-column="46" />
+=======
+        <state relative-caret-position="360">
+          <caret line="20" column="6" lean-forward="true" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
           <folding>
             <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#0;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#1;n#ul#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/templates/albums.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+=======
+    <entry file="file://$PROJECT_DIR$/templates/profile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="14" column="6" lean-forward="false" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
           <folding>
             <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#0;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#1;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#2;n#ul#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/profile.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="18" selection-end-column="6" />
+          <folding>
+            <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+          </folding>
+=======
+        <state relative-caret-position="756">
+          <caret line="42" column="23" lean-forward="true" selection-start-line="42" selection-start-column="23" selection-end-line="42" selection-end-column="23" />
+          <folding />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/friendsearch.html">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="345">
+          <caret line="23" column="62" lean-forward="false" selection-start-line="23" selection-start-column="62" selection-end-line="23" selection-end-column="62" />
+=======
+        <state relative-caret-position="54">
+          <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
           <folding>
             <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/signup.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="62" lean-forward="false" selection-start-line="23" selection-start-column="62" selection-end-line="23" selection-end-column="62" />
-          <folding>
-            <element signature="n#style#0;n#button#0;n#a#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/templates/login.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="22" selection-end-column="6" />
+=======
+    <entry file="file://$PROJECT_DIR$/templates/single_photo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="41" lean-forward="true" selection-start-line="17" selection-start-column="41" selection-end-line="17" selection-end-column="41" />
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
           <folding>
             <element signature="n#style#0;n#button#0;n#a#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/static/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-92">
@@ -673,6 +1030,35 @@
         <state relative-caret-position="90">
           <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
+=======
+    <entry file="file://$PROJECT_DIR$/templates/signup.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="25" column="11" lean-forward="true" selection-start-line="25" selection-start-column="11" selection-end-line="25" selection-end-column="11" />
+          <folding>
+            <element signature="n#style#0;n#button#0;n#a#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/upload.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="22" column="48" lean-forward="true" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="48" />
+          <folding>
+            <element signature="n#style#0;n#button#0;n#a#1;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#button#0;n#a#0;n#!!top" expanded="true" />
+          </folding>
+>>>>>>> f48a29beff7c5fe7e1af4bcb64a0008793e64bd3
         </state>
       </provider>
     </entry>

@@ -10,8 +10,15 @@
 
 <br>
 
-{% if recent %}
-    <h1> You recently uploaded {{ recent }}!</h1>
+{% if albums %}
+<div class='wrapper'>
+    <ul class='center'>
+        {% for alb in albums %}
+        <li><a href="{{ url_for('album_photos', album_name=alb) }}" style="text-decoration: none; color:white"> {{ alb }} </a> </li>
+        {% endfor %}
+        <li><a href="{{ url_for('upload') }}" style="text-decoration: none; color:white; font-size:30px"> + </a> </li>
+    </ul>
+</div>
 {% else %}
-    <h1> Upload some albums </h1>
+<a href="{{ url_for('upload') }}"> <button class="button_gallery"> + </button></a>
 {% endif %}
