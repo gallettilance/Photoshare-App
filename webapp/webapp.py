@@ -11,7 +11,7 @@ app.config['SECRET_KEY']= 'super secret key'
 db = MySQL()
 
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'YWSSD'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'hello123'
 app.config['MYSQL_DATABASE_DB'] = 'CS660_webapp'
 app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'
 db.init_app(app)
@@ -22,7 +22,17 @@ cursor = conn.cursor()
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
-    return render_template('index.html')
+    try:
+        session.get('loggedin', None)
+    except:
+        session['loggedin']= False
+
+    query = 'SELECT album_name FROM albums'
+    cursor.execute(query)
+    all_albums = []
+    for album in cursor:
+        all_albums.append(album[0])
+    return render_template('index.html', albums=all_albums)
 
 @app.route('/login', methods=['POST', 'GET'])
 def login(message='Please Log In'):
@@ -55,10 +65,32 @@ def create_profile():                             #signup function
     except:
         return signup("Oops, something went wrong - please try again")
 
-    return render_template("profile.html", name=session['email'].split('@')[0])
+    query = 'SELECT album_name FROM albums'
+    cursor.execute(query)
+    all_albums = []
+    for album in cursor:
+        all_albums.append(album[0])
+
+    session['loggedin'] = True
+    return render_template("profile.html", name=result['email'].split('@')[0], albums=all_albums)
+
+
+
+@app.route('/view_profile/<name>', methods=['POST', 'GET'])
+def view_profile(name):
+    username=session.get('email', None).split('@')[0]
+    return render_template('view_profile.html', name=name, username=username, loggedin=session.get('loggedin', None))
+
+
 
 @app.route('/profile', methods=['POST', 'GET'])
 def profile():                                      #login function
+    query = 'SELECT album_name FROM albums'
+    cursor.execute(query)
+    all_albums = []
+    for album in cursor:
+        all_albums.append(album[0])
+
     if request.method == 'POST':
         result = request.form
         email = result['email']
@@ -71,14 +103,12 @@ def profile():                                      #login function
             if item[0] == email:
                 if item[1] == password:
                     session['email'] = result['email']
-                    return render_template("profile.html", name=result['email'].split('@')[0])
+                    session['loggedin']=True
+                    return render_template("profile.html", name=result['email'].split('@')[0],  albums=all_albums)
                 else:
                     return login('Wrong Password')
         return signup("No Account with this email and password, would you like to create an account?")
-    print(session)
-    return render_template("profile.html", name=session['email'].split('@')[0])
-
-
+    return render_template("profile.html", name=session['email'].split('@')[0],  albums=all_albums)
 
 
 
@@ -96,7 +126,8 @@ def albums():
     for album in cursor:
         if album[1] == userid:
             all_albums.append(album[0])
-    return render_template('albums.html', name=session.get('email', None).split('@')[0], albums=all_albums)
+
+    return render_template('albums.html', name=session.get('email').split('@')[0], albums=all_albums)
 
 @app.route('/friend_search', methods=['GET', 'POST'])
 def friend_search():
@@ -112,8 +143,8 @@ def friends():
 
 
 @app.route('/friend_add', methods=['GET', 'POST'])
-def friend_add():
-    return render_template('friend_add.html', name=session.get('email', None).split('@')[0])
+def friend_add(friend):
+    return render_template('friend_add.html', name=session.get('email', None).split('@')[0], friend=friend)
 
 @app.route('/friend_delete', methods=['GET', 'POST'])
 def friend_delete():
@@ -132,16 +163,15 @@ def people_search():
 def photo_recommend():
     return render_template('photo_recommend.html')
 
-
-
-    
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     return render_template('upload.html', name=session.get('email', None).split('@')[0])
     
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
-    return render_template('index.html')
+    session['email'] = ''
+    session['loggedin']= False
+    return home()
 
 @app.route('/visit', methods=['GET', 'POST'])
 def visit():
@@ -176,7 +206,23 @@ def create_album():
 
 @app.route('/album_photos/<album_name>', methods=['GET', 'POST'])
 def album_photos(data=None, album_name=""):
-    return render_template('photos.html', data=data, album_name=album_name, name=session.get('email').split('@')[0])
+    query = 'SELECT album_name, user_id FROM albums'
+    cursor.execute(query)
+    for album in cursor:
+        if album_name == album[0]:
+            userid = album[1]
+            break
+
+    query = 'SELECT email, user_id FROM users'
+    cursor.execute(query)
+    for item in cursor:
+        if item[1] == userid:
+            username= item[0].split('@')[0]
+            break
+
+    return render_template('photos.html', data=data, album_name=album_name,
+                           name=session.get('email', None).split('@')[0], username=username,
+                           loggedin=session.get('loggedin', None))
 
 @app.route('/comment', methods=['GET', 'POST'])
 def comment():

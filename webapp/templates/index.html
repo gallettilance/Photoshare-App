@@ -1,7 +1,18 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
-<a href="{{ url_for('signup') }}"><button class='signup'> SIGN UP </button></a>
+<h1 class='profile_header' style="top:0"> Welcome to Lance and Wendy's Photoshare </h1>
 
-<a href="{{ url_for('login') }}"><button class='logIn'> LOG IN </button></a>
+<a href="{{ url_for('signup') }}"><button class='logout' style="right:170px"> SIGN UP </button></a>
 
-<a href="{{ url_for('visit') }}"><button class='visit'> VISIT </button></a>
+<a href="{{ url_for('login') }}"><button class='logout' style="right:10px"> LOG IN </button></a>
+
+<a href="{{ url_for('visit') }}"><button class='logout' style="left:10px"> SEARCH </button></a>
+
+<div class='wrapper'>
+    <ul class='center'>
+        {% for alb in albums %}
+        <li><a href="{{ url_for('album_photos', album_name=alb) }}" style="text-decoration: none; color:white"> {{ alb }} </a> </li>
+        {% endfor %}
+    </ul>
+</div>
+

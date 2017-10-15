@@ -3,6 +3,12 @@
 
 <h1 class='profile_header'> Hey visitor! </h1>
 
+<a href="{{ url_for('signup') }}"><button class='logout' style="right:170px"> SIGN UP </button></a>
+
+<a href="{{ url_for('login') }}"><button class='logout' style="right:10px"> LOG IN </button></a>
+
+<a href="{{ url_for('home') }}"><button class='logout' style="left:10px"> BACK </button></a>
+
 <p><a href="{{ url_for('people_search') }}"> Search for People </a> </p>
 
 <p><a href="{{ url_for('photo_search') }}"> Search for Photo </a></p>
