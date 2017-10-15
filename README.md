@@ -1,4 +1,14 @@
-<<<<<<< HEAD
+=======
+# CS660_Project1
+update on Oct14 Sat: hi Lance! In the new version I pushed, I tried the following:
+1. made a separate "visit" page, to direct visitors to the page where they can search for photos. The "visit" button looks fine on the safari -- a blue button next to the sign-up button, but in chrome, it appears in the left top corner, i am not sure why.
+
+2. in create_profile page, I add "friends", "search", "you may also like" to the list
+
+Note: these changes I made are pretty simple and coarse, and feel free to accept or not~ I am basically learning the basics of writing html and flask, and I believe you can design it in a better way!
+
+
+==================================================================================================================================
 -- Baichuan Zhou (baichuan@bu.edu)
 -- Please note I didn't put any check/assertion here.
 -- We talked about this in the lab: MySQL DOES NOT support 'check' 
@@ -90,14 +100,6 @@ FOREIGN KEY (HASHTAG) REFERENCES TAG(HASHTAG) ON DELETE CASCADE,
 FOREIGN KEY (PID) REFERENCES PHOTO(PID) ON DELETE CASCADE
 );
 
-=======
-# CS660_Project1
-update on Oct14 Sat: hi Lance! In the new version I pulled, I tried the following:
-1. made a separate "visit" page, to direct visitors to the page where they can search for photos. The "visit" button looks fine on the safari -- a blue button next to the sign-up button, but in chrome, it appears in the left top corner, i am not sure why.
-
-2. in create_profile page, I add "friends", "search", "you may also like" to the list
-
-Note: these changes I made are pretty simple and coarse, and feel free to accept or not~ I am basically learning the basics of writing html and flask, and I believe you can design it in a better way!
 
 
 
