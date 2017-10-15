@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
-<title> Upload </title>
+<title> Albums </title>
 
 <h1 class='profile_header' style="top:0"> See Albums Here </h1>
 
@@ -19,7 +19,6 @@
 
 <br>
 
-{% if albums %}
 <div class='wrapper'>
     <ul class='center'>
         {% for alb in albums %}
@@ -28,6 +27,3 @@
         <li><a href="{{ url_for('upload') }}" style="text-decoration: none; color:white; font-size:30px"> + </a> </li>
     </ul>
 </div>
-{% else %}
-<a href="{{ url_for('upload') }}"> <button class="button_gallery"> + </button></a>
-{% endif %}
