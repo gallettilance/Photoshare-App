@@ -1,0 +1,13 @@
+
+
+<title> {{ name }}'s friend_list </title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+<h1 class='profile_header'> YOUR FRIENDS </h1>
+
+
+
+<a href="{{ url_for('logout') }}"><button class='logout'> LOG OUT </button></a>
+
+<a href="{{ url_for('profile') }}"><button class='logout' style="left:10px"> {{ name }} </button></a>
+

@@ -113,7 +113,7 @@ li:hover {
     margin: -20px -50px; 
     position:absolute;
     top:50%; 
-    left:35%;
+    left:20%;
 }
 
 .logIn {
@@ -129,7 +129,39 @@ li:hover {
     margin: -20px -50px; 
     position:absolute;
     top:50%; 
-    right:35%;
+    right:46%;
+}
+
+.visit {
+    background-color: #008CBA; /* Blue */
+    border: none;
+    color: white;
+    padding: 30px 64px;
+    text-align: center;
+    display:inline-block;
+    text-decoration: none;
+    font-size: 20px;
+    vertical-align:middle;
+    margin: -20px -50px; 
+    position:absolute;
+    top:50%; 
+    right:20%;
+}
+
+.search {
+    background-color: #008CBA; /* Blue */
+    border: none;
+    color: white;
+    padding: 30px 64px;
+    text-align: center;
+    display:inline-block;
+    text-decoration: none;
+    font-size: 20px;
+    vertical-align:middle;
+    margin: -20px -50px;
+    position:absolute;
+    top:50%;
+    right:40%;
 }
 
 .signup:hover {
@@ -156,3 +188,6 @@ li:hover {
     background-color: #007094;
 }
 
+.visit:hover {
+    background-color: #007094;
+}

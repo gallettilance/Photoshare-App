@@ -1,8 +1,14 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
-<title> FRIENDSEARCH </title>
+<title> search </title>
 
-<h1 class='profile_header'> Search Friends Here </h1>
+<h1 class='profile_header'> Search </h1>
+
+<p><a href="{{ url_for('photo_search') }}"> search for photo </a></p>
+
+<p><a href="{{ url_for('friend_search') }}"> search for friends </a></p>
+
+
 
 <a href="{{ url_for('logout') }}"><button class='logout'> LOG OUT </button></a>
 

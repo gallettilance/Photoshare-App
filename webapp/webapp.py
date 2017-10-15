@@ -6,10 +6,12 @@ import numpy as np
 import pandas as pd
 
 app = Flask(__name__, template_folder='templates')
+app.config['SESSION_TYPE']= 'memcached'
+app.config['SECRET_KEY']= 'super secret key'
 db = MySQL()
 
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'hello123'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'YWSSD'
 app.config['MYSQL_DATABASE_DB'] = 'CS660_webapp'
 app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'
 db.init_app(app)
@@ -31,7 +33,7 @@ def signup(message="Please complete the form to sign up"):
     return render_template('signup.html', message=message)
 
 @app.route('/create_profile', methods=['POST','GET'])
-def create_profile():
+def create_profile():                             #signup function
     result = request.form
     if result['password1'] != result['password2']:
         return signup("Password Mismatch")
@@ -39,13 +41,13 @@ def create_profile():
     query = 'SELECT email FROM users'
     cursor.execute(query)
     for item in cursor:
-        if item[0] == email:
+        if item[0] == email:         #item[0] is the email attribute of the user
             return login("You may already have an account - please log in")
 
     session['email'] = email
     query = 'INSERT INTO users(email, password, first_name, last_name, DoB, hometown, gender) VALUES (%s, %s, %s, %s, %s, %s, %s)'
     DoB = time.strptime(result['DoB'], '%Y-%m-%d')
-    try:
+    try:       # query= 'INSERT INTO users(...) VALUES(%s,..)'   and cursor.execute(query, (vlaues....))
         cursor.execute(query,
                    (result['email'], result['password1'], result['first_name'], result['last_name'],
                     time.strftime('%Y-%m-%d %H:%M:%S', DoB), result['hometown'], result['gender']))
@@ -55,7 +57,7 @@ def create_profile():
     return render_template("profile.html", name=session['email'].split('@')[0])
 
 @app.route('/profile', methods=['POST', 'GET'])
-def profile():
+def profile():                                      #login function
     if request.method == 'POST':
         result = request.form
         email = result['email']
@@ -72,8 +74,12 @@ def profile():
                 else:
                     return login('Wrong Password')
         return signup("No Account with this email and password, would you like to create an account?")
-
+    print(session)
     return render_template("profile.html", name=session['email'].split('@')[0])
+
+
+
+
 
 @app.route('/albums', methods=['GET', 'POST'])
 def albums(recent=None):
@@ -82,6 +88,39 @@ def albums(recent=None):
 @app.route('/friend_search', methods=['GET', 'POST'])
 def friend_search():
     return render_template('friendsearch.html', name=session.get('email', None).split('@')[0])
+
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    return render_template('search.html', name=session.get('email', None).split('@')[0])
+
+@app.route('/friends', methods=['GET', 'POST'])
+def friends():
+    return render_template('friends.html', name=session.get('email', None).split('@')[0])
+
+
+@app.route('/friend_add', methods=['GET', 'POST'])
+def friend_add():
+    return render_template('friend_add.html', name=session.get('email', None).split('@')[0])
+
+@app.route('/friend_delete', methods=['GET', 'POST'])
+def friend_delete():
+    return render_template('friend_delete.html', name=session.get('email', None).split('@')[0])
+
+@app.route('/friend_list', methods=['GET', 'POST'])
+def friend_list():
+    return render_template('friend_list.html', name=session.get('email', None).split('@')[0])
+
+
+@app.route('/people_search', methods=['GET', 'POST'])
+def people_search():
+    return render_template('people_search.html')
+
+@app.route('/photo_recommend', methods=['GET', 'POST'])
+def photo_recommend():
+    return render_template('photo_recommend.html')
+
+
+
     
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
@@ -90,6 +129,17 @@ def upload():
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     return render_template('index.html')
+
+@app.route('/visit', methods=['GET', 'POST'])
+def visit():
+    return render_template('visit.html')
+
+
+@app.route('/photo_search', methods=['GET', 'POST'])
+def photo_search():
+    return render_template('photo_search.html')
+
+
 
 @app.route('/put_photos_in_database', methods=['GET', 'POST'])
 def put_photos_in_database():

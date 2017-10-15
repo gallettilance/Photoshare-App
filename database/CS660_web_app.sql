@@ -29,7 +29,7 @@ CREATE TABLE `albums` (
   `DoC` date NOT NULL,
   PRIMARY KEY (`album_id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `albums_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `albums_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -110,8 +110,8 @@ CREATE TABLE `friend_with` (
   `user2_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user1_id`,`user2_id`),
   KEY `user2_id` (`user2_id`),
-  CONSTRAINT `friend_with_ibfk_1` FOREIGN KEY (`user1_id`) REFERENCES `users` (`user_id`),
-  CONSTRAINT `friend_with_ibfk_2` FOREIGN KEY (`user2_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `friend_with_ibfk_1` FOREIGN KEY (`user1_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  CONSTRAINT `friend_with_ibfk_2` FOREIGN KEY (`user2_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
