@@ -2,24 +2,62 @@
 
 <title> {{ name }}'s Profile </title>
 
-<h1 class='profile_header' style="top:8px"> Hey {{ name }} </h1>
+<h1 class='profile_header' style="top:8px"> {{ id }} and {{ name }} </h1>
 
-<a href="{{ url_for('profile') }}"><button class='logout' style="left:10px"> {{ name }} </button></a>
+{% if loggedin %}
+
+<a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="left:10px"> {{ userid }} and {{ username }} </button></a>
 
 <a href="{{ url_for('logout') }}"> <button  class="logout" style="right:10px"> LOG OUT </button> </a>
 
 <h1 class='profile_header' style="position:fixed; bottom:0; width:100%; height:100px; line-height:100px; vertical-align:middle; text-align:center; margin: 0;padding: 0;">
-    <a href="{{ url_for('upload') }}"> <button class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> UPLOAD </button> </a>
-    <a href="{{ url_for('albums') }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> ALBUMS </button> </a>
-    <a href="{{ url_for('friends') }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block;top:0"> FRIENDS </button> </a>
-    <a href="{{ url_for('search') }}"> <button class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> SEARCH </button> </a>
-    <a href="{{ url_for('photo_recommend') }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> YOU MAY ALSO LIKE </button> </a>
+    <a href="{{ url_for('upload', id=userid) }}"> <button class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> UPLOAD </button> </a>
+    <a href="{{ url_for('albums', id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> MYALBUMS </button> </a>
+    <a href="{{ url_for('friends', id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block;top:0"> MYFRIENDS </button> </a>
+    <a href="{{ url_for('search', id=userid) }}"> <button class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> SEARCH </button> </a>
+    <a href="{{ url_for('photo_recommend', id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> YOU MAY ALSO LIKE </button> </a>
 </h1>
+{% if not myprofile %}
+<div class='wrapper'>
+    <ul class='center'>
+        <li><a href="{{ url_for('albums', id=id ) }}" style="text-decoration: none; color:white"> {{ name }}'s ALBUMS </a> </li>
+        <li><a href="{{ url_for('friends', id=id) }}" style="text-decoration: none; color:white"> {{ name }}'s FRIENDS </a> </li>
+        {% if loggedin %}
+        <li><a href="{{ url_for('friend_add', friend=name ) }}" style="text-decoration: none; color:white"> BE FRIENDS </a> </li>
+        {% endif %}
+    </ul>
+</div>
+
+{% else %}
+
+    <div class='wrapper'>
+        <ul class='center'>
+            {% for alb in albums %}
+                <li><a href="{{ url_for('album_photos', album_name=alb) }}" style="text-decoration: none; color:white"> {{ alb }} </a> </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+{% else %}
+
+<a href="{{ url_for('signup_page') }}"><button class='logout' style="right:170px"> SIGN UP </button></a>
+
+<a href="{{ url_for('login_page') }}"><button class='logout' style="right:10px"> LOG IN </button></a>
+
+<a href="{{ url_for('visit') }}"><button class='logout' style="left:10px"> SEARCH </button></a>
+
 
 <div class='wrapper'>
     <ul class='center'>
-        {% for alb in albums %}
-        <li><a href="{{ url_for('album_photos', album_name=alb) }}" style="text-decoration: none; color:white"> {{ alb }} </a> </li>
-        {% endfor %}
+        <li><a href="{{ url_for('albums', username= name ) }}" style="text-decoration: none; color:white"> {{ name }}'s ALBUMS </a> </li>
+        <li><a href="{{ url_for('friends', username= name ) }}" style="text-decoration: none; color:white"> {{ name }}'s FRIENDS </a> </li>
+        {% if loggedin %}
+        <li><a href="{{ url_for('friend_add', friend=name ) }}" style="text-decoration: none; color:white"> BE FRIENDS </a> </li>
+        {% endif %}
     </ul>
 </div>
+
+{% endif %}
+
+

@@ -5,7 +5,7 @@
 <a href="{{ url_for('home') }}"><button class='logout' style="left:10px"> BACK </button></a>
 
 <div class='wrapper'>
-    <form class='signupform' action="{{ url_for('create_profile') }}" method=POST>
+    <form class='signupform' action="{{ url_for('signup') }}" method=POST>
         email:<br>
         <input type=email name=email value="{{request.form.email}}" required maxlength=25 placeholder="Email"><br>
         Password:<br>
