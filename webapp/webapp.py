@@ -71,8 +71,16 @@ def create_profile():                             #signup function
     for album in cursor:
         all_albums.append(album[0])
 
+    query = 'SELECT user_id, email, first_name FROM users'
+    cursor.execute(query)
+    for item in cursor:
+        if result['email'] == item[1]:
+            userid = item[0]
+            fname = item[2]
+
     session['loggedin'] = True
-    return render_template("profile.html", name=result['email'].split('@')[0], albums=all_albums)
+    session['userid'] = userid
+    return render_template("profile.html", name=fname, albums=all_albums)
 
 
 
@@ -95,30 +103,115 @@ def profile():                                      #login function
         result = request.form
         email = result['email']
         password = result['password']
-        query = 'SELECT email, password FROM users'
+        query = 'SELECT email, password, user_id, first_name FROM users'
         cursor.execute(query)
         if cursor.rowcount == 0:
             return signup("No Account with this email and password, would you like to create an account?")
         for item in cursor:
             if item[0] == email:
                 if item[1] == password:
-                    session['email'] = result['email']
+                    session['userid'] = item[2]
                     session['loggedin']=True
-                    return render_template("profile.html", name=result['email'].split('@')[0],  albums=all_albums)
+                    return render_template("profile.html", name=item[3],  albums=all_albums)
                 else:
                     return login('Wrong Password')
         return signup("No Account with this email and password, would you like to create an account?")
-    return render_template("profile.html", name=session['email'].split('@')[0],  albums=all_albums)
+
+    query = 'SELECT user_id, first_name FROM users'
+    cursor.execute(query)
+    for item in cursor:
+        if session.get('userid', None) == item[0]:
+            fname = item[1]
+            break
+
+    return render_template("profile.html", name=fname,  albums=all_albums)
 
 
 
-@app.route('/albums', methods=['GET', 'POST'])
-def albums():
+@app.route('/albums/username', methods=['GET', 'POST'])
+def albums(username):
+
+    try:
+        id = session.get('userid', None)
+        if id:
+            query = 'SELECT user_id, first_name FROM users'
+            cursor.execute(query)
+            for user in cursor:
+                if user[0] == session.get('userid', None):
+                    fname = user[1]
+
+            query = 'SELECT album_name, user_id FROM albums'
+            cursor.execute(query)
+            all_albums = []
+            for album in cursor:
+                if album[1] == session.get('userid', None):
+                    all_albums.append(album[0])
+
+        return render_template('albums.html', name=fname, albums=all_albums, loggedin=True)
+
+    except:
+        query = 'SELECT user_id, first_name FROM users'
+        cursor.execute(query)
+        for user in cursor:
+            if user[1] == username:
+                userid = user[0]
+
+        query = 'SELECT album_name, user_id FROM albums'
+        cursor.execute(query)
+        all_albums = []
+        for album in cursor:
+            if album[1] == userid:
+                all_albums.append(album[0])
+
+        return render_template('albums.html', albums=all_albums, loggedin=False)
+
+
+
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    query = 'SELECT user_id, first_name FROM users'
+    cursor.execute(query)
+    for user in cursor:
+        if user[0] == session.get('userid', None):
+            fname = user[1]
+    return render_template('upload.html', name=fname)
+
+
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    session.clear()
+    return home()
+
+
+@app.route('/visit', methods=['GET', 'POST'])
+def visit():
+    return render_template('visit.html')
+
+
+@app.route('/photo_search', methods=['GET', 'POST'])
+def photo_search():
+    return render_template('photo_search.html')
+
+
+@app.route('/create_album', methods=['GET', 'POST'])
+def create_album():
+    query = 'SELECT user_id, first_name FROM users'
+    cursor.execute(query)
+    for user in cursor:
+        if user[0] == session.get('userid', None):
+            fname = user[1]
+
+    result = request.form
     query = 'SELECT user_id, email FROM users'
     cursor.execute(query)
     for user in cursor:
         if user[1] == session.get('email', None):
             userid = user[0]
+
+    query = 'INSERT INTO albums(user_id, album_name, DOC) VALUES (%s, %s, %s)'
+    DoC = '2017-10-10'
+    cursor.execute(query, (userid, result['album'], DoC))
 
     query = 'SELECT album_name, user_id FROM albums'
     cursor.execute(query)
@@ -127,7 +220,47 @@ def albums():
         if album[1] == userid:
             all_albums.append(album[0])
 
-    return render_template('albums.html', name=session.get('email').split('@')[0], albums=all_albums)
+    return render_template('albums.html', name=fname, albums=all_albums)
+
+
+@app.route('/album_photos/<album_name>', methods=['GET', 'POST'])
+def album_photos(data=None, album_name=""):
+    query = 'SELECT album_name, user_id FROM albums'
+    cursor.execute(query)
+    for album in cursor:
+        if album_name == album[0]:
+            userid = album[1]
+            break
+
+    query = 'SELECT user_id, first_name FROM users'
+    cursor.execute(query)
+    for item in cursor:
+        if item[0] == userid:
+            username = item[1]
+            break
+
+    try:
+        id = session.get('userid', None)
+        if id:
+            query = 'SELECT user_id, first_name FROM users'
+            cursor.execute(query)
+            for user in cursor:
+                if user[0] == session.get('userid', None):
+                    fname = user[1]
+
+            return render_template('photos.html', data=data, album_name=album_name,
+                                   name=fname, username=username,
+                                   loggedin=session.get('loggedin', None))
+    except:
+        return render_template('photos.html', data=data, album_name=album_name,
+                               username=username, loggedin=False)
+
+
+@app.route('/comment', methods=['GET', 'POST'])
+def comment():
+    nc = request.form['newcomment']
+    return render_template('single_photo.html', comments=[session.get('email', None).split('@')[0], nc])
+
 
 @app.route('/friend_search', methods=['GET', 'POST'])
 def friend_search():
@@ -162,72 +295,6 @@ def people_search():
 @app.route('/photo_recommend', methods=['GET', 'POST'])
 def photo_recommend():
     return render_template('photo_recommend.html')
-
-@app.route('/upload', methods=['GET', 'POST'])
-def upload():
-    return render_template('upload.html', name=session.get('email', None).split('@')[0])
-    
-@app.route('/logout', methods=['GET', 'POST'])
-def logout():
-    session['email'] = ''
-    session['loggedin']= False
-    return home()
-
-@app.route('/visit', methods=['GET', 'POST'])
-def visit():
-    return render_template('visit.html')
-
-
-@app.route('/photo_search', methods=['GET', 'POST'])
-def photo_search():
-    return render_template('photo_search.html')
-
-@app.route('/create_album', methods=['GET', 'POST'])
-def create_album():
-    result = request.form
-    query = 'SELECT user_id, email FROM users'
-    cursor.execute(query)
-    for user in cursor:
-        if user[1]==session.get('email', None):
-            userid=user[0]
-
-    query = 'INSERT INTO albums(user_id, album_name, DOC) VALUES (%s, %s, %s)'
-    DoC = '2017-10-10'
-    cursor.execute(query, (userid, result['album'], DoC))
-
-    query = 'SELECT album_name, user_id FROM albums'
-    cursor.execute(query)
-    all_albums = []
-    for album in cursor:
-        if album[1]==userid:
-            all_albums.append(album[0])
-
-    return render_template('albums.html', name=session.get('email', None).split('@')[0], albums=all_albums)
-
-@app.route('/album_photos/<album_name>', methods=['GET', 'POST'])
-def album_photos(data=None, album_name=""):
-    query = 'SELECT album_name, user_id FROM albums'
-    cursor.execute(query)
-    for album in cursor:
-        if album_name == album[0]:
-            userid = album[1]
-            break
-
-    query = 'SELECT email, user_id FROM users'
-    cursor.execute(query)
-    for item in cursor:
-        if item[1] == userid:
-            username= item[0].split('@')[0]
-            break
-
-    return render_template('photos.html', data=data, album_name=album_name,
-                           name=session.get('email', None).split('@')[0], username=username,
-                           loggedin=session.get('loggedin', None))
-
-@app.route('/comment', methods=['GET', 'POST'])
-def comment():
-    nc = request.form['newcomment']
-    return render_template('single_photo.html', comments=[session.get('email', None).split('@')[0], nc])
 
 
 if __name__=='__main__':

@@ -2,7 +2,7 @@
 
 <title> {{ name }}'s Profile </title>
 
-<h1 class='profile_header' style="top:0"> {{ name }}'s profile </h1>
+<h1 class='profile_header' style="top:8px"> {{ name }}'s profile </h1>
 
 
 {% if loggedin %}
@@ -30,7 +30,7 @@
     <ul class='center'>
         <li><a href="{{ url_for('albums', username= name ) }}" style="text-decoration: none; color:white"> {{ name }}'s ALBUMS </a> </li>
         <li><a href="{{ url_for('friends', username= name ) }}" style="text-decoration: none; color:white"> {{ name }}'s FRIENDS </a> </li>
-        {% if not friends %}
+        {% if loggedin %}
         <li><a href="{{ url_for('friend_add', friend=name ) }}" style="text-decoration: none; color:white"> BE FRIENDS </a> </li>
         {% endif %}
     </ul>
