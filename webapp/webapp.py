@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flaskext.mysql import MySQL
-import os
+import os, base64
 import time
 import numpy as np
 import pandas as pd
@@ -16,6 +16,8 @@ app.config['MYSQL_DATABASE_DB'] = 'CS660_webapp'
 app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'
 db.init_app(app)
 
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+
 conn = db.connect()
 cursor = conn.cursor()
 
@@ -24,12 +26,12 @@ cursor = conn.cursor()
 def home():
 
     #when user is not signed in
-    query = 'SELECT album_name FROM albums'
+    query = 'SELECT data FROM photos'
     cursor.execute(query)
-    all_albums = []
-    for album in cursor:
-        all_albums.append(album[0])
-    return render_template('index.html', albums=all_albums)
+    all_photos = []
+    for item in cursor:
+        all_photos.append(item[0])
+    return render_template('index.html', photos=all_photos)
 
 @app.route('/login_page', methods=['POST', 'GET'])
 def login_page(message='Please Log In'):
@@ -154,6 +156,11 @@ def view_profile(id):
     #otherwise
     return render_template('profile.html', name=person_name, loggedin=False, id=id)
 
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     userid = session.get('userid', None)
@@ -165,7 +172,7 @@ def create_album():
 
     userid = session.get('userid', None)
 
-    #insert into database album and content
+    #insert into database album
     result = request.form
     query = 'INSERT INTO albums(user_id, album_name, DOC) VALUES (%s, %s, %s)'
 
@@ -173,6 +180,22 @@ def create_album():
     DoC = '2017-10-10'
 
     cursor.execute(query, (userid, result['album'], DoC))
+    albumid = conn.insert_id()
+
+    # insert into database photos
+    query = 'INSERT INTO photos(upid_idx, data, caption) VALUES (%s, %s, %s)'
+    cap = "no caption"
+    photoids = []
+    for image in request.files:
+        photo_data = base64.standard_b64encode(image.read())
+        cursor.execute(query, (userid, photo_data, cap))
+        photoids.append(int(conn.insert_id()))
+
+    #insert photoid and albumid into contains
+    query = 'INSERT INTO contains(photo_id, album_id) VALUES (%s, %s, %s)'
+    for photo in photoids:
+        cursor.execute(query, (photo, albumid))
+
 
     return view_profile(id=userid)
 
@@ -241,9 +264,9 @@ def view_album_content(album_name):
             all_photoids.append(int(item[0]))
 
     # get photo data from all photos with corresponding ids
-
-
-
+    query = 'SELECT data, caption FROM photos'
+    cursor.execute(query)
+    all_photos = cursor.fetchall()
 
 
     #if logged in
@@ -252,11 +275,11 @@ def view_album_content(album_name):
         userid = session.get('userid', None)
         my_name = session.get('my_name', None)
         return render_template('view_album_content.html', username=my_name, uploader_name=uploader_name, loggedin=True,
-                               userid=userid, uploader_id=uploader_id, photos=all_photoids, album_name=album_name)
+                               userid=userid, uploader_id=uploader_id, photos=all_photos, album_name=album_name)
 
     else:
         return render_template('view_album_content.html', uploader_name=uploader_name, loggedin=False,
-                               uploader_id=uploader_id, photos=all_photoids, album_name=album_name)
+                               uploader_id=uploader_id, photos=all_photos, album_name=album_name)
 
 
 

@@ -18,6 +18,15 @@
     <a href="{{ url_for('recommendations', id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> YOU MAY ALSO LIKE </button> </a>
 </h1>
 
+<div class='wrapper'>
+    <ul class='center'>
+        {% for photo in photos %}
+            <li>{{ photo[1] }}<br>
+            <li> <a href="{{ url_for('view_photo', photo_id=photo[2]) }}"> <img src='data:image/jpg;base64, {{ photo[0] }}'/> </a> </li>
+        {% endfor %}
+           <li> <a href="{{ url_for('view_profile', id=uploader_id) }}"> {{ uploader_name }} </a> </li>
+    </ul>
+</div>
 {% else %}
 
 <a href="{{ url_for('signup_page') }}"><button class='logout' style="right:170px"> SIGN UP </button></a>
@@ -26,13 +35,13 @@
 
 <a href="{{ url_for('home') }}"><button class='logout' style="left:10px"> HOME </button></a>
 
-{% endif %}
-
 <div class='wrapper'>
     <ul class='center'>
         {% for photo in photos %}
-            <li><a href="{{ url_for('view_photo', photo_data=photo) }}" style="text-decoration: none; color:white"> {{ photo }} </a> </li>
+            <li>{{ photo[1] }}<br>
+            <li> <a href="{{ url_for('view_photo', photo_id=photo[2]) }}"> <img src='data:image/jpg;base64, {{ photo[0] }}'/> </a> </li>
         {% endfor %}
            <li><a href="{{ url_for('view_profile', id=uploader_id) }}"> {{ uploader_name }}</a></li>
     </ul>
 </div>
+{% endif %}

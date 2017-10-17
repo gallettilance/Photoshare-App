@@ -8,11 +8,10 @@
 
 <a href="{{ url_for('home') }}"><button class='logout' style="left:10px"> HOME </button></a>
 
-<div class='wrapper'>
-    <ul class='center'>
-        {% for alb in albums %}
-        <li><a href="{{ url_for('view_album_content', album_name=alb) }}" style="text-decoration: none; color:white"> {{ alb }} </a> </li>
-        {% endfor %}
-    </ul>
-</div>
+<ul>
+    {% for photo in photos %}
+        <li>{{ photo[1] }}<br>
+        <li><img src='data:image/jpg;base64, {{ photo[0] }}'/></li>
+    {% endfor %}
+</ul>
 
