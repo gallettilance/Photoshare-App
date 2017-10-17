@@ -17,7 +17,7 @@
         last name:<br>
         <input type=text name=last_name value="{{request.form.last_name}}" minlength=2 maxlength=25 required placeholder="last name"><br>
         Gender:<br>
-        <input type=text name=gender value="{{request.form.gender}}" size=1 required placeholder=" "><br>
+        <input type=text name=gender value="{{request.form.gender}}" maxlength=1 minlength=1 required placeholder=" "><br>
         Hometown:<br>
         <input type=text name=hometown value="{{request.form.hometown}}"  maxlength=25 required placeholder="Home Town"><br>
         Date of Birth:<br>

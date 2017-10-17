@@ -9,10 +9,8 @@
 
 <div class='wrapper'>
     <ul class='center'>
-        <li> <a href="{{ url_for('friend_add') }}"> ADD FRIENDS </a> </li>
-        <li><a href="{{ url_for('friend_delete') }}"> DELETE FRIENDS </a> </li>
-        <li><a href="{{ url_for('friend_list') }}"> LIST FRIENDS </a> </li>
-	
-	
+        {% for friend in friends %}
+        <a href="{{ url_for('view_profile', id=friend[0]) }}"><button class='logout' style="left:10px"> {{ friend[1] }} </button></a>
+        {% endfor %}
     </ul>
 </div>

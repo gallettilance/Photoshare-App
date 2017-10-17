@@ -2,23 +2,4 @@
 
 <title> search </title>
 
-<h1 class='profile_header' style="top:0"> Search </h1>
-
-<a href="{{ url_for('profile') }}"><button class='logout' style="top:0; left:10px"> {{ name }} </button></a>
-
-<div class="dropdown">
-  <button class="dropbtn"> MENU </button>
-  <div class="dropdown-content">
-    <a href="{{ url_for('upload') }}" style="text-decoration: none; color:white"> UPLOAD </a>
-      <a href="{{ url_for('albums') }}" style="text-decoration: none; color:white"> ALBUMS </a>
-      <a href="{{ url_for('friends') }}" style="text-decoration: none; color:white"> FRIENDS </a>
-      <a href="{{ url_for('search') }}" style="text-decoration: none; color:white"> SEARCH </a>
-      <a href="{{ url_for('photo_recommend') }}" style="text-decoration: none; color:white"> YOU MAY ALSO LIKE </a>
-      <a href="{{ url_for('logout') }}"> LOG OUT </a>
-  </div>
-</div>
-
-<p><a href="{{ url_for('photo_search') }}"> search for photo </a></p>
-
-<p><a href="{{ url_for('friend_search') }}"> search for friends </a></p>
-
+<h1 class='profile_header' style="top:0"> search for anything here <h1>

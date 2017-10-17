@@ -1,8 +1,8 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
-<title> {{ name }}'s Profile </title>
+<title> {{ uploader_name }}'s albums </title>
 
-<h1 class='profile_header' style="top:8px"> {{ name }} </h1>
+<h1 class='profile_header' style="top:8px">  {{ uploader_name }}'s albums </h1>
 
 {% if loggedin %}
 
@@ -12,32 +12,19 @@
 
 <h1 class='profile_header' style="position:fixed; bottom:0; width:100%; height:100px; line-height:100px; vertical-align:middle; text-align:center; margin: 0;padding: 0;">
     <a href="{{ url_for('upload', id=userid) }}"> <button class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> UPLOAD </button> </a>
-    <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> MYALBUMS </button> </a>
+    <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> <button  class="logout" style="background-color: #007094; position:relative; bottom:8px; width:19%; display: inline-block; top:0"> MYALBUMS </button> </a>
     <a href="{{ url_for('friends', id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block;top:0"> MYFRIENDS </button> </a>
     <a href="{{ url_for('search', id=userid) }}"> <button class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> SEARCH </button> </a>
     <a href="{{ url_for('recommendations', id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> YOU MAY ALSO LIKE </button> </a>
 </h1>
-{% if not myprofile %}
+
 <div class='wrapper'>
     <ul class='center'>
-        <li><a href="{{ url_for('view_all_albums', uploader_id=id ) }}" style="text-decoration: none; color:white"> {{ name }}'s ALBUMS </a> </li>
-        <li><a href="{{ url_for('friends', id=id) }}" style="text-decoration: none; color:white"> {{ name }}'s FRIENDS </a> </li>
-        {% if loggedin %}
-        <li><a href="{{ url_for('friend_add', friend=name ) }}" style="text-decoration: none; color:white"> BE FRIENDS </a> </li>
-        {% endif %}
+        {% for alb in all_albums %}
+            <li><a href="{{ url_for('view_album_content', album_name=alb) }}" style="text-decoration: none; color:white"> {{ alb }} </a> </li>
+        {% endfor %}
     </ul>
 </div>
-
-{% else %}
-
-    <div class='wrapper'>
-        <ul class='center'>
-            {% for alb in albums %}
-                <li><a href="{{ url_for('view_album_content', album_name=alb, uploader_id=id) }}" style="text-decoration: none; color:white"> {{ alb }} </a> </li>
-            {% endfor %}
-        </ul>
-    </div>
-{% endif %}
 
 {% else %}
 
@@ -47,17 +34,13 @@
 
 <a href="{{ url_for('home') }}"><button class='logout' style="left:10px"> HOME </button></a>
 
-
 <div class='wrapper'>
     <ul class='center'>
-        <li><a href="{{ url_for('view_all_albums', uploader_id=id ) }}" style="text-decoration: none; color:white"> {{ name }}'s ALBUMS </a> </li>
-        <li><a href="{{ url_for('friends', username= name ) }}" style="text-decoration: none; color:white"> {{ name }}'s FRIENDS </a> </li>
-        {% if loggedin %}
-        <li><a href="{{ url_for('friend_add', friend=name ) }}" style="text-decoration: none; color:white"> BE FRIENDS </a> </li>
-        {% endif %}
+        {% for alb in all_albums %}
+            <li><a href="{{ url_for('view_album_content', album_name=alb) }}" style="text-decoration: none; color:white"> {{ alb }} </a> </li>
+        {% endfor %}
     </ul>
 </div>
 
 {% endif %}
-
 
