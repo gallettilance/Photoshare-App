@@ -26,11 +26,11 @@ cursor = conn.cursor()
 def home():
 
     #when user is not signed in
-    query = 'SELECT data FROM photos'
+    query = 'SELECT photo_id, data FROM photos'
     cursor.execute(query)
     all_photos = []
     for item in cursor:
-        all_photos.append(item[0])
+        all_photos.append([item[0], item[1]])
     return render_template('index.html', photos=all_photos)
 
 @app.route('/login_page', methods=['POST', 'GET'])
@@ -132,11 +132,11 @@ def view_profile(id):
             person_name = item[1]
 
     #get all_albums
-    query = 'SELECT album_name, user_id FROM albums'
+    query = 'SELECT album_id, album_name, user_id FROM albums'
     cursor.execute(query)
     all_albums = []
     for album in cursor:
-        all_albums.append(album[0])
+        all_albums.append([album[0], album[1]])
 
     #if you're logged in
     if session.get('loggedin', None):
@@ -203,12 +203,12 @@ def create_album():
 @app.route('/view_all_albums/<uploader_id>', methods=['GET', 'POST'])
 def view_all_albums(uploader_id):
 
-    query = 'SELECT album_name, user_id FROM albums'
+    query = 'SELECT album_id, album_name, user_id FROM albums'
     cursor.execute(query)
     all_albums = []
     for item in cursor:
-        if int(item[1]) == int(uploader_id):
-            all_albums.append(item[0])
+        if int(item[2]) == int(uploader_id):
+            all_albums.append([item[0], item[1]])
 
     query = 'SELECT user_id, first_name FROM users'
     cursor.execute(query)
@@ -225,26 +225,19 @@ def view_all_albums(uploader_id):
                                all_albums=all_albums, loggedin=True, uploader_id=uploader_id)
 
     return render_template('view_all_albums.html', uploader_name=uploader_name,
-                               all_albums=all_albums, loggedin=False, uploader_id=uploader_id)
+                           all_albums=all_albums, loggedin=False, uploader_id=uploader_id)
 
 
-@app.route('/view_album_content/<album_name>', methods=['GET', 'POST'])
-def view_album_content(album_name):
+@app.route('/view_album_content/<album_id>', methods=['GET', 'POST'])
+def view_album_content(album_id):
 
-    # get the album id of the album with album_name
-    query = 'SELECT album_name, album_id FROM albums'
+    # get the album name and uploader id
+    query = 'SELECT album_id, album_name, user_id FROM albums'
     cursor.execute(query)
     for item in cursor:
-        if item[0] == album_name:
-            albumid = item[1]
-            break
-
-    # get uploader id
-    query = 'SELECT album_id, user_id FROM albums'
-    cursor.execute(query)
-    for item in cursor:
-        if int(item[0]) == int(albumid):
-            uploader_id = item[1]
+        if int(item[0]) == int(album_id):
+            album_name = item[1]
+            uploader_id = item[2]
             break
 
     # get uploader name
@@ -260,13 +253,16 @@ def view_album_content(album_name):
     cursor.execute(query)
     all_photoids = []
     for item in cursor:
-        if int(item[1]) == int(albumid):
+        if int(item[1]) == int(album_id):
             all_photoids.append(int(item[0]))
 
     # get photo data from all photos with corresponding ids
-    query = 'SELECT data, caption FROM photos'
+    query = 'SELECT photo_id, data, caption FROM photos'
     cursor.execute(query)
-    all_photos = cursor.fetchall()
+    all_photos = []
+    for item in cursor:
+        if item[0] in all_photoids:
+            all_photos.append([item[0], item[1], item[2]])
 
 
     #if logged in
@@ -275,12 +271,78 @@ def view_album_content(album_name):
         userid = session.get('userid', None)
         my_name = session.get('my_name', None)
         return render_template('view_album_content.html', username=my_name, uploader_name=uploader_name, loggedin=True,
-                               userid=userid, uploader_id=uploader_id, photos=all_photos, album_name=album_name)
+                               userid=userid, uploader_id=uploader_id, photos=all_photos, album_id=album_id,
+                               album_name=album_name)
 
     else:
         return render_template('view_album_content.html', uploader_name=uploader_name, loggedin=False,
-                               uploader_id=uploader_id, photos=all_photos, album_name=album_name)
+                               uploader_id=uploader_id, photos=all_photos, album_id=album_id, album_name=album_name)
 
+@app.route('/view_photo/<photo_id>', methods=['GET', 'POST'])
+def view_photo(photo_id):
+
+    # get the photo data and caption
+    query = 'SELECT photo_id, data, caption FROM photos'
+    cursor.execute(query)
+    for item in cursor:
+        if int(item[0]) == int(photo_id):
+            photo = [item[1], item[2]]
+
+    #get all comment ids and user id of these comments on this photo
+    query = 'SELECT photo_id, comment_id, user_id FROM comments'
+    cursor.execute(query)
+    all_commentids = []
+    all_commenterids = []
+    for item in cursor:
+        if int(item[0]) == int(photo_id):
+            all_commentids.append(int(item[1]))
+            all_commenterids.append(int(item[2]))
+
+    #get names of all commenters
+    query = 'SELECT user_id, first_name FROM users'
+    cursor.execute(query)
+    all_commenters = []
+    for item in cursor:
+        if int(item[0]) in all_commenterids:
+            all_commenters.append([item[0], item[1]])
+
+
+    # get the album id that this photo belongs to
+    query = 'SELECT photo_id, album_id FROM contains'
+    cursor.execute(query)
+    for item in cursor:
+        if int(item[0]) == int(photo_id):
+            album_id = int(item[1])
+
+    # get the album name and uploader id
+    query = 'SELECT album_name, album_id, user_id FROM albums'
+    cursor.execute(query)
+    for item in cursor:
+        if int(item[0]) == int(album_id):
+            album_name = item[1]
+            uploader_id = item[2]
+            break
+
+    # get uploader name
+    query = 'SELECT first_name, user_id FROM users'
+    cursor.execute(query)
+    for item in cursor:
+        if int(item[1]) == int(uploader_id):
+            uploader_name = item[0]
+            break
+
+    # if logged in
+    if session.get('loggedin'):
+
+        userid = session.get('userid', None)
+        my_name = session.get('my_name', None)
+        liked = False
+        return render_template('view_photo.html', username=my_name, uploader_name=uploader_name, loggedin=True, like=liked,
+                               userid=userid, uploader_id=uploader_id, photo=photo, album_id=album_id, album_name=album_name)
+
+    else:
+        return render_template('view_photo.html', uploader_name=uploader_name, loggedin=False,
+                               uploader_id=uploader_id, photo=photo, album_id=album_id, album_name=album_name)
 
 
 ##########################################################

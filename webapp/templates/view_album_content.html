@@ -21,8 +21,8 @@
 <div class='wrapper'>
     <ul class='center'>
         {% for photo in photos %}
-            <li>{{ photo[1] }}<br>
-            <li> <a href="{{ url_for('view_photo', photo_id=photo[2]) }}"> <img src='data:image/jpg;base64, {{ photo[0] }}'/> </a> </li>
+            <li>{{ photo[2] }}<br>
+            <li> <a href="{{ url_for('view_photo', photo_id=photo[0]) }}"> <img src='data:image/jpg;base64, {{ photo[1] }}'/> </a> </li>
         {% endfor %}
            <li> <a href="{{ url_for('view_profile', id=uploader_id) }}"> {{ uploader_name }} </a> </li>
     </ul>
@@ -38,8 +38,8 @@
 <div class='wrapper'>
     <ul class='center'>
         {% for photo in photos %}
-            <li>{{ photo[1] }}<br>
-            <li> <a href="{{ url_for('view_photo', photo_id=photo[2]) }}"> <img src='data:image/jpg;base64, {{ photo[0] }}'/> </a> </li>
+            <li>{{ photo[2] }}<br>
+            <li> <a href="{{ url_for('view_photo', photo_id=photo[0]) }}"> <img src='data:image/jpg;base64, {{ photo[1] }}'/> </a> </li>
         {% endfor %}
            <li><a href="{{ url_for('view_profile', id=uploader_id) }}"> {{ uploader_name }}</a></li>
     </ul>
