@@ -1,8 +1,11 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
-<h1 class='profile_header'> {{ message }}</h1>
+<h1 class='profile_header'>
 
-<a href="{{ url_for('home') }}"><button class='logout' style="left:10px"> BACK </button></a>
+    <a href="{{ url_for('home') }}"><button class='logout' style="top:0; float:left"> BACK </button></a>
+    {{ message }}
+
+</h1>
 
 <div class='wrapper'>
     <form class="loginform" action="{{ url_for('login') }}" method=POST>

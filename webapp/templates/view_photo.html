@@ -1,15 +1,57 @@
-<h1> {{ photo[1] }} </h1>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
-<img src='data:;base64, {{ photo[0] }}'/>
+<title> {{ photo[1] }} </title>
 
+{% if loggedin %}
+
+<h1 class='profile_header' style="top:8px">
+    <a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="top:0px; float:left"> {{ username }} </button></a>
+
+    {{ photo[1] }}
+
+    <a href="{{ url_for('logout') }}"> <button  class="logout" style="top:0px; float:right"> LOG OUT </button> </a>
+</h1>
+<h1 class='profile_header' style="position:fixed; bottom:0; width:100%; height:100px; line-height:100px; vertical-align:middle; text-align:center; margin: 0;padding: 0;">
+    <a href="{{ url_for('upload', id=userid) }}"> <button class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> UPLOAD </button> </a>
+    <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> MYALBUMS </button> </a>
+    <a href="{{ url_for('friends', id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block;top:0"> MYFRIENDS </button> </a>
+    <a href="{{ url_for('search', id=userid) }}"> <button class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> SEARCH </button> </a>
+    <a href="{{ url_for('recommendations', id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> YOU MAY ALSO LIKE </button> </a>
+</h1>
+
+<div class="container" style="display:flex; justify-content:center">
+    <img src='data:image/jpg;base64, {{ photo[0] }}' style="float:left; width:23%; margin-right:1%; margin-bottom:.5em"/>
+</div>
+
+<a href="{{ url_for('view_profile', id=uploader_id) }}" style="background-color:black; text-decoration: none; color:white; float:bottom; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ uploader_name }} </a>
+
+{% else %}
+
+<h1 class='profile_header' style="top:8px">
+    <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
+
+    {{ photo[1] }}
+
+    <a href="{{ url_for('signup_page') }}"><button class='logout' style="top:0px; float:right"> SIGN UP </button></a>
+
+    <a href="{{ url_for('login_page') }}"><button class='logout' style="top:0px; float:right"> LOG IN </button></a>
+</h1>
+
+
+<div class="container" style="display:flex; justify-content:center">
+    <img src='data:image/jpg;base64, {{ photo[0] }}' style="float:left; width:23%; margin-right:1%; margin-bottom:.5em"/>
+</div>
+
+<a href="{{ url_for('view_profile', id=uploader_id) }}" style="background-color:black; text-decoration: none; color:white; float:bottom; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ uploader_name }} </a>
+
+{% endif %}
 <!--
 % if comments %}
-{% for com in comments %}
-<div class="comments"> {{ comments[0] }} said: {{ comments[1] }}</div>
-{% endfor %}
-{% endif %}
-<form class='comments' action="{{ url_for('comment') }}" method=POST>
-    <input type="text" name=newcomment value="{{request.form.newcomment}}"  maxlength=300 required placeholder="{{ name }}: make a comment?" ><br>
+
+<div class="comments">  said: </div>
+
+<form class='comments' action="" method=POST>
+    <input type="text" name=newcomment value=""  maxlength=300 required placeholder=": make a comment?" ><br>
     <input type="submit" value="COMMENT">
 </form>
 -->

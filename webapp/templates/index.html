@@ -1,15 +1,19 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
-<h1 class='profile_header' style="top:8px"> Welcome to Lance and Wendy's Photoshare </h1>
+<h1 class='profile_header' style="top:8px">
+    <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
 
-<a href="{{ url_for('signup_page') }}"><button class='logout' style="right:170px"> SIGN UP </button></a>
+    Welcome to Lance and Wendy's Photoshare
 
-<a href="{{ url_for('login_page') }}"><button class='logout' style="right:10px"> LOG IN </button></a>
+    <a href="{{ url_for('signup_page') }}"><button class='logout' style="top:0px; float:right"> SIGN UP </button></a>
 
-<a href="{{ url_for('home') }}"><button class='logout' style="left:10px"> HOME </button></a>
+    <a href="{{ url_for('login_page') }}"><button class='logout' style="top:0px; float:right"> LOG IN </button></a>
+
+</h1>
 
 {% for photo in photos %}
-<p> {{ photo[2] }} and {{ photo[1] }} </p>
-    <!-- <li> <a href="{{ url_for('view_photo', photo_id=photo[0]) }}"> -->
-    <img src='data:image/jpg;base64, {{ photo[1] }}'/>
+<a href="{{ url_for('view_photo', photo_id=photo[0]) }}">
+    <img src='data:image/jpg;base64, {{ photo[1] }}' style="float:left; width:23%; margin-right:1%; margin-bottom:.5em"/>
+</a>
 {% endfor %}
+<p style="clear: both;">

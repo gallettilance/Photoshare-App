@@ -2,21 +2,17 @@
 
 <title> {{ name }}'s Profile </title>
 
-<h1 class='profile_header' style="top:8px"> {{ name }} </h1>
-
 {% if loggedin %}
 
-    <a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="left:10px"> {{ username }} </button></a>
+    <h1 class='profile_header' style="top:8px">
+        <a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="top:0px; float:left"> {{ username }} </button></a>
 
-    <a href="{{ url_for('logout') }}"> <button  class="logout" style="right:10px"> LOG OUT </button> </a>
+        {{ name }}
 
-    <h1 class='profile_header' style="position:fixed; bottom:0; width:100%; height:100px; line-height:100px; vertical-align:middle; text-align:center; margin: 0;padding: 0;">
-        <a href="{{ url_for('upload', id=userid) }}"> <button class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> UPLOAD </button> </a>
-        <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> MYALBUMS </button> </a>
-        <a href="{{ url_for('friends', id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block;top:0"> MYFRIENDS </button> </a>
-        <a href="{{ url_for('search', id=userid) }}"> <button class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> SEARCH </button> </a>
-        <a href="{{ url_for('recommendations', id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> YOU MAY ALSO LIKE </button> </a>
+        <a href="{{ url_for('logout') }}"> <button  class="logout" style="top:0px; float:right"> LOG OUT </button> </a>
     </h1>
+
+
     {% if not myprofile %}
         <div class='wrapper'>
             <ul class='center'>
@@ -28,21 +24,35 @@
             </ul>
         </div>
     {% else %}
-        <div class='wrapper'>
-            <ul class='center'>
-                {% for photo in photos %}
-                    <li>{{ photo[2] }} <br>
-                    <li> <a href="{{ url_for('view_photo', photo_id=photo[0]) }}"> <img src='data:;base64, {{ photo[1] }}'/> </a> </li>
-                {% endfor %}
-            </ul>
-        </div>
+        {% for photo in photos %}
+            <a href="{{ url_for('view_photo', photo_id=photo[0]) }}">
+                <img src='data:image/jpg;base64, {{ photo[1] }}' style="float:left; width:23%; margin-right:1%; margin-bottom:.5em"/>
+            </a>
+        {% endfor %}
+        <p style="clear: both;">
     {% endif %}
+
+    <h1 class='profile_header' style="position:relative; float:bottom; width:100%; height:100px; line-height:100px; vertical-align:middle; text-align:center; margin: 0;padding: 0;">
+        <a href="{{ url_for('upload', id=userid) }}"> <button class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> UPLOAD </button> </a>
+        <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> MYALBUMS </button> </a>
+        <a href="{{ url_for('friends', id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block;top:0"> MYFRIENDS </button> </a>
+        <a href="{{ url_for('search', id=userid) }}"> <button class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> SEARCH </button> </a>
+        <a href="{{ url_for('recommendations', id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> YOU MAY ALSO LIKE </button> </a>
+    </h1>
 
 {% else %}
 
-    <a href="{{ url_for('signup_page') }}"><button class='logout' style="right:170px"> SIGN UP </button></a>
-    <a href="{{ url_for('login_page') }}"><button class='logout' style="right:10px"> LOG IN </button></a>
-    <a href="{{ url_for('home') }}"><button class='logout' style="left:10px"> HOME </button></a>
+    <h1 class='profile_header' style="top:8px">
+        <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
+
+        Welcome to Lance and Wendy's Photoshare
+
+        <a href="{{ url_for('signup_page') }}"><button class='logout' style="top:0px; float:right"> SIGN UP </button></a>
+
+        <a href="{{ url_for('login_page') }}"><button class='logout' style="top:0px; float:right"> LOG IN </button></a>
+
+    </h1>
+
     <div class='wrapper'>
         <ul class='center'>
             <li><a href="{{ url_for('view_all_albums', uploader_id=id ) }}" style="text-decoration: none; color:white"> {{ name }}'s ALBUMS </a> </li>

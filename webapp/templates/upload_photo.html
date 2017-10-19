@@ -18,15 +18,24 @@
 </h1>
 
 <div class='wrapper'>
-    <form class="loginform" action="{{ url_for('create_album') }}" method=POST>
+    <form class="loginform" enctype="multipart/form-data" action="{{ url_for('upload_photo', album_id=album_id) }}" method=POST>
         <ul class='center'>
             <li>
-                Album Name<br>
-                <input type=text name=album maxlength=30 required><br>
+                Caption <br>
+                <input type=text name=caption maxlength=30 required><br>
             </li>
             <li>
-                <input type=submit value="CREATE ALBUM">
+                Photo <br>
+                <input type=file name=img accept="image/jpg, image/gif, image/png, image/jpeg" required><br>
+            </li>
+            <li>
+                <input type=submit value=upload>
             </li>
         </ul>
     </form>
+    <ul class='center'>
+        <li>
+            <a href="{{ url_for('view_profile', id=userid) }}">  DONE </a>
+        </li>
+    </ul>
 </div>

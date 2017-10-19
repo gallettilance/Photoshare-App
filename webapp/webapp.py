@@ -26,11 +26,12 @@ cursor = conn.cursor()
 def home():
 
     #when user is not signed in
-    query = 'SELECT photo_id, data, caption FROM photos'
+    query = 'SELECT photo_id, data, caption FROM photos ORDER BY photo_id DESC LIMIT 25'
     cursor.execute(query)
     all_photos = []
     for item in cursor:
-        all_photos.append([item[0], item[1], item[2]])
+        img = ''.join(list(str(item[1]))[2:-1])
+        all_photos.append([item[0], img, item[2]])
     return render_template('index.html', photos=all_photos)
 
 @app.route('/login_page', methods=['POST', 'GET'])
@@ -115,7 +116,7 @@ def login():
             else:
                 return login_page('Wrong Password')
 
-    return signup("No Account with this email and password, would you like to create an account?")
+    return signup_page("No Account with this email and password, would you like to create an account?")
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
@@ -134,11 +135,12 @@ def view_profile(id):
             person_name = item[1]
 
     #get all_photos
-    query = 'SELECT photo_id, data FROM photos'
+    query = 'SELECT photo_id, data, caption FROM photos ORDER BY photo_id DESC LIMIT 25'
     cursor.execute(query)
     all_photos = []
     for item in cursor:
-        all_photos.append([item[0], base64.b64encode(item[1])])
+        img = ''.join(list(str(item[1]))[2:-1])
+        all_photos.append([item[0], img, item[2]])
 
     #if you're logged in
     if session.get('loggedin', None):
@@ -169,10 +171,12 @@ def upload():
     my_name = session.get('my_name', None)
     return render_template('upload.html', username=my_name, userid=userid)
 
+
 @app.route('/create_album', methods=['GET', 'POST'])
 def create_album():
 
     userid = session.get('userid', None)
+    my_name = session.get('my_name', None)
 
     #insert into database album
     result = request.form
@@ -183,26 +187,32 @@ def create_album():
 
     cursor.execute(query, (userid, result['album'], DoC))
     conn.commit()
-    albumid = cursor.lastrowid
+    album_id = cursor.lastrowid
+
+    return render_template('upload_photo.html', album_id=album_id, username=my_name, userid=userid)
+
+
+
+@app.route('/upload_photo/<album_id>', methods=['GET', 'POST'])
+def upload_photo(album_id):
+
+    userid = session.get('userid', None)
+    my_name = session.get('my_name', None)
 
     # insert into database photos
     query = 'INSERT INTO photos(upid_idx, data, caption) VALUES (%s, %s, %s)'
-    cap = "no caption"
-    photoids = []
-    for image in request.files['img']:
-        photo_data = base64.b64encode(image)
-        cursor.execute(query, (userid, photo_data, cap))
-        conn.commit()
-        photoids.append(int(cursor.lastrowid))
+    cap = request.form['caption']
+    image = request.files['img']
+    cursor.execute(query, (userid, base64.standard_b64encode(image.read()), cap))
+    conn.commit()
+    photo_id = int(cursor.lastrowid)
 
-    #insert photoid and albumid into contains
+    # insert photoid and albumid into contains
     query = 'INSERT INTO contains(photo_id, album_id) VALUES (%s, %s)'
-    for photo in photoids:
-        cursor.execute(query, (photo, albumid))
-        conn.commit()
+    cursor.execute(query, (photo_id, album_id))
+    conn.commit()
 
-
-    return view_profile(id=userid)
+    return render_template('upload_photo.html', album_id=album_id, username=my_name, userid=userid)
 
 
 @app.route('/view_all_albums/<uploader_id>', methods=['GET', 'POST'])
@@ -267,7 +277,8 @@ def view_album_content(album_id):
     all_photos = []
     for item in cursor:
         if item[0] in all_photoids:
-            all_photos.append([item[0], base64.b64encode(item[1]), item[2]])
+            img = ''.join(list(str(item[1]))[2:-1])
+            all_photos.append([item[0], img, item[2]])
 
 
     #if logged in
@@ -291,7 +302,8 @@ def view_photo(photo_id):
     cursor.execute(query)
     for item in cursor:
         if int(item[0]) == int(photo_id):
-            photo = [base64.b64encode(item[1]), item[2]]
+            img = ''.join(list(str(item[1]))[2:-1])
+            photo = [img, item[2]]
 
     #get all comment ids and user id of these comments on this photo
     query = 'SELECT photo_id, comment_id, user_id FROM comments'
@@ -322,8 +334,8 @@ def view_photo(photo_id):
     query = 'SELECT album_name, album_id, user_id FROM albums'
     cursor.execute(query)
     for item in cursor:
-        if int(item[0]) == int(album_id):
-            album_name = item[1]
+        if int(item[1]) == int(album_id):
+            album_name = item[0]
             uploader_id = item[2]
             break
 

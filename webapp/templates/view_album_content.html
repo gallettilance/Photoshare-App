@@ -2,15 +2,25 @@
 
 <title> {{ album_name }} </title>
 
-<h1 class='profile_header' style="top:8px"> {{ album_name }} by {{ uploader_name }}</h1>
-
 {% if loggedin %}
 
-<a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="left:10px"> {{ username }} </button></a>
+<h1 class='profile_header' style="top:8px">
+    <a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="top:0px; float:left"> {{ username }} </button></a>
 
-<a href="{{ url_for('logout') }}"> <button  class="logout" style="right:10px"> LOG OUT </button> </a>
+    {{ album_name }} by {{ uploader_name }}
 
-<h1 class='profile_header' style="position:fixed; bottom:0; width:100%; height:100px; line-height:100px; vertical-align:middle; text-align:center; margin: 0;padding: 0;">
+    <a href="{{ url_for('logout') }}"> <button  class="logout" style="top:0px; float:right"> LOG OUT </button> </a>
+</h1>
+
+{% for photo in photos %}
+    <a href="{{ url_for('view_photo', photo_id=photo[0]) }}">
+        <img src='data:;base64, {{ photo[1] }}' style="float:left; width:23%; margin-right:1%; margin-bottom:.5em"/>
+    </a>
+{% endfor %}
+    <a href="{{ url_for('view_profile', id=uploader_id) }}" style="background-color:black; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ uploader_name }} </a>
+    <p style="clear: both;">
+
+<h1 class='profile_header' style="position:relative; float:bottom; width:100%; height:100px; line-height:100px; vertical-align:middle; text-align:center; margin: 0;padding: 0;">
     <a href="{{ url_for('upload', id=userid) }}"> <button class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> UPLOAD </button> </a>
     <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> MYALBUMS </button> </a>
     <a href="{{ url_for('friends', id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block;top:0"> MYFRIENDS </button> </a>
@@ -18,30 +28,24 @@
     <a href="{{ url_for('recommendations', id=userid) }}"> <button  class="logout" style="position:relative; bottom:8px; width:19%; display: inline-block; top:0"> YOU MAY ALSO LIKE </button> </a>
 </h1>
 
-<div class='wrapper'>
-    <ul class='center'>
-        {% for photo in photos %}
-            <li>{{ photo[2] }} <br>
-            <li> <a href="{{ url_for('view_photo', photo_id=photo[0]) }}"> <img src='data:;base64, {{ photo[1] }}'/> </a> </li>
-        {% endfor %}
-           <li> <a href="{{ url_for('view_profile', id=uploader_id) }}"> {{ uploader_name }} </a> </li>
-    </ul>
-</div>
 {% else %}
 
-<a href="{{ url_for('signup_page') }}"><button class='logout' style="right:170px"> SIGN UP </button></a>
+<h1 class='profile_header' style="top:8px">
+    <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
 
-<a href="{{ url_for('login_page') }}"><button class='logout' style="right:10px"> LOG IN </button></a>
+    Welcome to Lance and Wendy's Photoshare
 
-<a href="{{ url_for('home') }}"><button class='logout' style="left:10px"> HOME </button></a>
+    <a href="{{ url_for('signup_page') }}"><button class='logout' style="top:0px; float:right"> SIGN UP </button></a>
 
-<div class='wrapper'>
-    <ul class='center'>
-        {% for photo in photos %}
-            <li>{{ photo[2] }}<br>
-            <li> <a href="{{ url_for('view_photo', photo_id=photo[0]) }}"> <img src='data:;base64, {{ photo[1] }}'/> </a> </li>
-        {% endfor %}
-           <li><a href="{{ url_for('view_profile', id=uploader_id) }}"> {{ uploader_name }}</a></li>
-    </ul>
-</div>
+    <a href="{{ url_for('login_page') }}"><button class='logout' style="top:0px; float:right"> LOG IN </button></a>
+
+</h1>
+{% for photo in photos %}
+    <a href="{{ url_for('view_photo', photo_id=photo[0]) }}">
+        <img src='data:;base64, {{ photo[1] }}' style="float:left; width:23%; margin-right:1%; margin-bottom:.5em"/>
+    </a>
+{% endfor %}
+    <a href="{{ url_for('view_profile', id=uploader_id) }}" style="background-color:black; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ uploader_name }} </a>
+    <p style="clear: both;">
+
 {% endif %}
