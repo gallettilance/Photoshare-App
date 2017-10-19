@@ -8,12 +8,8 @@
 
 <a href="{{ url_for('home') }}"><button class='logout' style="left:10px"> HOME </button></a>
 
-<div class='wrapper'>
-    <ul class='center'>
-        {% for photo in photos %}
-            <li>{{ photo[2] }}<br>
-            <li> <a href="{{ url_for('view_photo', photo_id=photo[0]) }}"> <img src='data:image/jpg;base64, {{ photo[1] }}'/> </a> </li>
-        {% endfor %}
-    </ul>
-</div>
-
+{% for photo in photos %}
+<p> {{ photo[2] }} and {{ photo[1] }} </p>
+    <!-- <li> <a href="{{ url_for('view_photo', photo_id=photo[0]) }}"> -->
+    <img src='data:image/jpg;base64, {{ photo[1] }}'/>
+{% endfor %}

@@ -17,15 +17,15 @@
 </h1>
 
 <div class='wrapper'>
-    <form class="loginform" action="{{ url_for('create_album', id=id) }}" method=POST>
+    <form class="loginform" enctype="multipart/form-data" action="{{ url_for('create_album', id=id) }}" method=POST>
         <ul class='center'>
             <li>
                 Album Name<br>
-                <input type=text name=album value="{{request.form.album}}" maxlength=30><br>
+                <input type=text name=album maxlength=30><br>
             </li>
             <li>
                 Photos <br>
-                <input type=file name=img value="{{request.form.img}}" multiple><br>
+                <input type=file name=img accept="image/jpg, image/gif, image/png, image/jpeg" multiple><br>
             </li>
             <li>
                 <input type=submit value=upload>

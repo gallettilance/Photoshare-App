@@ -56,13 +56,14 @@ div.desc {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    position:fixed;
+    position:relative;
     font-size: 20px;
     vertical-align:middle;
     text-align:center;
     height:100px;
     line-height:100px;
     width:100%;
+    z-index:2;
 }
 
 .wrapper {
@@ -113,7 +114,7 @@ div.desc {
     border: none;
     color: white;
     padding: 42px 60px;
-    position:absolute;
+    position:relative;
     top:8px;
 }
 

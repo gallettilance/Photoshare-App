@@ -1,5 +1,8 @@
-<h1> photo with id {{ photo_data }} will be here soon </h1>
+<h1> {{ photo[1] }} </h1>
 
+<img src='data:;base64, {{ photo[0] }}'/>
+
+<!--
 % if comments %}
 {% for com in comments %}
 <div class="comments"> {{ comments[0] }} said: {{ comments[1] }}</div>
@@ -9,3 +12,4 @@
     <input type="text" name=newcomment value="{{request.form.newcomment}}"  maxlength=300 required placeholder="{{ name }}: make a comment?" ><br>
     <input type="submit" value="COMMENT">
 </form>
+-->
