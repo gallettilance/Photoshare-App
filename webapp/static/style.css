@@ -1,3 +1,66 @@
+.navbar {
+    overflow: hidden;
+    background-color: #008CBA;
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    color:#008CBA;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+
 p {
     color: black;
 }
@@ -36,27 +99,13 @@ div.desc {
     text-align: center;
 }
 
-.button_gallery {
-    background-color: #008CBA;
-    color: white;
-    padding: 30px 64px;
-    margin: -20px -50px;
-    font-size: 30px;
-    vertical-align:middle;
-    text-align:center;
-}
-
-.button_gallery:hover {
-    background-color: #007094;
-}
-
 .profile_header {
     background-color: #008CBA; /* Blue */
     color: white;
     list-style-type: none;
     margin: 0;
     padding: 0;
-    position:relative;
+    position:fixed;
     font-size: 20px;
     vertical-align:middle;
     text-align:center;
@@ -72,170 +121,17 @@ div.desc {
     top:130px;
 }
 
-.upload {
-    background-color: #008CBA; /* Blue */
-    border: none;
-    color: white;
-    padding: 30px 64px;
-    display:inline-block;
-    text-decoration: none;
-    font-size: 20px;
-    margin: -20px -50px;
-}
-
-.albums {
-    background-color: #008CBA; /* Blue */
-    border: none;
-    color: white;
-    padding: 30px 64px;
-    display:inline-block;
-    text-align: center;
-    text-decoration: none;
-    font-size: 20px;
-    vertical-align:middle;
-    margin: -20px -50px;
-}
-
-.friend_search {
-    background-color: #008CBA; /* Blue */
-    border: none;
-    color: white;
-    padding: 30px 64px;
-    display:inline-block;
-    text-align: center;
-    text-decoration: none;
-    font-size: 20px;
-    vertical-align:middle;
-    margin: -20px -50px;
-}
-
 .logout {
     background-color: #008CBA; /* Blue */
     border: none;
+    display: block;
     color: white;
     padding: 42px 60px;
-    position:relative;
-    top:0px;
-}
-
-.options {
-    background-color: #008CBA; /* Blue */
-    border: none;
-    color: white;
-    padding: 42px 60px;
-    position:absolute;
-    bottom:8px;
-}
-
-.options:hover {
-    background-color: #007094;
+    text-align:center;
 }
 
 .center {
     display:inline-block;
-}
-
-.signUp {
-    background-color: #008CBA; /* Blue */
-    border: none;
-    color: white;
-    padding: 30px 64px;
-    display:inline-block;
-    text-align: center;
-    text-decoration: none;
-    font-size: 20px;
-    vertical-align:middle;
-    margin: -20px -50px; 
-    position:absolute;
-    top:50%; 
-    left:20%;
-}
-
-.logIn {
-    background-color: #008CBA; /* Blue */
-    border: none;
-    color: white;
-    padding: 30px 64px;
-    text-align: center;
-    display:inline-block;
-    text-decoration: none;
-    font-size: 20px;
-    vertical-align:middle;
-    margin: -20px -50px; 
-    position:absolute;
-    top:50%; 
-    right:46%;
-}
-
-.visit {
-    background-color: #008CBA; /* Blue */
-    border: none;
-    color: white;
-    padding: 30px 64px;
-    text-align: center;
-    display:inline-block;
-    text-decoration: none;
-    font-size: 20px;
-    vertical-align:middle;
-    margin: -20px -50px; 
-    position:absolute;
-    top:50%; 
-    right:20%;
-}
-
-.search {
-    background-color: #008CBA; /* Blue */
-    border: none;
-    color: white;
-    padding: 30px 64px;
-    text-align: center;
-    display:inline-block;
-    text-decoration: none;
-    font-size: 20px;
-    vertical-align:middle;
-    margin: -20px -50px;
-    position:absolute;
-    top:50%;
-    right:40%;
-}
-
-
-.menu_button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-}
-
-.menu {
-    position: relative;
-    display: inline-block;
-}
-
-.menu-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    right:0;
-}
-
-.menu-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.menu-content a:hover {background-color: #f1f1f1}
-
-
-.menu:hover .menu-content {
-    display: block;
-}
-
-.menu:hover .menu_button {
-    background-color: #3e8e41;
 }
 
 

@@ -303,25 +303,31 @@ def view_photo(photo_id):
     for item in cursor:
         if int(item[0]) == int(photo_id):
             img = ''.join(list(str(item[1]))[2:-1])
-            photo = [img, item[2]]
+            photo = [img, item[2], photo_id]
 
     #get all comment ids and user id of these comments on this photo
-    query = 'SELECT photo_id, comment_id, user_id FROM comments'
+    query = 'SELECT photo_id, comment_id, text, user_id FROM comments'
     cursor.execute(query)
-    all_commentids = []
-    all_commenterids = []
+    comments = []
     for item in cursor:
         if int(item[0]) == int(photo_id):
-            all_commentids.append(int(item[1]))
-            all_commenterids.append(int(item[2]))
+            comments.append([item[3], item[2]])
+
+    all_comments = []
 
     #get names of all commenters
     query = 'SELECT user_id, first_name FROM users'
     cursor.execute(query)
     all_commenters = []
     for item in cursor:
-        if int(item[0]) in all_commenterids:
+        if int(item[0]) in all_commenters:
             all_commenters.append([item[0], item[1]])
+
+    for i in range(len(comments)):
+        for j in range(len(all_commenters)):
+            if comments[i][0] == all_commenters[j][0]:
+                all_comments.append([comments[i][0], all_commenters[j][1], comments[i][1]])
+
 
     # get the album id that this photo belongs to
     query = 'SELECT photo_id, album_id FROM contains'
@@ -354,11 +360,28 @@ def view_photo(photo_id):
         my_name = session.get('my_name', None)
         liked = False
         return render_template('view_photo.html', username=my_name, uploader_name=uploader_name, loggedin=True, like=liked,
-                               userid=userid, uploader_id=uploader_id, photo=photo, album_id=album_id, album_name=album_name)
+                               userid=userid, uploader_id=uploader_id, photo=photo, album_id=album_id, album_name=album_name, comments=all_comments)
 
     else:
         return render_template('view_photo.html', uploader_name=uploader_name, loggedin=False,
-                               uploader_id=uploader_id, photo=photo, album_id=album_id, album_name=album_name)
+                               uploader_id=uploader_id, photo=photo, album_id=album_id, album_name=album_name, comments=all_comments)
+
+@app.route('/comment/<photo_id>', methods=['GET', 'POST'])
+def comment(photo_id):
+    userid = session.get('userid', None)
+    my_name = session.get('my_name', None)
+
+    # insert comment and user id
+    query = 'INSERT INTO comments(photo_id, text, comment_date, user_id) VALUES (%s, %s, %s, %s)'
+
+    # need to figure out how to store current date
+    DoC = '2017-10-10'
+
+    cursor.execute(query, (photo_id, request.form['comment'], DoC, str(userid)))
+    conn.commit()
+
+    return view_photo(photo_id=photo_id)
+
 
 
 ##########################################################
@@ -377,9 +400,6 @@ def visit():
 def photo_search():
     return render_template('photo_search.html')
 
-@app.route('/comment', methods=['GET', 'POST'])
-def comment():
-    nc = request.form['newcomment']
     return render_template('single_photo.html', comments=[session.get('email', None).split('@')[0], nc])
 
 @app.route('/friend_search', methods=['GET', 'POST'])

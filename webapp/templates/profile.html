@@ -4,12 +4,20 @@
 
 {% if loggedin %}
 
-    <h1 class='profile_header' style="top:8px">
+    <h1 class='profile_header' style="top:8px;position:fixed">
         <a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="top:0px; float:left"> {{ username }} </button></a>
 
         {{ name }}
 
-        <a href="{{ url_for('logout') }}"> <button  class="logout" style="top:0px; float:right"> LOG OUT </button> </a>
+    <div class="dropdown" style="float:right;">
+      <button class="dropbtn">Right</button>
+      <div class="dropdown-content">
+        <a href="#">Link 1</a>
+        <a href="#">Link 2</a>
+        <a href="#">Link 3</a>
+      </div>
+    </div>
+
     </h1>
 
 
@@ -42,7 +50,7 @@
 
 {% else %}
 
-    <h1 class='profile_header' style="top:8px">
+    <h1 class='profile_header' style="top:8px; position:fixed">
         <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
 
         Welcome to Lance and Wendy's Photoshare
