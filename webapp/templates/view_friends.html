@@ -1,0 +1,46 @@
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+<title> {{ name }}'s Friends </title>
+
+{% if loggedin %}
+
+    <h1 class='profile_header' style="top:8px;position:fixed; margin-right:1em">
+        <a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="top:0px; float:left"> {{ username }} </button></a>
+
+        {{ name }}'s Friends
+
+        <div class="dropdown" style="float:right; margin-right:1em;">
+            <button class="dropbtn"> MENU </button>
+            <div class="dropdown-content" style="right:0;">
+                <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
+                <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
+                <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
+                <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
+                <a href="{{ url_for('recommendations', id=userid) }}"> YOU MAY ALSO LIKE </a>
+                <a href="{{ url_for('logout') }}">  LOG OUT </a>
+            </div>
+        </div>
+    </h1>
+
+{% else %}
+
+<h1 class='profile_header' style="top:8px; position:fixed">
+        <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
+
+        {{ name }}
+
+        <a href="{{ url_for('signup_page') }}"><button class='logout' style="top:0px; float:right"> SIGN UP </button></a>
+
+        <a href="{{ url_for('login_page') }}"><button class='logout' style="top:0px; float:right"> LOG IN </button></a>
+
+</h1>
+
+{% endif %}
+
+<div style="margin-top:120px">
+    {% for friend in friends %}
+        <a href="{{ url_for('view_profile', id=friend[0]) }}" style="background-color:black; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ friend[1] }} </a>
+    {% endfor %}
+    <p style="clear: both;">
+</div>
+

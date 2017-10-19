@@ -151,11 +151,29 @@ def view_profile(id):
 
         if int(userid) == int(id):
             same=True
+            return render_template('profile.html', name=person_name, username=my_name,
+                                   loggedin=session.get('loggedin', None),
+                                   myprofile=same, userid=userid, id=id, photos=all_photos)
         else:
             same=False
 
+        # get friends of id
+        query = 'SELECT user1_id, user1_id FROM friend_with'
+        cursor.execute(query)
+        all_friends = []
+        for item in cursor:
+            if int(id) == int(item[0]):
+                all_friends.append(int(item[1]))
+            if int(id) == int(item[1]):
+                all_friends.append(int(item[0]))
+
+        if userid in all_friends:
+            friends = True
+        else:
+            friends = False
+
         return render_template('profile.html', name=person_name, username=my_name, loggedin=session.get('loggedin', None),
-                               myprofile=same, userid=userid, id=id, photos=all_photos)
+                               myprofile=same, userid=userid, id=id, photos=all_photos, friends=friends)
 
     #otherwise
     return render_template('profile.html', name=person_name, loggedin=False, id=id)
@@ -218,7 +236,8 @@ def upload_photo(album_id):
 @app.route('/view_all_albums/<uploader_id>', methods=['GET', 'POST'])
 def view_all_albums(uploader_id):
 
-    query = 'SELECT album_id, album_name, user_id FROM albums'
+    #most recently created album first
+    query = 'SELECT album_id, album_name, user_id FROM albums ORDER BY album_id DESC'
     cursor.execute(query)
     all_albums = []
     for item in cursor:
@@ -383,6 +402,59 @@ def comment(photo_id):
     return view_photo(photo_id=photo_id)
 
 
+@app.route('/friend_add/<friend_id>', methods=['GET', 'POST'])
+def friend_add(friend_id):
+
+    userid = session.get('userid', None)
+
+    # insert friendship
+    query = 'INSERT INTO friend_with(user1_id, user2_id) VALUES (%s, %s)'
+    cursor.execute(query, (userid, friend_id))
+    conn.commit()
+
+    return view_profile(friend_id)
+
+@app.route('/view_friends/<id>', methods=['GET', 'POST'])
+def view_friends(id):
+
+    #get the name of the id
+    query = 'SELECT user_id, first_name FROM users'
+    cursor.execute(query)
+    for item in cursor:
+        if int(item[0]) == id:
+            name = item[1]
+
+    # get friends of id
+    query = 'SELECT user1_id, user2_id FROM friend_with'
+    cursor.execute(query)
+    friends = []
+    for item in cursor:
+        if int(id) == int(item[0]):
+            friends.append(int(item[1]))
+        if int(id) == int(item[1]):
+            friends.append(int(item[0]))
+
+    #get names of friends
+    query = 'SELECT user_id, first_name FROM users'
+    cursor.execute(query)
+    all_friends = []
+    for item in cursor:
+        for fid in friends:
+            if int(item[0]) == fid:
+                all_friends.append([item[0], item[1]])
+
+    #if logged in
+    if session.get('loggedin', None):
+
+        userid = session.get('userid', None)
+        my_name = session.get('my_name', None)
+
+        return render_template("view_friends.hrml", friends=all_friends, username=my_name, userid=userid, name=name, id=id,
+                           loggedin=True)
+
+    return render_template("view_friends.hrml", friends=all_friends, name=name, id=id,
+                           loggedin=False)
+
 
 ##########################################################
 
@@ -414,17 +486,10 @@ def search():
 def friends():
     return render_template('friends.html', name=session.get('email', None).split('@')[0])
 
-@app.route('/friend_add', methods=['GET', 'POST'])
-def friend_add(friend):
-    return render_template('friend_add.html', name=session.get('email', None).split('@')[0], friend=friend)
-
 @app.route('/friend_delete', methods=['GET', 'POST'])
 def friend_delete():
     return render_template('friend_delete.html', name=session.get('email', None).split('@')[0])
 
-@app.route('/friend_list', methods=['GET', 'POST'])
-def friend_list():
-    return render_template('friend_list.html', name=session.get('email', None).split('@')[0])
 
 @app.route('/people_search', methods=['GET', 'POST'])
 def people_search():
