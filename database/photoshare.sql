@@ -161,7 +161,7 @@ DROP TABLE IF EXISTS `PHOTOS`;
 CREATE TABLE `PHOTOS` (
   `photo_id` int(11) NOT NULL AUTO_INCREMENT,
   `CAPTION` varchar(200) DEFAULT NULL,
-  `DATA` blob NOT NULL,
+  `DATA` longblob NOT NULL,
   `album_id` int(11) NOT NULL,
   PRIMARY KEY (`photo_id`),
   KEY `album_id` (`album_id`),
