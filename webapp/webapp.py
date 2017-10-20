@@ -26,7 +26,7 @@ cursor = conn.cursor()
 def home():
 
     #when user is not signed in
-    query = 'SELECT photo_id, data, CAPTION FROM PHOTOS ORDER BY photo_id DESC LIMIT 25'
+    query = 'SELECT photo_id, data, CAPTION FROM PHOTOS ORDER BY photo_id DESC LIMIT 100'
     cursor.execute(query)
     all_photos = []
     for item in cursor:
@@ -135,7 +135,7 @@ def view_profile(id):
             person_name = item[1]
 
     #get all_photos
-    query = 'SELECT photo_id, DATA, CAPTION FROM PHOTOS ORDER BY photo_id DESC LIMIT 25'
+    query = 'SELECT photo_id, DATA, CAPTION FROM PHOTOS ORDER BY photo_id DESC LIMIT 100'
     cursor.execute(query)
     all_photos = []
     for item in cursor:
