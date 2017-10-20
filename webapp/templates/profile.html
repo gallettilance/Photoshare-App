@@ -61,7 +61,7 @@
     <div class='wrapper'>
         <ul class='center'>
             <li><a href="{{ url_for('view_all_albums', uploader_id=id ) }}" style="text-decoration: none; color:white"> {{ name }}'s ALBUMS </a> </li>
-            <li><a href="{{ url_for('friends', username= name ) }}" style="text-decoration: none; color:white"> {{ name }}'s FRIENDS </a> </li>
+            <li><a href="{{ url_for('view_friends', id=id ) }}" style="text-decoration: none; color:white"> {{ name }}'s FRIENDS </a> </li>
         </ul>
     </div>
 
