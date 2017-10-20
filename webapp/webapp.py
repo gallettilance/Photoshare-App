@@ -198,12 +198,9 @@ def create_album():
 
     #insert into database album
     result = request.form
-    query = 'INSERT INTO ALBUMS(user_id, album_name, DOC) VALUES (%s, %s, %s)'
+    query = 'INSERT INTO ALBUMS(user_id, album_name) VALUES (%s, %s)'
 
-    #need to figure out how to store current date
-    DoC = '2017-10-10'
-
-    cursor.execute(query, (userid, result['album'], DoC))
+    cursor.execute(query, (userid, result['album']))
     conn.commit()
     album_id = cursor.lastrowid
 
@@ -217,16 +214,18 @@ def upload_photo(album_id):
     userid = session.get('userid', None)
     my_name = session.get('my_name', None)
 
-    # insert into database photos
-    query = 'INSERT INTO PHOTOS(album_id, DATA, CAPTION) VALUES (%s, %s, %s)'
-    cap = request.form['caption']
-    image = request.files['img']
-    cursor.execute(query, (album_id, base64.standard_b64encode(image.read()), cap))
-    conn.commit()
-    photo_id = int(cursor.lastrowid)
+    if request.method == 'POST':
+
+        # insert into database photos
+        query = 'INSERT INTO PHOTOS(album_id, DATA, CAPTION) VALUES (%s, %s, %s)'
+        cap = request.form['caption']
+        image = request.files['img']
+        cursor.execute(query, (album_id, base64.standard_b64encode(image.read()), cap))
+        conn.commit()
+
+        return render_template('upload_photo.html', album_id=album_id, username=my_name, userid=userid)
 
     return render_template('upload_photo.html', album_id=album_id, username=my_name, userid=userid)
-
 
 @app.route('/view_all_albums/<uploader_id>', methods=['GET', 'POST'])
 def view_all_albums(uploader_id):
@@ -355,17 +354,38 @@ def view_photo(photo_id):
             uploader_name = item[0]
             break
 
+    # find all likes
+    query = 'SELECT user_id, photo_id FROM LIKETABLE'
+    cursor.execute(query)
+    likers = []
+    for item in cursor:
+        if int(item[1]) == int(photo_id):
+            likers.append(int(item[0]))
+
+    #find names of all likers
+    query = 'SELECT first_name, user_id FROM USERS'
+    cursor.execute(query)
+    likedby = []
+    for item in cursor:
+        if int(item[1]) in likers:
+            likedby.append([item[1], item[0]])
+
     # if logged in
     if session.get('loggedin'):
 
         userid = session.get('userid', None)
         my_name = session.get('my_name', None)
-        liked = False
-        return render_template('view_photo.html', username=my_name, uploader_name=uploader_name, loggedin=True, like=liked,
+
+        if userid in likers:
+            liked = True
+        else:
+            liked = False
+
+        return render_template('view_photo.html', username=my_name, uploader_name=uploader_name, loggedin=True, liked=liked, likedby=likedby,
                                userid=userid, uploader_id=uploader_id, photo=photo, album_id=album_id, album_name=album_name, comments=all_comments)
 
     else:
-        return render_template('view_photo.html', uploader_name=uploader_name, loggedin=False,
+        return render_template('view_photo.html', uploader_name=uploader_name, loggedin=False, likedby=likedby,
                                uploader_id=uploader_id, photo=photo, album_id=album_id, album_name=album_name, comments=all_comments)
 
 @app.route('/comment/<photo_id>', methods=['GET', 'POST'])
@@ -374,12 +394,9 @@ def comment(photo_id):
     my_name = session.get('my_name', None)
 
     # insert comment and user id
-    query = 'INSERT INTO COMMENTS(photo_id, CONTENT, DOC, user_id) VALUES (%s, %s, %s, %s)'
+    query = 'INSERT INTO COMMENTS(photo_id, CONTENT, user_id) VALUES (%s, %s, %s)'
 
-    # need to figure out how to store current date
-    DoC = '2017-10-10'
-
-    cursor.execute(query, (photo_id, request.form['comment'], DoC, str(userid)))
+    cursor.execute(query, (photo_id, request.form['comment'], str(userid)))
     conn.commit()
 
     return view_photo(photo_id=photo_id)
@@ -439,6 +456,19 @@ def view_friends(id):
                            loggedin=False)
 
 
+@app.route('/like/<photo_id>', methods=['GET', 'POST'])
+def like(photo_id):
+
+    userid = session.get('userid', None)
+
+    # insert like into liketable
+    query = 'INSERT INTO LIKETABLE(user_id, photo_id) VALUES (%s, %s)'
+    cursor.execute(query, (userid, photo_id))
+    conn.commit()
+
+    return view_photo(photo_id)
+
+
 ##########################################################
 
 ############ TO BE IMPLEMENTED CORRECTLY #################
@@ -447,9 +477,7 @@ def view_friends(id):
 
 
 
-@app.route('/visit', methods=['GET', 'POST'])
-def visit():
-    return render_template('visit.html')
+
 
 @app.route('/photo_search', methods=['GET', 'POST'])
 def photo_search():

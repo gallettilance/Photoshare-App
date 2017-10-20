@@ -28,6 +28,19 @@
             <li style="background-color: white">
                 <img src='data:image/jpg;base64, {{ photo[0] }}'/>
             </li>
+            {% if likedby %}
+                <li>
+                    Liked by:
+                    {% for user in likedby %}
+                        <a href="{{ url_for('view_profile', id=user[0]) }}" > {{ user[1] }}</a>,
+                    {% endfor %}
+                </li>
+            {% endif %}
+            {% if not liked %}
+                <li>
+                    <a href="{{ url_for('like', photo_id=photo[2]) }}" style="text-decoration: none; color:white"> LIKE </a>
+                </li>
+            {% endif %}
             <li>
                 <a href="{{ url_for('view_profile', id=uploader_id) }}" style="text-decoration: none; color:white"> {{ uploader_name }} </a>
             </li>
@@ -67,6 +80,14 @@
             <li style="background-color: white">
                 <img src='data:image/jpg;base64, {{ photo[0] }}'/>
             </li>
+            {% if likedby %}
+                <li>
+                    Liked by:
+                    {% for user in likedby %}
+                        <a href="{{ url_for('view_profile', id=user[0]) }}"> {{ user[1] }}</a>,
+                    {% endfor %}
+                </li>
+            {% endif %}
             <li>
                 <a href="{{ url_for('view_profile', id=uploader_id) }}" style="text-decoration: none; color:white"> {{ uploader_name }} </a>
             </li>

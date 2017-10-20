@@ -135,6 +135,9 @@ div.desc {
     display:inline-block;
 }
 
+.plus:hover {
+    background-color: #007094;
+}
 
 .signup:hover {
     background-color: #007094;
