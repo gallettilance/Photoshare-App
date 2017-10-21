@@ -304,8 +304,6 @@ def view_album_content(album_id):
 @app.route('/view_photo/<photo_id>', methods=['GET', 'POST'])
 def view_photo(photo_id):
 
-    print(photo_id)
-
     # get the photo data and caption
     query = 'SELECT photo_id, DATA, CAPTION, album_id FROM PHOTOS'
     cursor.execute(query)
@@ -410,7 +408,6 @@ def comment(photo_id):
 
     comm = request.form['comment']
     hashtags = re.findall(r'\B(\#[a-zA-Z]+\b)(?!;)', comm)
-    print(hashtags)
 
     # insert tag and photo
     query1 = 'INSERT INTO ASSOCIATE(photo_id, HASHTAG) VALUES (%s, %s)'
