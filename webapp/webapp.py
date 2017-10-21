@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+from flask import Flask, render_template, request, render_template_string, session
 from flaskext.mysql import MySQL
 import os, base64
 import time
+import re
 import numpy as np
 import pandas as pd
 
@@ -303,6 +304,8 @@ def view_album_content(album_id):
 @app.route('/view_photo/<photo_id>', methods=['GET', 'POST'])
 def view_photo(photo_id):
 
+    print(photo_id)
+
     # get the photo data and caption
     query = 'SELECT photo_id, DATA, CAPTION, album_id FROM PHOTOS'
     cursor.execute(query)
@@ -370,6 +373,16 @@ def view_photo(photo_id):
         if int(item[1]) in likers:
             likedby.append([item[1], item[0]])
 
+
+    #find all tags
+    query = 'SELECT HASHTAG, photo_id FROM ASSOCIATE'
+    cursor.execute(query)
+    tagged_with = []
+    for item in cursor:
+        if int(item[1]) == int(photo_id):
+            tagged_with.append(item[0])
+
+
     # if logged in
     if session.get('loggedin'):
 
@@ -381,22 +394,56 @@ def view_photo(photo_id):
         else:
             liked = False
 
-        return render_template('view_photo.html', username=my_name, uploader_name=uploader_name, loggedin=True, liked=liked, likedby=likedby,
-                               userid=userid, uploader_id=uploader_id, photo=photo, album_id=album_id, album_name=album_name, comments=all_comments)
+        return render_template('view_photo.html', username=my_name, uploader_name=uploader_name, loggedin=True,
+                               liked=liked, likedby=likedby, userid=userid, uploader_id=uploader_id, photo=photo,
+                               album_id=album_id, album_name=album_name, comments=all_comments)
 
     else:
         return render_template('view_photo.html', uploader_name=uploader_name, loggedin=False, likedby=likedby,
-                               uploader_id=uploader_id, photo=photo, album_id=album_id, album_name=album_name, comments=all_comments)
+                               uploader_id=uploader_id, photo=photo, album_id=album_id, album_name=album_name,
+                               comments=all_comments)
 
 @app.route('/comment/<photo_id>', methods=['GET', 'POST'])
 def comment(photo_id):
+
     userid = session.get('userid', None)
-    my_name = session.get('my_name', None)
+
+    comm = request.form['comment']
+    hashtags = re.findall(r'\B(\#[a-zA-Z]+\b)(?!;)', comm)
+    print(hashtags)
+
+    # insert tag and photo
+    query1 = 'INSERT INTO ASSOCIATE(photo_id, HASHTAG) VALUES (%s, %s)'
+    query2 = 'INSERT INTO TAG(HASHTAG) VALUES (%s)'
+    query3 = 'SELECT * FROM TAG'
+
+    for tag in hashtags:
+        if len(tag)<40:
+            t = ''.join(list(tag)[1:])
+            comm = re.sub(tag, "<a href=\"/view_tag/"+t+"\") }}\"> "+t+" </a>", comm)
+
+    cursor.execute(query3)
+
+    #only insert tag if not duplicate
+    all_tags = []
+    for item in cursor:
+        all_tags.append(item[0])
+
+    for tag in hashtags:
+        if tag not in all_tags and len(tag)<40:
+            cursor.execute(query2, tag)
+            conn.commit()
+            all_tags.append(tag)
+
+    for tag in hashtags:
+        if len(tag) < 40:
+            cursor.execute(query1, (photo_id, tag))
+            conn.commit()
 
     # insert comment and user id
     query = 'INSERT INTO COMMENTS(photo_id, CONTENT, user_id) VALUES (%s, %s, %s)'
 
-    cursor.execute(query, (photo_id, request.form['comment'], str(userid)))
+    cursor.execute(query, (photo_id, comm, userid))
     conn.commit()
 
     return view_photo(photo_id=photo_id)
@@ -469,13 +516,41 @@ def like(photo_id):
     return view_photo(photo_id)
 
 
+@app.route('/view_tag/<tag>', methods=['GET', 'POST'])
+def view_tag(tag):
+
+    tag = '#'+tag
+
+    # select all photos with that tag
+    query = 'SELECT photo_id, HASHTAG FROM ASSOCIATE'
+    all_photoids = []
+    cursor.execute(query)
+    for item in cursor:
+        if item[1] == tag:
+            all_photoids.append(int(item[0]))
+
+    #get the photos
+    query = 'SELECT photo_id, DATA FROM PHOTOS'
+    all_photos = []
+    cursor.execute(query)
+    for item in cursor:
+        for photo in all_photoids:
+            if photo == int(item[0]):
+                img = ''.join(list(str(item[1]))[2:-1])
+                all_photos.append([item[0], img])
+
+    if session.get('loggedin', None):
+
+        return render_template('view_tag.html', tag=tag, photos=all_photos, loggedin=True,
+                               userid=session.get('userid', None), username=session.get('my_name', None))
+
+    return render_template('view_tag.html', tag=tag, photos=all_photos, loggedin=False)
+
 ##########################################################
 
 ############ TO BE IMPLEMENTED CORRECTLY #################
 
 ##########################################################
-
-
 
 
 
