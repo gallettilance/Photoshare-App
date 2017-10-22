@@ -1,12 +1,12 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
-<title> {{ photo[1] }} </title>
+<title> {{ photo[1]|safe }} </title>
 
 {% if loggedin %}
     <h1 class='profile_header' style="top:8px;position:fixed; margin-right:1em">
         <a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="top:0px; float:left"> {{ username }} </button></a>
 
-        {{ photo[1] }}
+        {{ photo[1]|safe }}
 
         <div class="dropdown" style="float:right; margin-right:1em;">
             <button class="dropbtn"> MENU </button>
@@ -26,8 +26,13 @@
     <div class="wrapper" style="top:0">
         <ul class="center">
             <li style="background-color: white">
-                <img src='data:image/jpg;base64, {{ photo[0] }}'/>
+                <img src='data:image/jpg;base64, {{ photo[0] }}' style="width:75%"/>
             </li>
+            {% if mypic %}
+                <li>
+                    <a href="{{ url_for('delete_photo', photo_id=photo[2]) }}" style="background-color:#cc0404 ;text-decoration: none; color:white"> DELETE </a>
+                </li>
+            {% endif %}
             {% if likedby %}
                 <li>
                     Liked by:
@@ -66,7 +71,7 @@
     <h1 class='profile_header' style="top:8px; position:fixed">
         <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
 
-        {{ photo[1] }}
+        {{ photo[1]|safe }}
 
         <a href="{{ url_for('signup_page') }}"><button class='logout' style="top:0px; float:right"> SIGN UP </button></a>
 
@@ -78,7 +83,7 @@
     <div class="wrapper" style="top:0">
         <ul class="center">
             <li style="background-color: white">
-                <img src='data:image/jpg;base64, {{ photo[0] }}'/>
+                <img src='data:image/jpg;base64, {{ photo[0] }}' style="width:75%"/>
             </li>
             {% if likedby %}
                 <li>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, render_template_string, session
+from flask import Flask, render_template, request, session
 from flaskext.mysql import MySQL
 import os, base64
 import time
@@ -216,13 +216,44 @@ def upload_photo(album_id):
     my_name = session.get('my_name', None)
 
     if request.method == 'POST':
-
-        # insert into database photos
-        query = 'INSERT INTO PHOTOS(album_id, DATA, CAPTION) VALUES (%s, %s, %s)'
         cap = request.form['caption']
+
+        hashtags = re.findall(r'\B(\#[a-zA-Z]+\b)(?!;)', cap)
+
+        # insert tag and photo
+        query1 = 'INSERT INTO ASSOCIATE(photo_id, HASHTAG) VALUES (%s, %s)'
+        query2 = 'INSERT INTO TAG(HASHTAG) VALUES (%s)'
+        query3 = 'SELECT * FROM TAG'
+
+        for tag in hashtags:
+            if len(tag) < 40:
+                t = ''.join(list(tag)[1:])
+                cap = re.sub(tag, "<a href=\"/view_tag/" + t + "\") }}\"> " + t + " </a>", cap)
+
+        query = 'INSERT INTO PHOTOS(album_id, DATA, CAPTION) VALUES (%s, %s, %s)'
         image = request.files['img']
         cursor.execute(query, (album_id, base64.standard_b64encode(image.read()), cap))
         conn.commit()
+
+        photo_id = cursor.lastrowid
+
+        cursor.execute(query3)
+
+        # only insert tag if not duplicate
+        all_tags = []
+        for item in cursor:
+            all_tags.append(item[0])
+
+        for tag in hashtags:
+            if tag not in all_tags and len(tag) < 40:
+                cursor.execute(query2, tag)
+                conn.commit()
+                all_tags.append(tag)
+
+        for tag in hashtags:
+            if len(tag) < 40:
+                cursor.execute(query1, (photo_id, tag))
+                conn.commit()
 
         return render_template('upload_photo.html', album_id=album_id, username=my_name, userid=userid)
 
@@ -277,7 +308,6 @@ def view_album_content(album_id):
             uploader_name = item[0]
             break
 
-
     # get photo data from all photos with corresponding ids
     query = 'SELECT photo_id, DATA, CAPTION, album_id FROM PHOTOS'
     cursor.execute(query)
@@ -286,7 +316,6 @@ def view_album_content(album_id):
         if int(item[3]) == int(album_id):
             img = ''.join(list(str(item[1]))[2:-1])
             all_photos.append([item[0], img, item[2]])
-
 
     #if logged in
     if session.get('loggedin'):
@@ -392,9 +421,14 @@ def view_photo(photo_id):
         else:
             liked = False
 
+        if int(userid) == int(uploader_id):
+            mypic = True
+        else:
+            mypic = False
+
         return render_template('view_photo.html', username=my_name, uploader_name=uploader_name, loggedin=True,
                                liked=liked, likedby=likedby, userid=userid, uploader_id=uploader_id, photo=photo,
-                               album_id=album_id, album_name=album_name, comments=all_comments)
+                               album_id=album_id, album_name=album_name, comments=all_comments, mypic=mypic)
 
     else:
         return render_template('view_photo.html', uploader_name=uploader_name, loggedin=False, likedby=likedby,
@@ -542,6 +576,18 @@ def view_tag(tag):
                                userid=session.get('userid', None), username=session.get('my_name', None))
 
     return render_template('view_tag.html', tag=tag, photos=all_photos, loggedin=False)
+
+
+@app.route('/delete_photo/<photo_id>', methods=['GET', 'POST'])
+def delete_photo(photo_id):
+
+    userid = session.get('userid', None)
+
+    query = 'DELETE FROM PHOTOS WHERE photo_id=%s'
+    cursor.execute(query, photo_id)
+
+    return view_profile(id=userid)
+
 
 ##########################################################
 

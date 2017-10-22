@@ -6,6 +6,20 @@
     width: 100%; /* Full width */
 }
 
+.wrap {
+  position: relative;
+  display: inline-block;
+}
+.close:before {
+  content: '✕';
+}
+.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+
 .navbar a {
     float: left;
     display: block;
