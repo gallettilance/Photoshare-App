@@ -1,0 +1,514 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.9
+-- Dumped by pg_dump version 9.5.9
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: albums; Type: TABLE; Schema: public; Owner: user0
+--
+
+CREATE TABLE albums (
+    album_id integer NOT NULL,
+    album_name character varying(40) NOT NULL,
+    doc timestamp without time zone DEFAULT now() NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE albums OWNER TO user0;
+
+--
+-- Name: albums_album_id_seq; Type: SEQUENCE; Schema: public; Owner: user0
+--
+
+CREATE SEQUENCE albums_album_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE albums_album_id_seq OWNER TO user0;
+
+--
+-- Name: albums_album_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: user0
+--
+
+ALTER SEQUENCE albums_album_id_seq OWNED BY albums.album_id;
+
+
+--
+-- Name: associate; Type: TABLE; Schema: public; Owner: user0
+--
+
+CREATE TABLE associate (
+    photo_id integer NOT NULL,
+    hashtag character varying(40) NOT NULL
+);
+
+
+ALTER TABLE associate OWNER TO user0;
+
+--
+-- Name: comments; Type: TABLE; Schema: public; Owner: user0
+--
+
+CREATE TABLE comments (
+    comment_id integer NOT NULL,
+    content character varying(2000) NOT NULL,
+    doc timestamp without time zone DEFAULT now() NOT NULL,
+    photo_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE comments OWNER TO user0;
+
+--
+-- Name: comments_comment_id_seq; Type: SEQUENCE; Schema: public; Owner: user0
+--
+
+CREATE SEQUENCE comments_comment_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE comments_comment_id_seq OWNER TO user0;
+
+--
+-- Name: comments_comment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: user0
+--
+
+ALTER SEQUENCE comments_comment_id_seq OWNED BY comments.comment_id;
+
+
+--
+-- Name: friendship; Type: TABLE; Schema: public; Owner: user0
+--
+
+CREATE TABLE friendship (
+    user_id1 integer NOT NULL,
+    user_id2 integer NOT NULL
+);
+
+
+ALTER TABLE friendship OWNER TO user0;
+
+--
+-- Name: liketable; Type: TABLE; Schema: public; Owner: user0
+--
+
+CREATE TABLE liketable (
+    user_id integer NOT NULL,
+    photo_id integer NOT NULL,
+    doc timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE liketable OWNER TO user0;
+
+--
+-- Name: photos; Type: TABLE; Schema: public; Owner: user0
+--
+
+CREATE TABLE photos (
+    photo_id integer NOT NULL,
+    caption character varying(200) DEFAULT NULL::character varying,
+    data bytea NOT NULL,
+    album_id integer NOT NULL
+);
+
+
+ALTER TABLE photos OWNER TO user0;
+
+--
+-- Name: photos_photo_id_seq; Type: SEQUENCE; Schema: public; Owner: user0
+--
+
+CREATE SEQUENCE photos_photo_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE photos_photo_id_seq OWNER TO user0;
+
+--
+-- Name: photos_photo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: user0
+--
+
+ALTER SEQUENCE photos_photo_id_seq OWNED BY photos.photo_id;
+
+
+--
+-- Name: tag; Type: TABLE; Schema: public; Owner: user0
+--
+
+CREATE TABLE tag (
+    hashtag character varying(40) NOT NULL
+);
+
+
+ALTER TABLE tag OWNER TO user0;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: user0
+--
+
+CREATE TABLE users (
+    user_id integer NOT NULL,
+    gender character varying(1) NOT NULL,
+    email character varying(40) NOT NULL,
+    password character varying(40) NOT NULL,
+    dob date NOT NULL,
+    hometown character varying(40) NOT NULL,
+    first_name character varying(40) NOT NULL,
+    last_name character varying(40) NOT NULL
+);
+
+
+ALTER TABLE users OWNER TO user0;
+
+--
+-- Name: users_user_id_seq; Type: SEQUENCE; Schema: public; Owner: user0
+--
+
+CREATE SEQUENCE users_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE users_user_id_seq OWNER TO user0;
+
+--
+-- Name: users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: user0
+--
+
+ALTER SEQUENCE users_user_id_seq OWNED BY users.user_id;
+
+
+--
+-- Name: album_id; Type: DEFAULT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY albums ALTER COLUMN album_id SET DEFAULT nextval('albums_album_id_seq'::regclass);
+
+
+--
+-- Name: comment_id; Type: DEFAULT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY comments ALTER COLUMN comment_id SET DEFAULT nextval('comments_comment_id_seq'::regclass);
+
+
+--
+-- Name: photo_id; Type: DEFAULT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY photos ALTER COLUMN photo_id SET DEFAULT nextval('photos_photo_id_seq'::regclass);
+
+
+--
+-- Name: user_id; Type: DEFAULT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY users ALTER COLUMN user_id SET DEFAULT nextval('users_user_id_seq'::regclass);
+
+
+--
+-- Data for Name: albums; Type: TABLE DATA; Schema: public; Owner: user0
+--
+
+COPY albums (album_id, album_name, doc, user_id) FROM stdin;
+\.
+
+
+--
+-- Name: albums_album_id_seq; Type: SEQUENCE SET; Schema: public; Owner: user0
+--
+
+SELECT pg_catalog.setval('albums_album_id_seq', 1, false);
+
+
+--
+-- Data for Name: associate; Type: TABLE DATA; Schema: public; Owner: user0
+--
+
+COPY associate (photo_id, hashtag) FROM stdin;
+\.
+
+
+--
+-- Data for Name: comments; Type: TABLE DATA; Schema: public; Owner: user0
+--
+
+COPY comments (comment_id, content, doc, photo_id, user_id) FROM stdin;
+\.
+
+
+--
+-- Name: comments_comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: user0
+--
+
+SELECT pg_catalog.setval('comments_comment_id_seq', 1, false);
+
+
+--
+-- Data for Name: friendship; Type: TABLE DATA; Schema: public; Owner: user0
+--
+
+COPY friendship (user_id1, user_id2) FROM stdin;
+\.
+
+
+--
+-- Data for Name: liketable; Type: TABLE DATA; Schema: public; Owner: user0
+--
+
+COPY liketable (user_id, photo_id, doc) FROM stdin;
+\.
+
+
+--
+-- Data for Name: photos; Type: TABLE DATA; Schema: public; Owner: user0
+--
+
+COPY photos (photo_id, caption, data, album_id) FROM stdin;
+\.
+
+
+--
+-- Name: photos_photo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: user0
+--
+
+SELECT pg_catalog.setval('photos_photo_id_seq', 1, false);
+
+
+--
+-- Data for Name: tag; Type: TABLE DATA; Schema: public; Owner: user0
+--
+
+COPY tag (hashtag) FROM stdin;
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: user0
+--
+
+COPY users (user_id, gender, email, password, dob, hometown, first_name, last_name) FROM stdin;
+\.
+
+
+--
+-- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: user0
+--
+
+SELECT pg_catalog.setval('users_user_id_seq', 1, false);
+
+
+--
+-- Name: albums_pkey; Type: CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY albums
+    ADD CONSTRAINT albums_pkey PRIMARY KEY (album_id);
+
+
+--
+-- Name: associate_pkey; Type: CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY associate
+    ADD CONSTRAINT associate_pkey PRIMARY KEY (photo_id, hashtag);
+
+
+--
+-- Name: comments_pkey; Type: CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY comments
+    ADD CONSTRAINT comments_pkey PRIMARY KEY (comment_id);
+
+
+--
+-- Name: friendship_pkey; Type: CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY friendship
+    ADD CONSTRAINT friendship_pkey PRIMARY KEY (user_id1, user_id2);
+
+
+--
+-- Name: liketable_pkey; Type: CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY liketable
+    ADD CONSTRAINT liketable_pkey PRIMARY KEY (user_id, photo_id);
+
+
+--
+-- Name: photos_pkey; Type: CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY photos
+    ADD CONSTRAINT photos_pkey PRIMARY KEY (photo_id);
+
+
+--
+-- Name: tag_pkey; Type: CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY tag
+    ADD CONSTRAINT tag_pkey PRIMARY KEY (hashtag);
+
+
+--
+-- Name: users_email_key; Type: CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_email_key UNIQUE (email);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: albums_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY albums
+    ADD CONSTRAINT albums_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id);
+
+
+--
+-- Name: associate_hashtag_fkey; Type: FK CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY associate
+    ADD CONSTRAINT associate_hashtag_fkey FOREIGN KEY (hashtag) REFERENCES tag(hashtag);
+
+
+--
+-- Name: associate_photo_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY associate
+    ADD CONSTRAINT associate_photo_id_fkey FOREIGN KEY (photo_id) REFERENCES photos(photo_id);
+
+
+--
+-- Name: comments_photo_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY comments
+    ADD CONSTRAINT comments_photo_id_fkey FOREIGN KEY (photo_id) REFERENCES photos(photo_id);
+
+
+--
+-- Name: comments_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY comments
+    ADD CONSTRAINT comments_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id);
+
+
+--
+-- Name: friendship_user_id1_fkey; Type: FK CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY friendship
+    ADD CONSTRAINT friendship_user_id1_fkey FOREIGN KEY (user_id1) REFERENCES users(user_id);
+
+
+--
+-- Name: friendship_user_id2_fkey; Type: FK CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY friendship
+    ADD CONSTRAINT friendship_user_id2_fkey FOREIGN KEY (user_id2) REFERENCES users(user_id);
+
+
+--
+-- Name: liketable_photo_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY liketable
+    ADD CONSTRAINT liketable_photo_id_fkey FOREIGN KEY (photo_id) REFERENCES photos(photo_id);
+
+
+--
+-- Name: liketable_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY liketable
+    ADD CONSTRAINT liketable_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id);
+
+
+--
+-- Name: photos_album_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: user0
+--
+
+ALTER TABLE ONLY photos
+    ADD CONSTRAINT photos_album_id_fkey FOREIGN KEY (album_id) REFERENCES albums(album_id);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
