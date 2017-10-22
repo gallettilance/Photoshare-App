@@ -77,7 +77,7 @@ DROP TABLE IF EXISTS `COMMENTS`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `COMMENTS` (
   `comment_id` int(11) NOT NULL AUTO_INCREMENT,
-  `CONTENT` varchar(200) NOT NULL,
+  `CONTENT` varchar(2000) NOT NULL,
   `DOC` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `user_id` int(11) NOT NULL,
   `photo_id` int(11) NOT NULL,

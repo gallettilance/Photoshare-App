@@ -52,11 +52,15 @@ def signup():
         return signup("Password Mismatch")
 
     #need other input checks here (like those in mysql)
+    email = result['email']
+    if email == 'anon@anon':
+        return signup_page("This email is invalid")
 
-
+    if result['first_name'] == 'anon' or result['last_name'] == 'anon':
+        return signup_page("Your name cannot be anon")
 
     #test account already exists
-    email=result['email']
+
     query = 'SELECT EMAIL FROM USERS'
     cursor.execute(query)
     for item in cursor:
@@ -108,7 +112,7 @@ def login():
 
     #check password match
     for item in cursor:
-        if item[0] == email:
+        if item[0] == email and email != 'anon@anon':
             if item[1] == password:
                 session['userid'] = item[2]
                 session['my_name'] = item[3]
@@ -427,18 +431,17 @@ def view_photo(photo_id):
             mypic = False
 
         return render_template('view_photo.html', username=my_name, uploader_name=uploader_name, loggedin=True,
-                               liked=liked, likedby=likedby, userid=int(userid), uploader_id=int(uploader_id), photo=photo,
-                               album_id=album_id, album_name=album_name, comments=all_comments, mypic=mypic)
+                               liked=liked, likedby=likedby, like_num=len(likedby), userid=int(userid),
+                               uploader_id=int(uploader_id), photo=photo, album_id=album_id, album_name=album_name,
+                               comments=all_comments, mypic=mypic)
 
     else:
-        return render_template('view_photo.html', uploader_name=uploader_name, loggedin=False, likedby=likedby,
+        return render_template('view_photo.html', uploader_name=uploader_name, loggedin=False, likedby=likedby, like_num=len(likedby),
                                uploader_id=uploader_id, photo=photo, album_id=album_id, album_name=album_name,
                                comments=all_comments)
 
 @app.route('/comment/<photo_id>', methods=['GET', 'POST'])
 def comment(photo_id):
-
-    userid = session.get('userid', None)
 
     comm = request.form['comment']
     hashtags = re.findall(r'\B(\#[a-zA-Z]+\b)(?!;)', comm)
@@ -471,6 +474,48 @@ def comment(photo_id):
             cursor.execute(query1, (photo_id, tag))
             conn.commit()
 
+    if session.get('loggedin', None):
+
+        userid = session.get('userid', None)
+
+        # insert comment and user id
+        query = 'INSERT INTO COMMENTS(photo_id, CONTENT, user_id) VALUES (%s, %s, %s)'
+
+        cursor.execute(query, (photo_id, comm, userid))
+        conn.commit()
+
+        return view_photo(photo_id=photo_id)
+
+    #find anon user
+
+    query = 'SELECT user_id, EMAIL, first_name FROM USERS WHERE EMAIL=%s'
+    cursor.execute(query, "anon@anon")
+
+    anon_user = []
+
+    for item in cursor:
+        anon_user = [item[0], item[2]]
+
+    #if we previously created an anon user
+    if anon_user:
+
+        userid = anon_user[0]
+        # insert comment and user id
+        query = 'INSERT INTO COMMENTS(photo_id, CONTENT, user_id) VALUES (%s, %s, %s)'
+
+        cursor.execute(query, (photo_id, comm, userid))
+        conn.commit()
+
+        return view_photo(photo_id=photo_id)
+
+    #otherwise we create one
+    query = 'INSERT INTO USERS(EMAIL, PASSWORD, first_name, ' \
+            'last_name, DOB, HOMETOWN, GENDER) VALUES (%s, %s, %s, %s, %s, %s, %s)'
+    cursor.execute(query, ('anon@anon', 'anon123', 'anon', 'anon', '1900-01-01', 'anon', 'O'))
+    conn.commit()
+
+    userid = cursor.lastrowid
+
     # insert comment and user id
     query = 'INSERT INTO COMMENTS(photo_id, CONTENT, user_id) VALUES (%s, %s, %s)'
 
@@ -478,7 +523,6 @@ def comment(photo_id):
     conn.commit()
 
     return view_photo(photo_id=photo_id)
-
 
 @app.route('/friend_add/<friend_id>', methods=['GET', 'POST'])
 def friend_add(friend_id):
@@ -550,7 +594,8 @@ def like(photo_id):
 @app.route('/view_tag/<tag>', methods=['GET', 'POST'])
 def view_tag(tag):
 
-    tag = '#'+tag
+    if tag[0] != '#':
+        tag = '#'+tag
 
     # select all photos with that tag
     query = 'SELECT photo_id, HASHTAG FROM ASSOCIATE'
@@ -661,12 +706,20 @@ def top_users():
     query1 = 'SELECT user_id, COUNT(comment_id) AS Cscore FROM COMMENTS GROUP BY user_id'
 
     query2 = 'SELECT user_id FROM USERS'
+    query3 = 'SELECT user_id FROM USERS WHERE EMAIL =%s'
+
+    anon = -3
+    cursor.execute(query3, 'anon@anon')
+    for item in cursor:
+        anon = int(item[0])
+        break
 
     cursor.execute(query2)
 
     all_users = []
     for item in cursor:
-        all_users.append(int(item[0]))
+        if int(item[0]) != anon:
+            all_users.append(int(item[0]))
 
     cursor.execute(query0)
 
@@ -694,7 +747,7 @@ def top_users():
 
     top10id = [[x[0], x[1] + y[1]] for x in top10id_photo for y in top10id_comment if x[0] == y[0]]
 
-    top10id = list(sorted(top10id, key=lambda x:x[1]))[:10]
+    top10id = list(reversed(sorted(top10id, key=lambda x:x[1])))[:10]
 
     query = 'SELECT first_name, user_id FROM USERS WHERE user_id = %s'
 
@@ -714,6 +767,26 @@ def top_users():
     return render_template('top_users.html', top10=top10, loggedin=False)
 
 
+@app.route('/top_tags', methods=['GET', 'POST'])
+def top_tags():
+
+    query = 'SELECT COUNT(*) AS score, HASHTAG FROM ASSOCIATE GROUP BY HASHTAG ORDER BY score DESC LIMIT 10'
+    cursor.execute(query)
+
+    top10 = []
+    for item in cursor:
+        top10.append(item[1])
+
+    if session.get('loggedin', None):
+
+        userid = session.get('userid', None)
+        my_name = session.get('my_name', None)
+
+        return render_template('top_tags.html', top10=top10, userid=userid, name=my_name, loggedin=True)
+
+    return render_template('top_tags.html', top10=top10, loggedin=False)
+
+
 
 ##########################################################
 
@@ -726,8 +799,6 @@ def top_users():
 @app.route('/photo_search', methods=['GET', 'POST'])
 def photo_search():
     return render_template('photo_search.html')
-
-    return render_template('single_photo.html', comments=[session.get('email', None).split('@')[0], nc])
 
 @app.route('/friend_search', methods=['GET', 'POST'])
 def friend_search():
@@ -744,7 +815,6 @@ def friends():
 @app.route('/friend_delete', methods=['GET', 'POST'])
 def friend_delete():
     return render_template('friend_delete.html', name=session.get('email', None).split('@')[0])
-
 
 @app.route('/people_search', methods=['GET', 'POST'])
 def people_search():

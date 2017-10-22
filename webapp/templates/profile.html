@@ -7,6 +7,8 @@
     <h1 class='profile_header' style="top:8px;position:fixed; margin-right:1em">
         <a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="top:0px; float:left"> {{ username }} </button></a>
 
+        <a href="{{ url_for('top_users') }}"><button class='logout' style="top:0px; float:left"> TOP USERS </button></a>
+
         {{ name }}
 
         <div class="dropdown" style="float:right; margin-right:1em;">
@@ -51,6 +53,8 @@
 
     <h1 class='profile_header' style="top:8px; position:fixed">
         <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
+
+        <a href="{{ url_for('top_users') }}"><button class='logout' style="top:0px; float:left"> TOP USERS </button></a>
 
         {{ name }}
 

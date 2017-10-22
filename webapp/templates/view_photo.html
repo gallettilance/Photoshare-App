@@ -35,9 +35,9 @@
             {% endif %}
             {% if likedby %}
                 <li>
-                    Liked by:
+                    {{ like_num }} likes:
                     {% for user in likedby %}
-                        <a href="{{ url_for('view_profile', id=user[0]) }}" > {{ user[1] }}</a>,
+                         <a href="{{ url_for('view_profile', id=user[0]) }}" > {{ user[1] }}</a>,
                     {% endfor %}
                 </li>
             {% endif %}
@@ -57,6 +57,7 @@
                 <a href="{{ url_for('view_album_content', album_id=album_id) }}" style="text-decoration: none; color:white;"> {{ album_name }} </a>
             </li>
             {% for comment in comments %}
+                {% if comment[1] != 'anon' %}
                 <li>
                     <a href="{{ url_for('view_profile', id=comment[0]) }}">
                         {{ comment[1] }}
@@ -66,13 +67,18 @@
                     <a href="{{ url_for('delete_comment', comment_id=comment[3]) }}" style="background-color:#cc0404 ;text-decoration: none; color:white"> DELETE </a>
                     {% endif %}
                 </li>
+                {% else %}
+                <li> {{ comment[1] }} said: {{ comment[2]|safe }} </li>
+                {% endif %}
             {% endfor %}
+            {% if not userid == uploader_id %}
             <li>
                 <form class='comments' action="{{ url_for('comment', photo_id=photo[2]) }}" method=POST>
                     <input type="text" name=comment maxlength=300 required placeholder=" make a comment?" ><br>
                     <input type="submit" value="COMMENT">
                 </form>
             </li>
+            {% endif %}
         </ul>
     </div>
 </div>
@@ -99,7 +105,7 @@
             </li>
             {% if likedby %}
                 <li>
-                    Liked by:
+                    {{ like_num }} likes:
                     {% for user in likedby %}
                         <a href="{{ url_for('view_profile', id=user[0]) }}"> {{ user[1] }}</a>,
                     {% endfor %}
@@ -112,8 +118,18 @@
                 <a href="{{ url_for('view_album_content', album_id=album_id) }}" style="text-decoration: none; color:white;"> {{ album_name }} </a>
             </li>
             {% for comment in comments %}
-                <li> <a href="{{ url_for('view_profile', id=comment[0]) }}">  {{ comment[1] }} </a> said: {{ comment[2]|safe }}</li>
+                {% if comment[1] != 'anon' %}
+                    <li> <a href="{{ url_for('view_profile', id=comment[0]) }}">  {{ comment[1] }} </a> said: {{ comment[2]|safe }}</li>
+                {% else %}
+                    <li> {{ comment[1] }} said: {{ comment[2]|safe }}</li>
+                {% endif %}
             {% endfor %}
+            <li>
+                <form class='comments' action="{{ url_for('comment', photo_id=photo[2]) }}" method=POST>
+                    <input type="text" name=comment maxlength=150 required placeholder=" make an anonymous comment?" ><br>
+                    <input type="submit" value="COMMENT">
+                </form>
+            </li>
         </ul>
     </div>
 </div>
