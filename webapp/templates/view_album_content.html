@@ -28,8 +28,11 @@
                 <img src='data:;base64, {{ photo[1] }}' style="float:left; width:23%; margin-right:1%; margin-bottom:.5em"/>
             </a>
         {% endfor %}
-        <a class="plus" href="{{ url_for('upload_photo', album_id=album_id) }}" style="background-color:#008CBA; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> + </a>
-        <a href="{{ url_for('view_profile', id=uploader_id) }}" style="background-color:black; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ uploader_name }} </a>
+        {% if userid == uploader_id %}
+            <a class="plus" href="{{ url_for('upload_photo', album_id=album_id) }}" style="background-color:#008CBA; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> + </a>
+            <a class="plus" href="{{ url_for('delete_album', album_id=album_id) }}" style="background-color:#cc0404; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> DELETE ALBUM </a>
+        {% endif %}
+            <a href="{{ url_for('view_profile', id=uploader_id) }}" style="background-color:black; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ uploader_name }} </a>
         <p style="clear: both;">
     </div>
 

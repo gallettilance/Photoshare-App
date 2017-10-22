@@ -323,7 +323,7 @@ def view_album_content(album_id):
         userid = session.get('userid', None)
         my_name = session.get('my_name', None)
         return render_template('view_album_content.html', username=my_name, uploader_name=uploader_name, loggedin=True,
-                               userid=userid, uploader_id=uploader_id, photos=all_photos, album_id=album_id,
+                               userid=int(userid), uploader_id=int(uploader_id), photos=all_photos, album_id=album_id,
                                album_name=album_name)
 
     else:
@@ -615,6 +615,18 @@ def delete_comment(comment_id):
 
     return view_photo(photo_id=photo_id)
 
+@app.route('/delete_album/<album_id>', methods=['GET', 'POST'])
+def delete_album(album_id):
+
+    userid = session.get('userid', None)
+
+    query = 'DELETE FROM ALBUMS WHERE album_id=%s'
+    cursor.execute(query, album_id)
+    conn.commit()
+
+    return view_profile(id=userid)
+
+
 @app.route('/unlike/<photo_id>', methods=['GET', 'POST'])
 def unlike(photo_id):
 
@@ -637,6 +649,70 @@ def unfriend(friend_id):
     conn.commit()
 
     return view_profile(id=friend_id)
+
+
+@app.route('/top_users', methods=['GET', 'POST'])
+def top_users():
+
+    query0 ='SELECT user_id, COUNT(*) AS Pscore ' \
+            'FROM PHOTOS AS P JOIN ALBUMS AS A ON P.album_id = A.album_id ' \
+            'GROUP BY user_id '
+
+    query1 = 'SELECT user_id, COUNT(comment_id) AS Cscore FROM COMMENTS GROUP BY user_id'
+
+    query2 = 'SELECT user_id FROM USERS'
+
+    cursor.execute(query2)
+
+    all_users = []
+    for item in cursor:
+        all_users.append(int(item[0]))
+
+    cursor.execute(query0)
+
+    top10id_photo = []
+    for item in cursor:
+        top10id_photo.append([int(item[0]), int(item[1])])
+
+    only_ids_photo = [x[0] for x in top10id_photo]
+
+    for user in all_users:
+        if user not in only_ids_photo:
+            top10id_photo.append([user, 0])
+
+    cursor.execute(query1)
+
+    top10id_comment = []
+    for item in cursor:
+        top10id_comment.append([int(item[0]), int(item[1])])
+
+    only_ids_comment = [x[0] for x in top10id_comment]
+
+    for user in all_users:
+        if user not in only_ids_comment:
+            top10id_comment.append([user, 0])
+
+    top10id = [[x[0], x[1] + y[1]] for x in top10id_photo for y in top10id_comment if x[0] == y[0]]
+
+    top10id = list(sorted(top10id, key=lambda x:x[1]))[:10]
+
+    query = 'SELECT first_name, user_id FROM USERS WHERE user_id = %s'
+
+    top10 = []
+    for topid in top10id:
+        cursor.execute(query, topid[0])
+        for item in cursor:
+            top10.append([item[1], item[0]])
+
+    if session.get('loggedin', None):
+
+        userid = session.get('userid', None)
+        my_name = session.get('my_name', None)
+
+        return render_template('top_users.html', top10=top10, userid=userid, name=my_name, loggedin=True)
+
+    return render_template('top_users.html', top10=top10, loggedin=False)
+
 
 
 ##########################################################
