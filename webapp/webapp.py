@@ -228,7 +228,7 @@ def upload_photo(album_id):
         for tag in hashtags:
             if len(tag) < 40:
                 t = ''.join(list(tag)[1:])
-                cap = re.sub(tag, "<a href=\"/view_tag/" + t + "\") }}\"> " + t + " </a>", cap)
+                cap = re.sub(tag, "<a href=\"/view_tag/" + t + "\") }}\"> " + tag + " </a>", cap)
 
         query = 'INSERT INTO PHOTOS(album_id, DATA, CAPTION) VALUES (%s, %s, %s)'
         image = request.files['img']
@@ -348,7 +348,7 @@ def view_photo(photo_id):
     comments = []
     for item in cursor:
         if int(item[0]) == int(photo_id):
-            comments.append([int(item[3]), item[2]])
+            comments.append([int(item[3]), item[2], item[1]])
 
     commenterids = [x[0] for x in comments]
     all_comments = []
@@ -364,7 +364,7 @@ def view_photo(photo_id):
     for i in range(len(comments)):
         for j in range(len(all_commenters)):
             if comments[i][0] == all_commenters[j][0]:
-                all_comments.append([comments[i][0], all_commenters[j][1], comments[i][1]])
+                all_comments.append([comments[i][0], all_commenters[j][1], comments[i][1], int(comments[i][2])])
 
 
     # get the album name and uploader id
@@ -427,7 +427,7 @@ def view_photo(photo_id):
             mypic = False
 
         return render_template('view_photo.html', username=my_name, uploader_name=uploader_name, loggedin=True,
-                               liked=liked, likedby=likedby, userid=userid, uploader_id=uploader_id, photo=photo,
+                               liked=liked, likedby=likedby, userid=int(userid), uploader_id=int(uploader_id), photo=photo,
                                album_id=album_id, album_name=album_name, comments=all_comments, mypic=mypic)
 
     else:
@@ -451,7 +451,7 @@ def comment(photo_id):
     for tag in hashtags:
         if len(tag)<40:
             t = ''.join(list(tag)[1:])
-            comm = re.sub(tag, "<a href=\"/view_tag/"+t+"\") }}\"> "+t+" </a>", comm)
+            comm = re.sub(tag, "<a href=\"/view_tag/"+t+"\") }}\"> "+tag+" </a>", comm)
 
     cursor.execute(query3)
 
@@ -585,9 +585,46 @@ def delete_photo(photo_id):
 
     query = 'DELETE FROM PHOTOS WHERE photo_id=%s'
     cursor.execute(query, photo_id)
+    conn.commit()
 
     return view_profile(id=userid)
 
+@app.route('/delete_comment/<comment_id>', methods=['GET', 'POST'])
+def delete_comment(comment_id):
+
+    userid = session.get('userid', None)
+
+    query= 'SELECT comment_id, CONTENT, photo_id FROM COMMENTS'
+    cursor.execute(query)
+
+    for item in cursor:
+        if int(item[0]) == int(comment_id):
+            comm = item[1]
+            photo_id = item[2]
+            break
+
+    tags = re.findall(r'\B(\#[a-zA-Z]+\b)(?!;)', comm)
+
+    query = 'DELETE FROM ASSOCIATE WHERE photo_id=%s AND HASHTAG=%s'
+    for tag in tags:
+        cursor.execute(query, (photo_id, tag))
+
+    query = 'DELETE FROM COMMENTS WHERE comment_id=%s'
+    cursor.execute(query, comment_id)
+    conn.commit()
+
+    return view_photo(photo_id=photo_id)
+
+@app.route('/unlike/<photo_id>', methods=['GET', 'POST'])
+def unlike(photo_id):
+
+    userid = session.get('userid', None)
+
+    query = 'DELETE FROM LIKETABLE WHERE photo_id=%s AND user_id=%s'
+    cursor.execute(query, (photo_id, userid))
+    conn.commit()
+
+    return view_photo(photo_id=photo_id)
 
 ##########################################################
 

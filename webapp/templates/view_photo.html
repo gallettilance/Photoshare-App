@@ -45,6 +45,10 @@
                 <li>
                     <a href="{{ url_for('like', photo_id=photo[2]) }}" style="text-decoration: none; color:white"> LIKE </a>
                 </li>
+            {% else %}
+                <li>
+                    <a href="{{ url_for('unlike', photo_id=photo[2]) }}" style="text-decoration: none; color:white"> UNLIKE </a>
+                </li>
             {% endif %}
             <li>
                 <a href="{{ url_for('view_profile', id=uploader_id) }}" style="text-decoration: none; color:white"> {{ uploader_name }} </a>
@@ -53,7 +57,15 @@
                 <a href="{{ url_for('view_album_content', album_id=album_id) }}" style="text-decoration: none; color:white;"> {{ album_name }} </a>
             </li>
             {% for comment in comments %}
-                <li> <a href="{{ url_for('view_profile', id=comment[0]) }}">  {{ comment[1] }} </a>  said: {{ comment[2]|safe }}</li>
+                <li>
+                    <a href="{{ url_for('view_profile', id=comment[0]) }}">
+                        {{ comment[1] }}
+                    </a>
+                    said: {{ comment[2]|safe }}
+                    {% if userid == comment[0] %}
+                    <a href="{{ url_for('delete_comment', comment_id=comment[3]) }}" style="background-color:#cc0404 ;text-decoration: none; color:white"> DELETE </a>
+                    {% endif %}
+                </li>
             {% endfor %}
             <li>
                 <form class='comments' action="{{ url_for('comment', photo_id=photo[2]) }}" method=POST>
