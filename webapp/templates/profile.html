@@ -30,6 +30,8 @@
                 <li><a href="{{ url_for('view_friends', id=id) }}" style="text-decoration: none; color:white"> {{ name }}'s FRIENDS </a> </li>
                 {% if not friends %}
                     <li><a href="{{ url_for('friend_add', friend_id=id) }}" style="text-decoration: none; color:white"> BE FRIENDS </a> </li>
+                {% else %}
+                    <li><a href="{{ url_for('unfriend', friend_id=id) }}" style="text-decoration: none; color:white"> UNFRIEND </a> </li>
                 {% endif %}
             </ul>
         </div>

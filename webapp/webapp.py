@@ -626,6 +626,19 @@ def unlike(photo_id):
 
     return view_photo(photo_id=photo_id)
 
+
+@app.route('/unfriend/<friend_id>', methods=['GET', 'POST'])
+def unfriend(friend_id):
+
+    userid = session.get('userid', None)
+
+    query = 'DELETE FROM FRIENDSHIP WHERE (user_id1=%s AND user_id2=%s) OR (user_id2=%s AND user_id1=%s)'
+    cursor.execute(query, (friend_id, userid, friend_id, userid))
+    conn.commit()
+
+    return view_profile(id=friend_id)
+
+
 ##########################################################
 
 ############ TO BE IMPLEMENTED CORRECTLY #################
