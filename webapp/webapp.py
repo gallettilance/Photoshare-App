@@ -6,9 +6,8 @@ import time
 import re
 
 app = Flask(__name__, template_folder='templates')
-#app.config['SESSION_TYPE']= 'memcached'        this is not necessary
-#app.config['SECRET_KEY']= 'super secret key'   this is not necessary
-
+app.config['SESSION_TYPE']= 'memcached'
+app.config['SECRET_KEY']= 'super secret key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost:5432/photoshare?user=postgres&password=hello123'
 
 db = SQLAlchemy(app)
