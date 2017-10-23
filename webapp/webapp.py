@@ -1,25 +1,30 @@
 from flask import Flask, render_template, request, session
-from flaskext.mysql import MySQL
+from flask_sqlalchemy import SQLAlchemy
+import psycopg2
 import os, base64
 import time
 import re
-import numpy as np
-import pandas as pd
 
 app = Flask(__name__, template_folder='templates')
 #app.config['SESSION_TYPE']= 'memcached'        this is not necessary
 #app.config['SECRET_KEY']= 'super secret key'   this is not necessary
-db = MySQL()
 
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'hello123'
-app.config['MYSQL_DATABASE_DB'] = 'photoshare'
-app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost:5432/photoshare?user=postgres&password=hello123'
+
+db = SQLAlchemy(app)
+
+conn = psycopg2.connect(
+    database= 'photoshare',
+    user= 'postgres',
+    password= 'hello123',
+    host='127.0.0.1',
+    port='5432'
+)
+
 db.init_app(app)
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
-conn = db.connect()
 cursor = conn.cursor()
 
 
@@ -31,8 +36,7 @@ def home():
     cursor.execute(query)
     all_photos = []
     for item in cursor:
-        img = ''.join(list(str(item[1]))[2:-1])
-        all_photos.append([item[0], img, item[2]])
+        all_photos.append([item[0], item[1], item[2]])
     return render_template('index.html', photos=all_photos)
 
 @app.route('/login_page', methods=['POST', 'GET'])
@@ -145,8 +149,7 @@ def view_profile(id):
     cursor.execute(query)
     all_photos = []
     for item in cursor:
-        img = ''.join(list(str(item[1]))[2:-1])
-        all_photos.append([item[0], img, item[2]])
+        all_photos.append([item[0], item[1], item[2]])
 
     #if you're logged in
     if session.get('loggedin', None):
@@ -343,8 +346,7 @@ def view_photo(photo_id):
     cursor.execute(query)
     for item in cursor:
         if int(item[0]) == int(photo_id):
-            img = ''.join(list(str(item[1]))[2:-1])
-            photo = [img, item[2], photo_id]
+            photo = [item[1], item[2], photo_id]
             album_id = int(item[3])
 
     #get all comment ids and user id of these comments on this photo
