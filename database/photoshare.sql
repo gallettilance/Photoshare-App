@@ -160,7 +160,7 @@ DROP TABLE IF EXISTS `PHOTOS`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `PHOTOS` (
   `photo_id` int(11) NOT NULL AUTO_INCREMENT,
-  `CAPTION` varchar(200) DEFAULT NULL,
+  `CAPTION` varchar(1000) DEFAULT NULL,
   `DATA` longblob NOT NULL,
   `album_id` int(11) NOT NULL,
   PRIMARY KEY (`photo_id`),

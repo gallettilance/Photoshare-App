@@ -66,9 +66,10 @@ def signup():
     for item in cursor:
         if item[0] == email:
             return login_page("You may already have an account - please log in")
+        if item[0] == email.lower():
+            return signup_page("Please pay attention to upper and lower case in your email")
 
     #insert data into database
-    session['email'] = email
     query = 'INSERT INTO USERS(EMAIL, PASSWORD, first_name, ' \
             'last_name, DOB, HOMETOWN, GENDER) VALUES (%s, %s, %s, %s, %s, %s, %s)'
     DoB = time.strptime(result['DoB'], '%Y-%m-%d')
@@ -87,7 +88,7 @@ def signup():
     query = 'SELECT user_id, EMAIL, first_name FROM USERS'
     cursor.execute(query)
     for item in cursor:
-        if result['email'] == item[1]:
+        if email == item[1]:
             userid = item[0]
             my_name = item[2]
             break
@@ -464,14 +465,17 @@ def comment(photo_id):
         all_tags.append(item[0])
 
     for tag in hashtags:
-        if tag not in all_tags and len(tag)<40:
+        if (tag not in all_tags) and len(tag)<40:
             cursor.execute(query2, tag)
             conn.commit()
             all_tags.append(tag)
 
     for tag in hashtags:
         if len(tag) < 40:
-            cursor.execute(query1, (photo_id, tag))
+            try:
+                cursor.execute(query1, (photo_id, tag))
+            except:
+                break
             conn.commit()
 
     if session.get('loggedin', None):
@@ -762,7 +766,7 @@ def top_users():
         userid = session.get('userid', None)
         my_name = session.get('my_name', None)
 
-        return render_template('top_users.html', top10=top10, userid=userid, name=my_name, loggedin=True)
+        return render_template('top_users.html', top10=top10, userid=userid, username=my_name, loggedin=True)
 
     return render_template('top_users.html', top10=top10, loggedin=False)
 
