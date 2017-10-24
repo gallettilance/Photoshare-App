@@ -2,22 +2,25 @@ from flask import Flask, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2
 import os, base64
+from urllib import parse
 import time
 import re
 
 app = Flask(__name__, template_folder='templates')
 app.config['SESSION_TYPE']= 'memcached'
 app.config['SECRET_KEY']= 'super secret key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost:5432/photoshare?user=postgres&password=hello123'
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://gourjxhhgrdohm:91763acbeee0120202fe802b0d8dad0b7e1c2f24bc649c9f31239a87bb91c434@ec2-23-23-249-169.compute-1.amazonaws.com:5432/d1u6dppefbjr2h'
 db = SQLAlchemy(app)
 
+parse.uses_netloc.append("postgres")
+url = parse.urlparse('postgres://gourjxhhgrdohm:91763acbeee0120202fe802b0d8dad0b7e1c2f24bc649c9f31239a87bb91c434@ec2-23-23-249-169.compute-1.amazonaws.com:5432/d1u6dppefbjr2h')
+
 conn = psycopg2.connect(
-    database= 'photoshare',
-    user= 'postgres',
-    password= 'hello123',
-    host='127.0.0.1',
-    port='5432'
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
 )
 
 db.init_app(app)
