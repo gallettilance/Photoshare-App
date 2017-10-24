@@ -243,7 +243,10 @@ def upload_photo(album_id):
 
         query = 'INSERT INTO PHOTOS(album_id, DATA, CAPTION) VALUES (%s, %s, %s) RETURNING photo_id'
         image = request.files['img']
-        cursor.execute(query, (int(album_id), base64.standard_b64encode(image.read()), cap))
+
+        img = ''.join(list(str(base64.standard_b64encode(image.read())))[2:-1])
+
+        cursor.execute(query, (int(album_id), img, cap))
         res = cursor.fetchone()
         photo_id = res[0]
         conn.commit()
