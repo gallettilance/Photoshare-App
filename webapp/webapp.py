@@ -575,8 +575,10 @@ def view_friends(id):
         userid = session.get('userid', None)
         my_name = session.get('my_name', None)
 
-        return render_template("view_friends.html", friends=all_friends, username=my_name, userid=userid, name=name, id=id,
-                           loggedin=True)
+        recommended_friends = friend_recommendation(userid, friends)
+
+        return render_template("view_friends.html", friends=all_friends, username=my_name, userid=int(userid),
+                               name=name, id=int(id), loggedin=True, recommended_friends=recommended_friends)
 
     return render_template("view_friends.html", friends=all_friends, name=name, id=id,
                            loggedin=False)
@@ -920,7 +922,7 @@ def search():
                 key_words.append('')
 
             #get first and last names of all users
-            query4 = "select user_id, first_name, last_name from USERS"
+            query4 = "SELECT user_id, first_name, last_name FROM USERS"
             cursor.execute(query4)
 
             for item in cursor:
@@ -950,23 +952,87 @@ def search():
 
     return render_template('search.html', search_results=results)
 
-
 def compute_jaccard_index(set_1, set_2):
     n = len(set_1.intersection(set_2))
     return n / float(len(set_1) + len(set_2) - n)
 
 
-##########################################################
+def friend_recommendation(userid, friends):
 
-############ TO BE IMPLEMENTED CORRECTLY #################
+    friends = [int(x) for x in friends]
 
-##########################################################
+    def get_friends(id):
+        query = 'SELECT user_id1, user_id2 FROM FRIENDSHIP'
+        cursor.execute(query)
+        friends = []
+        for item in cursor:
+            if int(id) == int(item[0]):
+                friends.append(int(item[1]))
+            elif int(id) == int(item[1]):
+                friends.append(int(item[0]))
 
+        return friends
+
+    def get_name(id):
+        query = 'SELECT user_id, first_name, last_name FROM USERS'
+        cursor.execute(query)
+        for item in cursor:
+            if int(item[0]) == int(id):
+                return item[1]+' '+item[2]
+
+    suggestions = dict()
+
+    for i in range(len(friends)):
+        one_hop_friends = get_friends(friends[i])
+        for i in range(len(one_hop_friends)):
+            if one_hop_friends[i] != int(userid) and (one_hop_friends[i] not in friends):
+                if one_hop_friends[i] not in suggestions.keys():
+                    suggestions[one_hop_friends[i]] = 1
+                else:
+                    suggestions[one_hop_friends[i]] += 1
+
+    sug_friends = suggestions.items()
+
+    sug_friends = list(reversed(sorted(sug_friends, key=lambda x : x[1])))
+
+    return [[x[0], get_name(x[0])] for x in sug_friends]
 
 
 @app.route('/recommendations', methods=['GET', 'POST'])
 def recommendations():
     return render_template('recommendations.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 if __name__=='__main__':

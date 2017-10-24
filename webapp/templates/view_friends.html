@@ -44,3 +44,11 @@
     <p style="clear: both;">
 </div>
 
+{% if (userid == id) %}
+<div style="position:relative">
+    {% for friend in recommended_friends %}
+        <a href="{{ url_for('view_profile', id=friend[0]) }}" style="background-color:#008CBA; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ friend[1] }} </a>
+    {% endfor %}
+    <p style="clear: both;">
+</div>
+{% endif %}
