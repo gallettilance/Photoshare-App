@@ -1,4 +1,3 @@
-[packages]
 click==6.7
 Flask==0.12.2
 Flask-SQLAlchemy==2.3.2
@@ -14,6 +13,3 @@ pytz==2017.2
 six==1.11.0
 SQLAlchemy==1.1.14
 Werkzeug==0.12.2
-
-[requires]
-python_full_version = "3.5.2"
