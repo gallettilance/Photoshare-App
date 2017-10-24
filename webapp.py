@@ -328,8 +328,7 @@ def view_album_content(album_id):
     all_photos = []
     for item in cursor:
         if int(item[3]) == int(album_id):
-            img = ''.join(list(str(item[1]))[2:-1])
-            all_photos.append([item[0], img, item[2]])
+            all_photos.append([item[0], item[1], item[2]])
 
     #if logged in
     if session.get('loggedin'):
@@ -630,8 +629,7 @@ def view_tag(tag):
     for item in cursor:
         for photo in all_photoids:
             if photo == int(item[0]):
-                img = ''.join(list(str(item[1]))[2:-1])
-                all_photos.append([item[0], img])
+                all_photos.append([item[0], item[1]])
 
     if session.get('loggedin', None):
 
