@@ -791,6 +791,112 @@ def top_tags():
     return render_template('top_tags.html', top10=top10, loggedin=False)
 
 
+#this is a buggy version of the search function
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    results = []
+    if request.method == 'POST':
+        search_type = request.form['search_type']
+        search_word = request.form['search_word']
+
+        if search_type == "comment":
+            query1 = 'SELECT user_id, CONTENT FROM COMMENTS'
+            cursor.execute(query1)
+            user = []
+            for item in cursor:
+                if item[1] == search_word:
+                    user.append(int(item[0]))
+            query2 = 'SELECT first_name, user_id FROM USERS'
+            cursor.execute(query2)
+            for item in cursor:
+                if int(item[1]) in user:
+                    results.append([item[1], item[0]])  # append user_id and first_name to "results"
+
+            the_results = []
+            all_ids = []
+            for i in range(len(results)):
+                count = 0
+                for j in range(i, len(results)):
+                    if results[i][0] == results[j][0]:
+                        count += 1
+                if results[i][
+                    0] not in all_ids:  # to avoid repetition, since the same user_id can appear multiple times, and we only need to compute once
+                    all_ids.append(results[i][0])
+                    the_results.append([results[i][0], results[i][1], count])
+
+            '''
+            query = 'select first_name, user_id_count from users join ' \
+                    '    (select S.user_id as user_id, count(S.user_id) as user_id_count from ' \
+                    '    (select user_id from comments where content = %s) S ' \
+                    '    group by user_id) S1 ' \
+                    'on S1.user_id = users.user_id'
+
+            cursor.execute(query, search_word)
+
+            for item in cursor:
+                results.append(item)
+
+            '''
+
+            results = list(sorted(the_results, key=lambda x: x[2]))  # the results has: user_id and user's first_name
+
+            return render_template('search.html', search_results=results)
+
+        elif search_type == "photo":
+
+            key_words = search_word.split(" ")
+            print("search type is photo")
+            query3 = "SELECT photo_id, hashtag FROM associate"
+            cursor.execute(query3)
+            photo_id_set = []
+            for item in cursor:
+                id_tag = []  # a list of list containing list of photo_id and its set of hashtags
+
+                if item[
+                    0] not in photo_id_set:  # to avoid repeated photoid, since we want the list of hastags with each photo_id
+                    id_tag.append(item)
+                else:  # if the photo_id also exists
+                    for i in id_tag:
+                        if i[0] == (int)(item[0]):  # find the same photo_id
+                            i[1].append(item[1])  # add the hashtag to that photoid_hashtag pair
+
+            pid_simi = []  # the set of photoid_similarity pair, showing each photoid and its hashtage similarity with the key_words
+            for j in id_tag:
+                simi = compute_jaccard_index(set(key_words), set(j[1]))
+                pid_simi.append((j[0], simi))  # a list of lists containing the photo_id and its similarity
+                results = list(sorted(pid_simi, key=lambda x: x[1]))
+
+            return render_template('search.html', search_results=results)
+
+
+
+        elif search_type == "user":
+            names = []
+            # key_words = search_word.split(" ")
+            query4 = "select first_name, last_name from users"
+            cursor.execute(query4)
+            for item in cursor:
+                names.append(item)
+            for i in names:  # first_name and last_name of all users
+                if search_word == i[0]:  # check for whether first_name matches the search_word
+                    results.append(i)  # but the rrsult would show both first name and last name
+
+            return render_template('search.html', search_results=results)
+
+
+
+        else:
+            print("%s is not valid search type", search_type)
+
+        return render_template('search.html', search_results=results)
+
+    return render_template('search.html', search_results=results)
+
+
+def compute_jaccard_index(set_1, set_2):
+    n = len(set_1.intersection(set_2))
+    return n / float(len(set_1) + len(set_2) - n)
+
 
 ##########################################################
 
@@ -800,29 +906,9 @@ def top_tags():
 
 
 
-@app.route('/photo_search', methods=['GET', 'POST'])
-def photo_search():
-    return render_template('photo_search.html')
 
-@app.route('/friend_search', methods=['GET', 'POST'])
-def friend_search():
-    return render_template('friendsearch.html', name=session.get('email', None).split('@')[0])
 
-@app.route('/search', methods=['GET', 'POST'])
-def search():
-    return render_template('search.html', name=session.get('email', None).split('@')[0])
 
-@app.route('/friends', methods=['GET', 'POST'])
-def friends():
-    return render_template('friends.html', name=session.get('email', None).split('@')[0])
-
-@app.route('/friend_delete', methods=['GET', 'POST'])
-def friend_delete():
-    return render_template('friend_delete.html', name=session.get('email', None).split('@')[0])
-
-@app.route('/people_search', methods=['GET', 'POST'])
-def people_search():
-    return render_template('people_search.html')
 
 @app.route('/recommendations', methods=['GET', 'POST'])
 def recommendations():

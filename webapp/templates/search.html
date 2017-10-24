@@ -2,4 +2,72 @@
 
 <title> search </title>
 
-<h1 class='profile_header' style="top:0"> search for anything here <h1>
+<body>
+
+<h1 class='profile_header' style="top:0"> Search for the New World </h1>
+
+
+
+
+<div class='wrapper'>
+    <form class='search_form' action="{{ url_for('search') }}" id="searchform" method=POST>
+        Search:
+        <input type=text name=search_word value="{{request.form.search_word}}" required maxlength=25 placeholder="input your search contain here">
+
+        <input type="submit" value="search">
+    </form>
+
+    <select name="search_type" form = "searchform">
+            <option value="photo">Photo</option>
+            <option value="user">User</option>
+            <option value="comment" selected = "selected">Comment</option>
+    </select>
+</div>
+
+<!-- render search results  -->
+<div class="wrapper">
+    <ul class="center">
+
+        {%  if (search_type == user)  %}
+        i am here in user
+             {% for result in search_results %}
+                    <li> <a href="{{ url_for('view_profile', id=result[0]) }}"> user {{ result[1] }} </a> </li>
+             {% endfor %}
+
+
+
+
+
+
+        </ul>
+
+
+
+    {%  else  %}
+          <ul class="center">
+          {%  if (search_type == photo) %}
+            I am here in photo
+            {% for result in search_results %}
+                 <li> <a href="{{ url_for('view_photo', photo_id=result[0]) }}"> "photo_id: " {{ result[0] }} </a> </li>
+             {% endfor %}
+
+
+        {%  else %}
+              i am in comment
+            {% for result in search_results %}
+                    <li> <a href="{{ url_for('view_profile', id=result[0]) }}"> {{ result[1] }} </a> </li>
+            {% endfor %}
+
+        {% endif %}
+
+    {%  endif  %}
+    </ul>
+
+
+
+
+</div>
+
+
+</body>
+
