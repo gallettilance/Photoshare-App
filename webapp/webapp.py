@@ -791,21 +791,32 @@ def top_tags():
     return render_template('top_tags.html', top10=top10, loggedin=False)
 
 
-#this is a buggy version of the search function
 @app.route('/search', methods=['GET', 'POST'])
 def search():
+
     results = []
+
     if request.method == 'POST':
+
         search_type = request.form['search_type']
         search_word = request.form['search_word']
 
         if search_type == "comment":
+
+            hashtags = re.findall(r'\B(\#[a-zA-Z]+\b)(?!;)', search_word)
+
+            for tag in hashtags:
+                if len(tag) < 40:
+                    t = ''.join(list(tag)[1:])
+                    search_word = re.sub(tag, "<a href=\"/view_tag/" + t + "\") }}\"> " + tag + " </a>", search_word)
+
             query1 = 'SELECT user_id, CONTENT FROM COMMENTS'
             cursor.execute(query1)
             user = []
             for item in cursor:
                 if item[1] == search_word:
                     user.append(int(item[0]))
+
             query2 = 'SELECT first_name, user_id FROM USERS'
             cursor.execute(query2)
             for item in cursor:
@@ -819,74 +830,121 @@ def search():
                 for j in range(i, len(results)):
                     if results[i][0] == results[j][0]:
                         count += 1
-                if results[i][
-                    0] not in all_ids:  # to avoid repetition, since the same user_id can appear multiple times, and we only need to compute once
+                if results[i][0] not in all_ids:  # to avoid repetition, since the same user_id can appear multiple times, and we only need to compute once
                     all_ids.append(results[i][0])
                     the_results.append([results[i][0], results[i][1], count])
 
-            '''
-            query = 'select first_name, user_id_count from users join ' \
-                    '    (select S.user_id as user_id, count(S.user_id) as user_id_count from ' \
-                    '    (select user_id from comments where content = %s) S ' \
-                    '    group by user_id) S1 ' \
-                    'on S1.user_id = users.user_id'
+            results = list(reversed(sorted(the_results, key=lambda x: x[2])))  # the results has: user_id and user's first_name
 
-            cursor.execute(query, search_word)
+            if session.get('loggedin', None):
 
-            for item in cursor:
-                results.append(item)
+                userid = session.get('userid', None)
+                my_name = session.get('my_name', None)
 
-            '''
+                return render_template('search.html', search_results=results, search_type="comments", username=my_name,
+                                       userid=userid, loggedin=True)
 
-            results = list(sorted(the_results, key=lambda x: x[2]))  # the results has: user_id and user's first_name
-
-            return render_template('search.html', search_results=results)
+            return render_template('search.html', search_results=results, search_type="comments", loggedin=False)
 
         elif search_type == "photo":
 
             key_words = search_word.split(" ")
-            print("search type is photo")
-            query3 = "SELECT photo_id, hashtag FROM associate"
+            for i in range(len(key_words)):
+                if key_words[i][0] != '#':
+                    key_words[i] = '#'+key_words[i]
+
+
+            query3 = "SELECT photo_id, HASHTAG FROM ASSOCIATE"
             cursor.execute(query3)
+
             photo_id_set = []
+            id_tag = []
+
             for item in cursor:
-                id_tag = []  # a list of list containing list of photo_id and its set of hashtags
+                # if the photo_id is not already in id_tag
+                if int(item[0]) not in photo_id_set:
+                    id_tag.append([int(item[0]), item[1]])
+                    photo_id_set.append(int(item[0]))
 
-                if item[
-                    0] not in photo_id_set:  # to avoid repeated photoid, since we want the list of hastags with each photo_id
-                    id_tag.append(item)
-                else:  # if the photo_id also exists
-                    for i in id_tag:
-                        if i[0] == (int)(item[0]):  # find the same photo_id
-                            i[1].append(item[1])  # add the hashtag to that photoid_hashtag pair
-
-            pid_simi = []  # the set of photoid_similarity pair, showing each photoid and its hashtage similarity with the key_words
-            for j in id_tag:
-                simi = compute_jaccard_index(set(key_words), set(j[1]))
-                pid_simi.append((j[0], simi))  # a list of lists containing the photo_id and its similarity
-                results = list(sorted(pid_simi, key=lambda x: x[1]))
-
-            return render_template('search.html', search_results=results)
+                #otherwise
+                else:
+                    #find the photo_id and append tag to its list of hashtags
+                    for i in range(len(id_tag)):
+                        if int(id_tag[i][0]) == int(item[0]):
+                            id_tag[i].append(item[1])
 
 
+            # compute_similarity pair between tags set and the key_words
+            pid_sim = []
+            for tag in id_tag:
+                pid = int(tag[0])
+                ptags = tag[1:]
+                sim = compute_jaccard_index(set(key_words), set(ptags))
+
+                pid_sim.append([pid, sim])
+
+            rank = list(reversed(sorted(pid_sim, key=lambda x: x[1])))
+            pids = [int(x[0]) for x in rank if x[1] > 0]
+
+            #getting the image data
+
+            query = 'SELECT photo_id, DATA, CAPTION, album_id FROM PHOTOS'
+            cursor.execute(query)
+
+            pic_and_data = []
+            for item in cursor:
+                img = ''.join(list(str(item[1]))[2:-1])
+                pic_and_data.append([int(item[0]), img])
+
+            #preserving the order
+
+            for i in range(len(pids)):
+                for j in range(len(pic_and_data)):
+                    if int(pids[i]) == int(pic_and_data[j][0]):
+                        results.append([pic_and_data[j][0], pic_and_data[j][1]])
+
+            if session.get('loggedin', None):
+
+                userid = session.get('userid', None)
+                my_name = session.get('my_name', None)
+
+                return render_template('search.html', search_results=results, search_type="photos", username=my_name,
+                                       userid=userid, loggedin=True)
+
+            return render_template('search.html', search_results=results, search_type="photos", loggedin=False)
 
         elif search_type == "user":
             names = []
-            # key_words = search_word.split(" ")
-            query4 = "select first_name, last_name from users"
+            key_words = search_word.split(" ")
+            if len(key_words) < 2:
+                key_words.append('')
+
+            #get first and last names of all users
+            query4 = "select user_id, first_name, last_name from USERS"
             cursor.execute(query4)
+
             for item in cursor:
-                names.append(item)
-            for i in names:  # first_name and last_name of all users
-                if search_word == i[0]:  # check for whether first_name matches the search_word
-                    results.append(i)  # but the rrsult would show both first name and last name
+                names.append([int(item[0]), item[1], item[2]])
 
-            return render_template('search.html', search_results=results)
+            for name in names:
+                if (key_words[0] == name[1] or key_words[1] == name[1]) and key_words[1] == name[2]:
+                    results.append(name)
 
+            for name in names:
+                if (key_words[1] == name[2] or key_words[0] == name[2]) and (name not in results):
+                    results.append(name)
 
+            results = [[x[0], ' '.join([x[1], x[2]])] for x in results]
 
-        else:
-            print("%s is not valid search type", search_type)
+            if session.get('loggedin', None):
+
+                userid = session.get('userid', None)
+                my_name = session.get('my_name', None)
+
+                return render_template('search.html', search_results=results, search_type="users", username=my_name,
+                                       userid=userid, loggedin=True)
+
+            return render_template('search.html', search_results=results, search_type="users", loggedin=False)
 
         return render_template('search.html', search_results=results)
 
@@ -903,10 +961,6 @@ def compute_jaccard_index(set_1, set_2):
 ############ TO BE IMPLEMENTED CORRECTLY #################
 
 ##########################################################
-
-
-
-
 
 
 
