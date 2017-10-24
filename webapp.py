@@ -242,7 +242,7 @@ def upload_photo(album_id):
 
         query = 'INSERT INTO PHOTOS(album_id, DATA, CAPTION) VALUES (%s, %s, %s)'
         image = request.files['img']
-        cursor.execute(query, (album_id, base64.standard_b64encode(image.read()), cap))
+        cursor.execute(query, (int(album_id), base64.standard_b64encode(image.read()), cap))
         conn.commit()
 
         photo_id = cursor.lastrowid
@@ -256,7 +256,7 @@ def upload_photo(album_id):
 
         for tag in hashtags:
             if tag not in all_tags and len(tag) < 40:
-                cursor.execute(query2, tag)
+                cursor.execute(query2, [tag])
                 conn.commit()
                 all_tags.append(tag)
 
@@ -470,7 +470,7 @@ def comment(photo_id):
 
     for tag in hashtags:
         if (tag not in all_tags) and len(tag)<40:
-            cursor.execute(query2, tag)
+            cursor.execute(query2, [tag])
             conn.commit()
             all_tags.append(tag)
 
@@ -495,9 +495,10 @@ def comment(photo_id):
         return view_photo(photo_id=photo_id)
 
     #find anon user
+    anon_email = "anon@anon"
 
     query = 'SELECT user_id, EMAIL, first_name FROM USERS WHERE EMAIL=%s'
-    cursor.execute(query, "anon@anon")
+    cursor.execute(query, anon_email)
 
     anon_user = []
 
@@ -517,9 +518,14 @@ def comment(photo_id):
         return view_photo(photo_id=photo_id)
 
     #otherwise we create one
+    anon_password = "hello123"
+    anon_name = 'anon'
+    anon_dob = '1900-01-01'
+    anon_gender = 'O'
+
     query = 'INSERT INTO USERS(EMAIL, PASSWORD, first_name, ' \
             'last_name, DOB, HOMETOWN, GENDER) VALUES (%s, %s, %s, %s, %s, %s, %s)'
-    cursor.execute(query, ('anon@anon', 'anon123', 'anon', 'anon', '1900-01-01', 'anon', 'O'))
+    cursor.execute(query, (anon_email, anon_password, anon_name, anon_name, anon_dob, anon_name, anon_gender))
     conn.commit()
 
     userid = cursor.lastrowid
@@ -716,8 +722,10 @@ def top_users():
     query2 = 'SELECT user_id FROM USERS'
     query3 = 'SELECT user_id FROM USERS WHERE EMAIL =%s'
 
-    anon = -3
-    cursor.execute(query3, 'anon@anon')
+    anon = -1
+    anon_email = 'anon@anon'
+
+    cursor.execute(query3, [anon_email])
     for item in cursor:
         anon = int(item[0])
         break
@@ -755,13 +763,13 @@ def top_users():
 
     top10id = [[x[0], x[1] + y[1]] for x in top10id_photo for y in top10id_comment if x[0] == y[0]]
 
-    top10id = list(reversed(sorted(top10id, key=lambda x:x[1])))[:10]
+    top10id = list(reversed(sorted(top10id, key=lambda x: x[1])))[:10]
 
     query = 'SELECT first_name, user_id FROM USERS WHERE user_id = %s'
 
     top10 = []
     for topid in top10id:
-        cursor.execute(query, topid[0])
+        cursor.execute(query, [topid[0]])
         for item in cursor:
             top10.append([item[1], item[0]])
 
