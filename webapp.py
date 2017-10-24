@@ -209,11 +209,12 @@ def create_album():
 
     #insert into database album
     result = request.form
-    query = 'INSERT INTO ALBUMS(user_id, album_name) VALUES (%s, %s)'
+    query = 'INSERT INTO ALBUMS(user_id, album_name) VALUES (%s, %s) RETURNING album_id'
 
     cursor.execute(query, (userid, result['album']))
+    res = cursor.fetchone()
+    album_id = res[0]
     conn.commit()
-    album_id = cursor.lastrowid
 
     return render_template('upload_photo.html', album_id=album_id, username=my_name, userid=userid)
 
@@ -240,12 +241,12 @@ def upload_photo(album_id):
                 t = ''.join(list(tag)[1:])
                 cap = re.sub(tag, "<a href=\"/view_tag/" + t + "\") }}\"> " + tag + " </a>", cap)
 
-        query = 'INSERT INTO PHOTOS(album_id, DATA, CAPTION) VALUES (%s, %s, %s)'
+        query = 'INSERT INTO PHOTOS(album_id, DATA, CAPTION) VALUES (%s, %s, %s) RETURNING photo_id'
         image = request.files['img']
         cursor.execute(query, (int(album_id), base64.standard_b64encode(image.read()), cap))
+        res = cursor.fetchone()
+        photo_id = res[0]
         conn.commit()
-
-        photo_id = cursor.lastrowid
 
         cursor.execute(query3)
 
@@ -498,7 +499,7 @@ def comment(photo_id):
     anon_email = "anon@anon"
 
     query = 'SELECT user_id, EMAIL, first_name FROM USERS WHERE EMAIL=%s'
-    cursor.execute(query, anon_email)
+    cursor.execute(query, [anon_email])
 
     anon_user = []
 
@@ -524,11 +525,11 @@ def comment(photo_id):
     anon_gender = 'O'
 
     query = 'INSERT INTO USERS(EMAIL, PASSWORD, first_name, ' \
-            'last_name, DOB, HOMETOWN, GENDER) VALUES (%s, %s, %s, %s, %s, %s, %s)'
+            'last_name, DOB, HOMETOWN, GENDER) VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING user_id'
     cursor.execute(query, (anon_email, anon_password, anon_name, anon_name, anon_dob, anon_name, anon_gender))
+    res = cursor.fetchone()
+    userid = res[0]
     conn.commit()
-
-    userid = cursor.lastrowid
 
     # insert comment and user id
     query = 'INSERT INTO COMMENTS(photo_id, CONTENT, user_id) VALUES (%s, %s, %s)'
