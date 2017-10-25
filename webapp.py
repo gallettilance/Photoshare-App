@@ -944,7 +944,7 @@ def search():
                 names.append([int(item[0]), item[1], item[2]])
 
             for name in names:
-                if (key_words[0] == name[1] or key_words[1] == name[1]) and key_words[1] == name[2]:
+                if (key_words[0] == name[1] or key_words[1] == name[1]):
                     results.append(name)
 
             for name in names:
