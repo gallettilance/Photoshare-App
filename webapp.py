@@ -911,8 +911,7 @@ def search():
 
             pic_and_data = []
             for item in cursor:
-                img = ''.join(list(str(item[1]))[2:-1])
-                pic_and_data.append([int(item[0]), img])
+                pic_and_data.append([int(item[0]), item[1]])
 
             #preserving the order
 
