@@ -35,6 +35,8 @@
 
     </h1>
 
+{% endif %}
+    
     <div style="margin-top:120px">
         {% for photo in photos %}
             <a href="{{ url_for('view_photo', photo_id=photo[0]) }}">
