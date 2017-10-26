@@ -963,9 +963,23 @@ def search():
 
             return render_template('search.html', search_results=results, search_type="users", loggedin=False)
 
-        return render_template('search.html', search_results=results)
+        if session.get('loggedin', None):
+            userid = session.get('userid', None)
+            my_name = session.get('my_name', None)
 
-    return render_template('search.html', search_results=results)
+            return render_template('search.html', search_results=results, username=my_name,
+                                   userid=userid, loggedin=True)
+
+        return render_template('search.html', search_results=results, loggedin=False)
+
+    if session.get('loggedin', None):
+        userid = session.get('userid', None)
+        my_name = session.get('my_name', None)
+
+        return render_template('search.html', search_results=results, username=my_name,
+                                   userid=userid, loggedin=True)
+
+    return render_template('search.html', search_results=results, loggedin=False)
 
 def compute_jaccard_index(set_1, set_2):
     n = len(set_1.intersection(set_2))
