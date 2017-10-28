@@ -30,7 +30,7 @@
             </li>
             {% if mypic %}
                 <li>
-                    <a href="{{ url_for('delete_photo', photo_id=photo[2]) }}" style="background-color:#cc0404 ;text-decoration: none; color:white"> DELETE </a>
+                    <a href="{{ url_for('delete_photo', photo_id=photo[2]) }}" style="background-color:#9d4437 ;text-decoration: none; color:white"> DELETE </a>
                 </li>
             {% endif %}
             {% if likedby %}
@@ -47,7 +47,7 @@
                 </li>
             {% else %}
                 <li>
-                    <a href="{{ url_for('unlike', photo_id=photo[2]) }}" style="text-decoration: none; color:white"> UNLIKE </a>
+                    <a href="{{ url_for('unlike', photo_id=photo[2]) }}" style="background-color: #156A93;text-decoration: none; color:white"> UNLIKE </a>
                 </li>
             {% endif %}
             <li>
@@ -64,7 +64,7 @@
                     </a>
                     said: {{ comment[2]|safe }}
                     {% if userid == comment[0] %}
-                    <a href="{{ url_for('delete_comment', comment_id=comment[3]) }}" style="background-color:#cc0404 ;text-decoration: none; color:white"> DELETE </a>
+                    <a href="{{ url_for('delete_comment', comment_id=comment[3]) }}" style="background-color: #9d4437;text-decoration: none; color:white"> DELETE </a>
                     {% endif %}
                 </li>
                 {% else %}

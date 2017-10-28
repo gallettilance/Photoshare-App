@@ -1,6 +1,6 @@
 .navbar {
     overflow: hidden;
-    background-color: #008CBA;
+    background-color: #1b85b8;
     position: fixed; /* Set the navbar to fixed position */
     top: 0; /* Position the navbar at the top of the page */
     width: 100%; /* Full width */
@@ -23,14 +23,14 @@
 .navbar a {
     float: left;
     display: block;
-    color:#008CBA;
+    color:#1b85b8;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
 
 .dropbtn {
-    background-color: #008CBA;
+    background-color: #1b85b8;
     color: white;
     padding: 40px 60px;
     font-size: 16px;
@@ -49,7 +49,7 @@
     font-size:10px;
     display: none;
     position: absolute;
-    background-color: #008CBA;
+    background-color: #1b85b8;
     min-width: 200px;
     box-shadow: 0px 8px 16px 0px;
     z-index: 1;
@@ -64,7 +64,7 @@
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #007094}
+.dropdown-content a:hover {background-color: #156a93}
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
@@ -73,7 +73,7 @@
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {
-    background-color: #007094;
+    background-color:#156a93 ;
 }
 
 p {
@@ -82,7 +82,7 @@ p {
 
 
 ul {
-    background-color: #008CBA;
+    background-color: #1b85b8;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -99,7 +99,7 @@ li {
 }
 
 li:hover {
-    background-color: #007094;
+    background-color:#156a93 ;
 }
 
 div.gallery {
@@ -115,7 +115,7 @@ div.desc {
 }
 
 .profile_header {
-    background-color: #008CBA; /* Blue */
+    background-color: #1b85b8; /* Blue */
     color: white;
     list-style-type: none;
     margin: 0;
@@ -137,7 +137,7 @@ div.desc {
 }
 
 .logout {
-    background-color: #008CBA; /* Blue */
+    background-color: #1b85b8; /* Blue */
     border: none;
     display: block;
     color: white;
@@ -150,33 +150,33 @@ div.desc {
 }
 
 .plus:hover {
-    background-color: #007094;
+    background-color: #156a93;
 }
 
 .signup:hover {
-    background-color: #007094;
+    background-color: #156a93;
 }
 
 .logout:hover {
-    background-color: #007094;
+    background-color: #156a93;
 }
 
 .friend_search:hover {
-    background-color: #007094;
+    background-color: #156a93;
 }
 
 .albums:hover {
-    background-color: #007094;
+    background-color: #156a93;
 }
 
 .upload:hover {
-    background-color: #007094;
+    background-color: #156a93;
 }
 
 .login:hover {
-    background-color: #007094;
+    background-color: #156a93;
 }
 
 .visit:hover {
-    background-color: #007094;
+    background-color: #156a93;
 }
