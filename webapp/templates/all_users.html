@@ -26,13 +26,6 @@
         </div>
     </h1>
 
-    <div style="margin-top:120px">
-        {% for user in all_users %}
-        <a href="{{ url_for('view_profile', id=user[0]) }}" style="background-color:black; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ user[1] }} </a>
-        {% endfor %}
-        <p style="clear: both;">
-    </div>
-
 {% else %}
 
 <h1 class='profile_header' style="top:8px;position:fixed">
@@ -50,12 +43,14 @@
     <a href="{{ url_for('login_page') }}"><button class='logout' style="top:0px; float:right"> LOG IN </button></a>
 
 </h1>
+{% endif %}
 
 <div style="margin-top:120px">
         {% for user in all_users %}
-        <a href="{{ url_for('view_profile', id=user[0]) }}" style="background-color:black; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ user[1] }} </a>
+            {% if user[1] != 'anon anon' and user[1] != 'anon' %}
+            <a href="{{ url_for('view_profile', id=user[0]) }}" style="background-color:black; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ user[1] }} </a>
+            {% endif %}
         {% endfor %}
         <p style="clear: both;">
 </div>
-{% endif %}
 

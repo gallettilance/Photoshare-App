@@ -64,8 +64,6 @@
             {% for result in search_results %}
                 {% if result[1] != 'anon' and result[1] !='anon anon' %}
                     <li> <a href="{{ url_for('view_profile', id=result[0]) }}"> {{ result[1] }} </a> </li>
-                {% else %}
-                    <li> {{ result[1] }} </li>
                 {% endif %}
             {% endfor %}
         </ul>
