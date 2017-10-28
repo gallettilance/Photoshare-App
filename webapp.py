@@ -9,11 +9,11 @@ import re
 app = Flask(__name__, template_folder='templates')
 app.config['SESSION_TYPE']= 'memcached'
 app.config['SECRET_KEY']= 'super secret key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://gourjxhhgrdohm:91763acbeee0120202fe802b0d8dad0b7e1c2f24bc649c9f31239a87bb91c434@ec2-23-23-249-169.compute-1.amazonaws.com:5432/d1u6dppefbjr2h'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
 
 parse.uses_netloc.append("postgres")
-url = parse.urlparse('postgres://gourjxhhgrdohm:91763acbeee0120202fe802b0d8dad0b7e1c2f24bc649c9f31239a87bb91c434@ec2-23-23-249-169.compute-1.amazonaws.com:5432/d1u6dppefbjr2h')
+url = parse.urlparse(os.environ['DATABASE_URL'])
 
 conn = psycopg2.connect(
     database=url.path[1:],
