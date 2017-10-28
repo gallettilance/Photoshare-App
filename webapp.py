@@ -10,6 +10,7 @@ app = Flask(__name__, template_folder='templates')
 app.config['SESSION_TYPE']= 'memcached'
 app.config['SECRET_KEY']= 'super secret key'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 parse.uses_netloc.append("postgres")
