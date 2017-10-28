@@ -43,14 +43,13 @@
 
 </h1>
 
+{% endif %}
+
 <div style="margin-top:120px">
         {% for user in all_users %}
             {% if user[1] != 'anon' and user[1] != 'anon anon' %}
             <a href="{{ url_for('view_profile', id=user[0]) }}" style="background-color:#156A93; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ user[1] }} </a>
-            {% else %}
-            <a href="#" style="background-color:#156A93; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ user[1] }} </a>
             {% endif %}
         {% endfor %}
         <p style="clear: both;">
 </div>
-{% endif %}
