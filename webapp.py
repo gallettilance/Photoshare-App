@@ -647,7 +647,7 @@ def delete_photo(photo_id):
     userid = session.get('userid', None)
 
     query = 'DELETE FROM PHOTOS WHERE photo_id=%s'
-    cursor.execute(query, photo_id)
+    cursor.execute(query, [photo_id])
     conn.commit()
 
     return view_profile(id=userid)
@@ -673,7 +673,7 @@ def delete_comment(comment_id):
         cursor.execute(query, (photo_id, tag))
 
     query = 'DELETE FROM COMMENTS WHERE comment_id=%s'
-    cursor.execute(query, comment_id)
+    cursor.execute(query, [comment_id])
     conn.commit()
 
     return view_photo(photo_id=photo_id)
@@ -684,7 +684,7 @@ def delete_album(album_id):
     userid = session.get('userid', None)
 
     query = 'DELETE FROM ALBUMS WHERE album_id=%s'
-    cursor.execute(query, album_id)
+    cursor.execute(query, [album_id])
     conn.commit()
 
     return view_profile(id=userid)
