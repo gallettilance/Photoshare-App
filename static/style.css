@@ -99,7 +99,8 @@ li {
 }
 
 li:hover {
-    background-color:#156a93 ;
+  background-color:#156a93 ;
+  color:white;
 }
 
 div.gallery {
@@ -179,4 +180,87 @@ div.desc {
 
 .visit:hover {
     background-color: #156a93;
+}
+
+.footer-top{
+  width: 100%;
+  text-align: center;
+  color: #cccccc;
+  display: table;
+}
+
+.socials a {
+  padding: 0.3em 0.8em;
+  color: rgba(255, 255, 255, 0.7);
+  position: relative;
+  display: inline-block;
+  letter-spacing: 1px;
+  margin: 0;
+  text-decoration: none;
+  padding: 25px 0;
+  width: 100%;
+}
+
+.socials a:before,
+.socials a:after {
+  position: absolute;
+  -webkit-transition: all 0.35s ease;
+  transition: all 0.35s ease;
+}
+
+.socials a:before {
+  bottom: 100%;
+  display: block;
+  height: 3px;
+  width: 100%;
+  content: "";
+}
+
+.socials a:after {
+  padding: 0.3em 0.8em;
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  content: attr(data-hover);
+  color: white;
+  white-space: nowrap;
+  width: 100%;
+  padding: 25px 0;
+}
+
+.socials li:hover a,
+.socials .current a {
+  transform: translateY(100%);
+}
+
+.github{
+  background: #969696;
+  /*padding: 20px 0;*/
+}
+.github a:after{
+  background-color: black;
+}
+.codeacademy{
+  background: #ABABAB;
+}
+.codeacademy a:after{
+  background-color: #152b39;
+}
+.kaggle{
+  background: #d8d8d8;
+}
+.kaggle a:after{
+  background: #008ABD;
+}
+.gmail{
+  background: #ABABAB;
+}
+.gmail a:after{
+  background: #DD4B39;
+}
+.linkedin{
+  background: #969696;
+}
+.linkedin a:after{
+  background: #007bb5;
 }
