@@ -1,11 +1,13 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
 <h1 class='profile_header' style="top:8px; position:fixed">
-    <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
+    <a href="{{ url_for('home') }}"><button class='logout' style="padding: 42px 60px; top:0px; float:left"> HOME </button></a>
 
     <a href="{{ url_for('top_users') }}"><button class='logout' style="top:0px; float:left"> TOP USERS </button></a>
 
-    Welcome to Lance and Wendy's Photoshare
+    <a href="{{ url_for('search') }}"><button class='logout' style="top:0px; float:left"> SEARCH </button></a>
+
+    Welcome
 
     <a href="{{ url_for('signup_page') }}"><button class='logout' style="top:0px; float:right"> SIGN UP </button></a>
 

@@ -1,9 +1,31 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
-<title>photo_recommend</title>
-<body>
-<h2> You may also like these photos!</h2>
+<title> Photo Recommendations </title>
 
+<h1 class='profile_header' style="top:8px;position:fixed; margin-right:1em">
+    <a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="top:0px; float:left"> {{ username }} </button></a>
 
+    <a href="{{ url_for('all_users') }}"><button class='logout' style="top:0px; float:left"> ALL USERS </button></a>
 
-</body>
+    RECOMMENDED PHOTOS
+
+    <div class="dropdown" style="float:right; margin-right:1em;">
+        <button class="dropbtn"> MENU </button>
+        <div class="dropdown-content" style="right:0;">
+            <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
+            <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
+            <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
+            <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
+            <a href="{{ url_for('recommendations', id=userid) }}"> YOU MAY ALSO LIKE </a>
+            <a href="{{ url_for('logout') }}">  LOG OUT </a>
+        </div>
+    </div>
+</h1>
+
+<div class="wrapper">
+    {% for result in recommended_photos %}
+        <a href="{{ url_for('view_photo', photo_id=result[0]) }}">
+            <img src='data:;base64, {{ result[1] }}' style="float:left; width:23%; margin-right:1%; margin-bottom:.5em"/>
+        </a>
+    {% endfor %}
+</div>

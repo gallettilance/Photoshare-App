@@ -5,6 +5,9 @@
 {% if loggedin %}
 
     <h1 class='profile_header' style="top:8px;position:fixed; margin-right:1em">
+
+        <a href="{{ url_for('view_all_albums', uploader_id=uploader_id) }}"> <button class='logout' style="padding: 42px 20px; top:0px; float:left"> < </button>  </a>
+
         <a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="top:0px; float:left"> {{ username }} </button></a>
 
         {{ album_name }} by {{ uploader_name }}
@@ -39,7 +42,11 @@
 {% else %}
 
 <h1 class='profile_header' style="top:8px">
+
+    <a href="{{ url_for('view_all_albums', uploader_id=uploader_id) }}"> <button class='logout' style="padding: 42px 20px; top:0px; float:left"> < </button>  </a>
+
     <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
+
 
     {{ album_name }} by {{ uploader_name }}
 

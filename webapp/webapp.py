@@ -701,6 +701,24 @@ def unfriend(friend_id):
 
     return view_profile(id=friend_id)
 
+@app.route('/all_users', methods=['GET', 'POST'])
+def all_users():
+    query = 'SELECT user_id, first_name, last_name FROM USERS'
+    cursor.execute(query)
+
+    all_users = []
+    for item in cursor:
+        all_users.append([item[0], item[1]+' '+item[2]])
+
+    if session.get('loggedin', None):
+        userid = session.get('userid', None)
+        my_name = session.get('my_name', None)
+
+
+        return render_template('all_users.html', all_users=all_users, username=my_name, userid=userid, loggedin=True)
+
+    return render_template('all_users.html', all_users=all_users)
+
 
 @app.route('/top_users', methods=['GET', 'POST'])
 def top_users():
@@ -788,9 +806,64 @@ def top_tags():
         userid = session.get('userid', None)
         my_name = session.get('my_name', None)
 
-        return render_template('top_tags.html', top10=top10, userid=userid, name=my_name, loggedin=True)
+        return render_template('top_tags.html', top10=top10, userid=userid, username=my_name, loggedin=True)
 
     return render_template('top_tags.html', top10=top10, loggedin=False)
+
+
+def photo_search(key_words):
+
+    results = []
+
+    query3 = "SELECT photo_id, HASHTAG FROM ASSOCIATE"
+    cursor.execute(query3)
+
+    photo_id_set = []
+    id_tag = []
+
+    for item in cursor:
+        # if the photo_id is not already in id_tag
+        if int(item[0]) not in photo_id_set:
+            id_tag.append([int(item[0]), item[1]])
+            photo_id_set.append(int(item[0]))
+
+        # otherwise
+        else:
+            # find the photo_id and append tag to its list of hashtags
+            for i in range(len(id_tag)):
+                if int(id_tag[i][0]) == int(item[0]):
+                    id_tag[i].append(item[1])
+
+    # compute_similarity pair between tags set and the key_words
+    pid_sim = []
+    for tag in id_tag:
+        pid = int(tag[0])
+        ptags = tag[1:]
+        sim = compute_jaccard_index(set(key_words), set(ptags))
+
+        pid_sim.append([pid, sim])
+
+    rank = list(reversed(sorted(pid_sim, key=lambda x: x[1])))
+    pids = [int(x[0]) for x in rank if x[1] > 0]
+
+    # getting the image data
+
+    query = 'SELECT photo_id, DATA, CAPTION, album_id FROM PHOTOS'
+    cursor.execute(query)
+
+    pic_and_data = []
+    for item in cursor:
+        img = ''.join(list(str(item[1]))[2:-1])
+        pic_and_data.append([int(item[0]), img])
+
+    # preserving the order
+
+    for i in range(len(pids)):
+        for j in range(len(pic_and_data)):
+            if int(pids[i]) == int(pic_and_data[j][0]):
+                results.append([pic_and_data[j][0], pic_and_data[j][1]])
+
+    return results
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -823,7 +896,7 @@ def search():
             cursor.execute(query2)
             for item in cursor:
                 if int(item[1]) in user:
-                    results.append([item[1], item[0]])  # append user_id and first_name to "results"
+                    results.append([item[1], item[0]])
 
             the_results = []
             all_ids = []
@@ -832,11 +905,11 @@ def search():
                 for j in range(i, len(results)):
                     if results[i][0] == results[j][0]:
                         count += 1
-                if results[i][0] not in all_ids:  # to avoid repetition, since the same user_id can appear multiple times, and we only need to compute once
+                if results[i][0] not in all_ids:
                     all_ids.append(results[i][0])
                     the_results.append([results[i][0], results[i][1], count])
 
-            results = list(reversed(sorted(the_results, key=lambda x: x[2])))  # the results has: user_id and user's first_name
+            results = list(reversed(sorted(the_results, key=lambda x: x[2])))
 
             if session.get('loggedin', None):
 
@@ -855,55 +928,7 @@ def search():
                 if key_words[i][0] != '#':
                     key_words[i] = '#'+key_words[i]
 
-
-            query3 = "SELECT photo_id, HASHTAG FROM ASSOCIATE"
-            cursor.execute(query3)
-
-            photo_id_set = []
-            id_tag = []
-
-            for item in cursor:
-                # if the photo_id is not already in id_tag
-                if int(item[0]) not in photo_id_set:
-                    id_tag.append([int(item[0]), item[1]])
-                    photo_id_set.append(int(item[0]))
-
-                #otherwise
-                else:
-                    #find the photo_id and append tag to its list of hashtags
-                    for i in range(len(id_tag)):
-                        if int(id_tag[i][0]) == int(item[0]):
-                            id_tag[i].append(item[1])
-
-
-            # compute_similarity pair between tags set and the key_words
-            pid_sim = []
-            for tag in id_tag:
-                pid = int(tag[0])
-                ptags = tag[1:]
-                sim = compute_jaccard_index(set(key_words), set(ptags))
-
-                pid_sim.append([pid, sim])
-
-            rank = list(reversed(sorted(pid_sim, key=lambda x: x[1])))
-            pids = [int(x[0]) for x in rank if x[1] > 0]
-
-            #getting the image data
-
-            query = 'SELECT photo_id, DATA, CAPTION, album_id FROM PHOTOS'
-            cursor.execute(query)
-
-            pic_and_data = []
-            for item in cursor:
-                img = ''.join(list(str(item[1]))[2:-1])
-                pic_and_data.append([int(item[0]), img])
-
-            #preserving the order
-
-            for i in range(len(pids)):
-                for j in range(len(pic_and_data)):
-                    if int(pids[i]) == int(pic_and_data[j][0]):
-                        results.append([pic_and_data[j][0], pic_and_data[j][1]])
+            results = photo_search(key_words)
 
             if session.get('loggedin', None):
 
@@ -929,11 +954,15 @@ def search():
                 names.append([int(item[0]), item[1], item[2]])
 
             for name in names:
-                if (key_words[0] == name[1] or key_words[1] == name[1]) and key_words[1] == name[2]:
+                if key_words[0] == name[1] and key_words[1] == name[2]:
                     results.append(name)
 
             for name in names:
-                if (key_words[1] == name[2] or key_words[0] == name[2]) and (name not in results):
+                if (key_words[0] == name[1] or key_words[1] == name[2]) and (name not in results):
+                    results.append(name)
+
+            for name in names:
+                if (key_words[1] == name[0] or key_words[0] == name[1]) and (name not in results):
                     results.append(name)
 
             results = [[x[0], ' '.join([x[1], x[2]])] for x in results]
@@ -948,9 +977,23 @@ def search():
 
             return render_template('search.html', search_results=results, search_type="users", loggedin=False)
 
-        return render_template('search.html', search_results=results)
+        if session.get('loggedin', None):
+            userid = session.get('userid', None)
+            my_name = session.get('my_name', None)
 
-    return render_template('search.html', search_results=results)
+            return render_template('search.html', search_results=results, username=my_name,
+                                   userid=userid, loggedin=True)
+
+        return render_template('search.html', search_results=results, loggedin=False)
+
+    if session.get('loggedin', None):
+        userid = session.get('userid', None)
+        my_name = session.get('my_name', None)
+
+        return render_template('search.html', search_results=results, username=my_name,
+                               userid=userid, loggedin=True)
+
+    return render_template('search.html', search_results=results, loggedin=False)
 
 def compute_jaccard_index(set_1, set_2):
     n = len(set_1.intersection(set_2))
@@ -998,42 +1041,51 @@ def friend_recommendation(userid, friends):
     return [[x[0], get_name(x[0])] for x in sug_friends]
 
 
-@app.route('/recommendations', methods=['GET', 'POST'])
-def recommendations():
-    return render_template('recommendations.html')
+@app.route('/recommendations/<id>', methods=['GET', 'POST'])
+def recommendations(id):
 
+    #get all tags of photos of user
 
+    query = 'SELECT album_id FROM ALBUMS WHERE user_id = %s'
+    cursor.execute(query, int(id))
 
+    albums_of_id = []
+    for item in cursor:
+        albums_of_id.append(item[0])
 
+    query = 'SELECT photo_id FROM PHOTOS WHERE album_id = %s'
+    photos_of_id = []
+    for album in albums_of_id:
+        cursor.execute(query, int(album))
+        for item in cursor:
+            photos_of_id.append(int(item[0]))
 
+    query = 'SELECT HASHTAG FROM ASSOCIATE WHERE photo_id = %s'
+    tags_of_id = []
+    count_tags_of_id = dict()
+    for photo in photos_of_id:
+        cursor.execute(query, int(photo))
+        for item in cursor:
+            if item[0] in tags_of_id:
+                count_tags_of_id[item[0]] += 1
+            else:
+                count_tags_of_id[item[0]] = 1
+                tags_of_id.append(item[0])
 
+    #get top 5 commonly used tags
+    tag_list = count_tags_of_id.items()
+    tag_list = list(reversed(sorted(tag_list, key=lambda x: x[1])))[:5]
+    top5_tags = [x[0] for x in tag_list]
 
+    recommended_photos = photo_search(top5_tags)
 
+    #remove pics of the user
+    recommended_photos = [x for x in recommended_photos if int(x[0]) not in photos_of_id]
 
+    userid = session.get('userid', None)
+    my_name = session.get('my_name', None)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return render_template('recommendations.html', userid=userid, username=my_name, recommended_photos=recommended_photos)
 
 if __name__=='__main__':
     app.secret_key = os.urandom(100)

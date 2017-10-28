@@ -4,6 +4,9 @@
 
 {% if loggedin %}
     <h1 class='profile_header' style="top:8px;position:fixed; margin-right:1em">
+
+        <a href="{{ url_for('view_album_content', album_id=album_id) }}"> <button class='logout' style="padding: 42px 20px; top:0px; float:left"> < </button>  </a>
+
         <a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="top:0px; float:left"> {{ username }} </button></a>
 
         {{ photo[1]|safe }}
@@ -25,6 +28,9 @@
 <div style="margin-top:120px">
     <div class="wrapper" style="top:0">
         <ul class="center">
+            <li>
+                <a href="{{ url_for('view_profile', id=uploader_id) }}"> {{ uploader_name }} </a> > <a href="{{ url_for('view_album_content', album_id=album_id) }}"> {{ album_name }} </a> > {{ photo[1]|safe }}
+            </li>
             <li style="background-color: white">
                 <img src='data:image/jpg;base64, {{ photo[0] }}' style="width:75%"/>
             </li>
@@ -50,12 +56,6 @@
                     <a href="{{ url_for('unlike', photo_id=photo[2]) }}" style="text-decoration: none; color:white"> UNLIKE </a>
                 </li>
             {% endif %}
-            <li>
-                <a href="{{ url_for('view_profile', id=uploader_id) }}" style="text-decoration: none; color:white"> {{ uploader_name }} </a>
-            </li>
-            <li>
-                <a href="{{ url_for('view_album_content', album_id=album_id) }}" style="text-decoration: none; color:white;"> {{ album_name }} </a>
-            </li>
             {% for comment in comments %}
                 {% if comment[1] != 'anon' %}
                 <li>
@@ -87,6 +87,9 @@
 {% else %}
 
     <h1 class='profile_header' style="top:8px; position:fixed">
+
+        <a href="{{ url_for('view_album_content', album_id=album_id) }}"> <button class='logout' style="padding: 42px 20px; top:0px; float:left"> < </button> </a>
+
         <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
 
         {{ photo[1]|safe }}
@@ -100,6 +103,9 @@
 <div style="margin-top:120px">
     <div class="wrapper" style="top:0">
         <ul class="center">
+            <li>
+                <a href="{{ url_for('view_profile', id=uploader_id) }}"> {{ uploader_name }} </a> > <a href="{{ url_for('view_album_content', album_id=album_id) }}"> {{ album_name }} </a> > {{ photo[1]|safe }}
+            </li>
             <li style="background-color: white">
                 <img src='data:image/jpg;base64, {{ photo[0] }}' style="width:75%"/>
             </li>
@@ -111,12 +117,6 @@
                     {% endfor %}
                 </li>
             {% endif %}
-            <li>
-                <a href="{{ url_for('view_profile', id=uploader_id) }}" style="text-decoration: none; color:white"> {{ uploader_name }} </a>
-            </li>
-            <li>
-                <a href="{{ url_for('view_album_content', album_id=album_id) }}" style="text-decoration: none; color:white;"> {{ album_name }} </a>
-            </li>
             {% for comment in comments %}
                 {% if comment[1] != 'anon' %}
                     <li> <a href="{{ url_for('view_profile', id=comment[0]) }}">  {{ comment[1] }} </a> said: {{ comment[2]|safe }}</li>
