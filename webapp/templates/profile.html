@@ -1,17 +1,96 @@
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
-<title> {{ name }}'s Profile </title>
+
+<link type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
+<link href="../webapp/static/thumbnail-gallery.css" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+
+ <style>
+     .dropbtn {
+
+    color: white;
+    padding: 42px 60px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    font-size:10px;
+    display: none;
+    position: absolute;
+    background-color: #818182;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px;
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    padding: 2px 6px;
+    font-size: medium;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover { color="blue"}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+
+}
+ </style>
+
+</head>
+
+
+
 
 {% if loggedin %}
 
-    <h1 class='profile_header' style="top:8px;position:fixed; margin-right:1em">
-        <a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="top:0px; float:left"> {{ username }} </button></a>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-        <a href="{{ url_for('top_users') }}"><button class='logout' style="top:0px; float:left"> TOP USERS </button></a>
+    <title> profile page </title>
 
-        {{ name }}
 
-        <div class="dropdown" style="float:right; margin-right:1em;">
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+
+
+     <a class="navbar-brand" href="{{ url_for('view_profile', id=userid) }}"> {{ username }}  </a>
+
+
+
+
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+
+          <ul class="navbar-nav ml-auto">
+              <div class="dropdown" style="float:right; margin-right:1em;">
             <button class="dropbtn"> MENU </button>
             <div class="dropdown-content" style="right:0;">
                 <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
@@ -22,23 +101,46 @@
                 <a href="{{ url_for('logout') }}">  LOG OUT </a>
             </div>
         </div>
-    </h1>
+
+
+          </ul>
+  </div></nav>
+
+    <!-- Page Content -->
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+
+
+
 
 
     {% if not myprofile %}
-        <div class='wrapper'>
+
+
+        <b>{{ name }}'s Profile </b>
+
+        <div class='container'>
             <ul class='center'>
-                <li><a href="{{ url_for('view_all_albums', uploader_id=id ) }}" style="text-decoration: none; color:white"> {{ name }}'s ALBUMS </a> </li>
-                <li><a href="{{ url_for('view_friends', id=id) }}" style="text-decoration: none; color:white"> {{ name }}'s FRIENDS </a> </li>
+                <li><a href="{{ url_for('view_all_albums', uploader_id=id ) }}" style="text-decoration: none; color:black"> {{ name }}'s ALBUMS </a> </li>
+                <li><a href="{{ url_for('view_friends', id=id) }}" style="text-decoration: none; color:black"> {{ name }}'s FRIENDS </a> </li>
                 {% if not friends %}
-                    <li><a href="{{ url_for('friend_add', friend_id=id) }}" style="text-decoration: none; color:white"> BE FRIENDS </a> </li>
+                    <li><a href="{{ url_for('friend_add', friend_id=id) }}" style="text-decoration: none; color:black"> BE FRIENDS </a> </li>
                 {% else %}
-                    <li><a href="{{ url_for('unfriend', friend_id=id) }}" style="text-decoration: none; color:white"> UNFRIEND </a> </li>
+                    <li><a href="{{ url_for('unfriend', friend_id=id) }}" style="text-decoration: none; color:black"> UNFRIEND </a> </li>
                 {% endif %}
             </ul>
         </div>
     {% else %}
+
+        <b>{{ name }}'s Profile</b>
+
         <div style="margin-top:120px">
+
         {% for photo in photos %}
             <a href="{{ url_for('view_photo', photo_id=photo[0]) }}">
                 <img src='data:image/jpg;base64, {{ photo[1] }}' style="float:left; width:23%; margin-right:1%; margin-bottom:.5em"/>
@@ -51,26 +153,80 @@
 
 {% else %}
 
-    <h1 class='profile_header' style="top:8px; position:fixed">
-        <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
 
-        <a href="{{ url_for('top_users') }}"><button class='logout' style="top:0px; float:left"> TOP USERS </button></a>
+     <head>
 
-        {{ name }}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-        <a href="{{ url_for('signup_page') }}"><button class='logout' style="top:0px; float:right"> SIGN UP </button></a>
 
-        <a href="{{ url_for('login_page') }}"><button class='logout' style="top:0px; float:right"> LOG IN </button></a>
+  </head>
 
-    </h1>
+  <body>
 
-    <div class='wrapper'>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Lance and Wensi's PhotoShare</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ url_for('home') }}">HOME
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('login_page') }}">LOGIN</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('signup_page') }}"> SIGN UP </a>
+            </li>
+
+
+
+              <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('search')}}"  >SEARCH</a>
+             </li>
+
+              <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('top_users') }}">TOP-USERS</a>
+            </li>
+              <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('logout') }}">  LOGOUT </a>
+              </li>
+
+
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+
+
+
+    <div class='container'>
         <ul class='center'>
-            <li><a href="{{ url_for('view_all_albums', uploader_id=id ) }}" style="text-decoration: none; color:white"> {{ name }}'s ALBUMS </a> </li>
-            <li><a href="{{ url_for('view_friends', id=id ) }}" style="text-decoration: none; color:white"> {{ name }}'s FRIENDS </a> </li>
+            <li><a href="{{ url_for('view_all_albums', uploader_id=id ) }}" style="text-decoration: none; color:black"> {{ name }}'s ALBUMS </a> </li>
+            <li><a href="{{ url_for('view_friends', id=id ) }}" style="text-decoration: none; color:black"> {{ name }}'s FRIENDS </a> </li>
         </ul>
     </div>
 
 {% endif %}
+
+</body>
 
 

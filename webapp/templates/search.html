@@ -1,17 +1,92 @@
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<link type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
+<link href="../webapp/static/thumbnail-gallery.css" rel="stylesheet">
 
-<title> search </title>
+
+<title> search page </title>
+
+<head>
+
+ <style>
+     .dropbtn {
+
+    color: white;
+    padding: 42px 60px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    font-size:10px;
+    display: none;
+    position: absolute;
+    background-color: #818182;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px;
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    padding: 2px 6px;
+    font-size: medium;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover { color="blue"}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+
+}
+ </style>
+
+</head>
 
 {% if loggedin %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <h1 class='profile_header' style="top:8px;position:fixed; margin-right:1em">
-        <a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="top:0px; float:left"> {{ username }} </button></a>
+  </head>
 
-        <a href="{{ url_for('all_users') }}"><button class='logout' style="top:0px; float:left"> ALL USERS </button></a>
 
-        SEARCH
 
-        <div class="dropdown" style="float:right; margin-right:1em;">
+
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+
+          <a class= "navbar-brand" href= "{{ url_for('view_profile', id= userid) }}">  < </button>  </a>
+          <a class="navbar-brand" href="{{ url_for('view_profile', id=userid) }}"> {{ username }}  </a>
+
+
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+
+          <ul class="navbar-nav ml-auto">
+               <div class="dropdown" style="float:right; margin-right:1em;">
             <button class="dropbtn"> MENU </button>
             <div class="dropdown-content" style="right:0;">
                 <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
@@ -22,61 +97,204 @@
                 <a href="{{ url_for('logout') }}">  LOG OUT </a>
             </div>
         </div>
-    </h1>
+          </ul>
+        </div>
 
-{% else %}
+      </div>
+    </nav>
 
-<h1 class='profile_header' style="top:8px">
-    <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
+    <!-- Page Content -->
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 
-    <a href="{{ url_for('all_users') }}"><button class='logout' style="top:0px; float:left"> ALL USERS </button></a>
-
-    SEARCH
-
-    <a href="{{ url_for('signup_page') }}"><button class='logout' style="top:0px; float:right"> SIGN UP </button></a>
-
-    <a href="{{ url_for('login_page') }}"><button class='logout' style="top:0px; float:right"> LOG IN </button></a>
-
-</h1>
-
-{% endif %}
+    <br>
+    <br>
+    <br>
+    <br>
 
 
-<div class='wrapper'>
-    <form class='search_form' action="{{ url_for('search') }}" id="searchform" method=POST>
-        Search:
-        <input type=text name=search_word value="{{request.form.search_word}}" required maxlength=25 placeholder="input your search contain here">
+
+
+<div class = 'container'>
+<div class='wrapper' >
+    <form class='search_form' action="{{ url_for('search') }}" id="searchform" method=POST >
+
+
+        <select name="search_type" form = "searchform">
+            <option value="photo">Photo</option>
+            <option value="user">User</option>
+            <option value="comment" selected = "selected">Comment</option>
+        </select>
+        <input type=text name=search_word value="{{request.form.search_word}}" required maxlength=25 placeholder="Input search words">
+
 
         <input type="submit" value="search">
     </form>
 
-    <select name="search_type" form = "searchform">
+
+</div>
+</div>
+
+
+    {% else %}
+
+    <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Lance and Wensi's PhotoShare</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ url_for('home') }}">HOME
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('login_page') }}">LOGIN</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('signup_page') }}"> SIGN UP </a>
+            </li>
+
+
+
+              <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('search')}}"  >SEARCH</a>
+             </li>
+
+              <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('top_users') }}">TOP-USERS</a>
+            </li>
+              <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('logout') }}">  LOGOUT </a>
+              </li>
+
+
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+
+<div class = 'container'>
+<div class='wrapper' >
+    <form class='search_form' action="{{ url_for('search') }}" id="searchform" method=POST >
+
+
+        <select name="search_type" form = "searchform">
             <option value="photo">Photo</option>
             <option value="user">User</option>
             <option value="comment" selected = "selected">Comment</option>
-    </select>
-</div>
+        </select>
+        <input type=text name=search_word value="{{request.form.search_word}}" required maxlength=25 placeholder="Input search words">
 
+
+        <input type="submit" value="search">
+    </form>
+
+
+</div>
+</div>
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<hr>
 <!-- render search results  -->
+ <div class = 'container'>
 {%  if (search_type == 'users') or (search_type == 'comments') %}
-    <div class="wrapper">
-        <ul class="center">
+
+
+            <b>SEARCH RESULTS:</b>
             {% for result in search_results %}
                 {% if result[1] != 'anon' and result[1] !='anon anon' %}
                     <li> <a href="{{ url_for('view_profile', id=result[0]) }}"> {{ result[1] }} </a> </li>
+                {% else %}
+                    <li> {{ result[1] }} </li>
                 {% endif %}
             {% endfor %}
-        </ul>
+
+
     </div>
 {%  else %}
-    <div class="wrapper">
+    <div class = 'container'>
+
         {% for result in search_results %}
             <a href="{{ url_for('view_photo', photo_id=result[0]) }}">
                 <img src='data:;base64, {{ result[1] }}' style="float:left; width:23%; margin-right:1%; margin-bottom:.5em"/>
             </a>
         {% endfor %}
     </div>
+
 {% endif %}
+
+  </body>
+</html>
 
 
 
