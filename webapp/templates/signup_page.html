@@ -1,97 +1,80 @@
-
-
-
-<link type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
-<link href="../webapp/static/thumbnail-gallery.css" rel="stylesheet">
-
-
 <!DOCTYPE html>
 <html lang="en">
 
   <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title> sign-up page </title>
+      <title> Sign Up</title>
 
+      <link type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
+      <link type="text/css" href="{{ url_for('static', filename='thumbnail-gallery.css') }}" rel="stylesheet">
   </head>
-
 
   <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="{{ url_for('home') }}"> BACK </a>
-
-
-
-
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <a class="navbar-brand" href="#">Lance and Wensi's PhotoShare</a>
         <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') }}">HOME
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login_page') }}">LOGIN
 
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="{{ url_for('home') }}">HOME
-
-              </a>
-            </li>
-
-              <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('signup_page') }}"> SIGN UP </a>
-                  <span class="sr-only">(current)</span>
-            </li>
-
-
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('login_page') }}">LOGIN</a>
-            </li>
-
-
-              <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('search')}}"  >SEARCH</a>
-             </li>
-
-              <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('top_users') }}">TOP-USERS</a>
-            </li>
-
-
-          </ul>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('signup_page') }}"> SIGN UP
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('search')}}"  >SEARCH</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('top_users') }}">TOP-USERS</a>
+                </li>
+            </ul>
         </div>
-
-      </div>
     </nav>
 
     <!-- Page Content -->
     <br>
     <br>
 
+    <div class='container' position="center">
+        <p><b> {{ message }} </b></p>
+        <form class='form' action="{{ url_for('signup') }}" position="auto" method=POST>
+            Email:<br>
+            <input type=email name=email value="{{request.form.email}}" required maxlength=25 placeholder=""><br>
+            Password:<br>
+            <input type=password name=password1 value="{{request.form.password1}}" minlength=6 maxlength=25 required placeholder=""><br>
+            Re-enter Passord:<br>
+            <input type=password name=password2 value="{{request.form.password2}}" minlength=6 maxlength=25 required placeholder=""><br>
+            First name:<br>
+            <input type=text name=first_name value="{{request.form.first_name}}" minlength=2 maxlength=25 required placeholder=""><br>
+            Last name:<br>
+            <input type=text name=last_name value="{{request.form.last_name}}" minlength=2 maxlength=25 required placeholder=""><br>
+            Gender:<br>
+            <input type=text name=gender value="{{request.form.gender}}" maxlength=1 minlength=1 required placeholder=" "><br>
+            Hometown:<br>
+            <input type=text name=hometown value="{{request.form.hometown}}"  maxlength=25 required placeholder=""><br>
+            Date of Birth:<br>
+            <input type=date name=DoB value="{{request.form.DoB}}" required placeholder="YYYY-mm-dd"><br><br>
+            <input type="submit" value="SIGN UP">
+        </form>
+    </div>
 
-<div class='container' position="center">
-    <form class='form' action="{{ url_for('signup') }}" position="auto" method=POST>
-        <h1><b>{{ message }} </b></h1>
-        Email:<br>
-        <input type=email name=email value="{{request.form.email}}" required maxlength=25 placeholder=""><br>
-        Password:<br>
-        <input type=password name=password1 value="{{request.form.password1}}" minlength=6 maxlength=25 required placeholder=""><br>
-        Re-enter Passord:<br>
-        <input type=password name=password2 value="{{request.form.password2}}" minlength=6 maxlength=25 required placeholder=""><br>
-        First name:<br>
-        <input type=text name=first_name value="{{request.form.first_name}}" minlength=2 maxlength=25 required placeholder=""><br>
-        Last name:<br>
-        <input type=text name=last_name value="{{request.form.last_name}}" minlength=2 maxlength=25 required placeholder=""><br>
-        Gender:<br>
-        <input type=text name=gender value="{{request.form.gender}}" maxlength=1 minlength=1 required placeholder=" "><br>
-        Hometown:<br>
-        <input type=text name=hometown value="{{request.form.hometown}}"  maxlength=25 required placeholder=""><br>
-        Date of Birth:<br>
-        <input type=date name=DoB value="{{request.form.DoB}}" required><br><br>
-        <input type="submit" value="SIGN UP">
-    </form>
-</div>
+
+    <!-- Footer -->
+    <footer class="py-4 bg-dark fixed-bottom">
+        <p class="m-0 text-center text-white">Copyright &copy; Lance and Wensi's PhotoShare 2017</p>
+    </footer>
+
+  </body>
+</html>

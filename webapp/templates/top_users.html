@@ -1,51 +1,90 @@
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<!DOCTYPE html>
+<html lang="en">
 
-<title> TOP 10 USERS </title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+      <title> Search </title>
+
+      <link type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
+      <link type="text/css" href="{{ url_for('static', filename='thumbnail-gallery.css') }}" rel="stylesheet">
+
+  </head>
+
+  <body>
 
 {% if loggedin %}
-    <h1 class='profile_header' style="top:8px;position:fixed; margin-right:1em">
-        <a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="top:0px; float:left"> {{ username }} </button></a>
 
-        TOP 10 USERS
-
-        <div class="dropdown" style="float:right; margin-right:1em;">
-            <button class="dropbtn"> MENU </button>
-            <div class="dropdown-content" style="right:0;">
-                <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
-                <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
-                <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
-                <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
-                <a href="{{ url_for('recommendations', id=userid) }}"> YOU MAY ALSO LIKE </a>
-                <a href="{{ url_for('logout') }}">  LOG OUT </a>
-            </div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="{{ url_for('view_profile', id=userid) }}">{{ username }}</a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <div class="dropdown bg-dark" style="float:right; margin-right:1em;">
+                        <button class="dropbtn nav-link bg-dark" style="padding: 10px 30px"> MENU </button>
+                        <div class="dropdown-content bg-dark" style="right:0;">
+                            <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
+                            <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
+                            <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
+                            <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
+                            <a href="{{ url_for('recommendations', id=userid) }}"> YOU MAY ALSO LIKE </a>
+                            <a href="{{ url_for('logout') }}">  LOG OUT </a>
+                        </div>
+                    </div>
+                </div>
+            </ul>
         </div>
-    </h1>
-
-    <div style="margin-top:120px">
-        {% for topuser in top10 %}
-        <a href="{{ url_for('view_profile', id=topuser[0]) }}" style="background-color:black; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ topuser[1] }} </a>
-        {% endfor %}
-        <p style="clear: both;">
-    </div>
+    </nav>
 
 {% else %}
 
-<h1 class='profile_header' style="top:8px;position:fixed">
-    <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">Lance and Wensi's PhotoShare</a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') }}">HOME
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login_page') }}">LOGIN </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('signup_page') }}"> SIGN UP </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('search')}}" > SEARCH </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('top_users') }}">TOP-USERS
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-    TOP 10 USERS
+{% endif %}
 
-    <a href="{{ url_for('signup_page') }}"><button class='logout' style="top:0px; float:right"> SIGN UP </button></a>
+<h4 class="my-4 text-center text-lg-center"> Top Users </h4>
 
-    <a href="{{ url_for('login_page') }}"><button class='logout' style="top:0px; float:right"> LOG IN </button></a>
-
-</h1>
-
-<div style="margin-top:120px">
+<div class="container-fluid" style="margin-top:20px">
         {% for topuser in top10 %}
-        <a href="{{ url_for('view_profile', id=topuser[0]) }}" style="background-color:black; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ topuser[1] }} </a>
+        <a href="{{ url_for('view_profile', id=topuser[0]) }}" style="background-color:#156A93; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ topuser[1] }} </a>
         {% endfor %}
         <p style="clear: both;">
 </div>
-{% endif %}
 
+
+       <!-- Footer -->
+    <footer class="py-4 bg-dark fixed-bottom">
+        <p class="m-0 text-center text-white">Copyright &copy; Lance and Wensi's PhotoShare 2017</p>
+    </footer>
+
+  </body>
+</html>

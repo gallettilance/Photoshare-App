@@ -1,140 +1,189 @@
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<!DOCTYPE html>
+<html lang="en">
 
-<title> {{ photo[1]|safe }} </title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+      <title> {{ name }} </title>
+
+      <link type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
+      <link type="text/css" href="{{ url_for('static', filename='thumbnail-gallery.css') }}" rel="stylesheet">
+
+  </head>
+
+  <body>
 
 {% if loggedin %}
-    <h1 class='profile_header' style="top:8px;position:fixed; margin-right:1em">
 
-        <a href="{{ url_for('view_album_content', album_id=album_id) }}"> <button class='logout' style="padding: 42px 20px; top:0px; float:left"> < </button>  </a>
-
-        <a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="top:0px; float:left"> {{ username }} </button></a>
-
-        {{ photo[1]|safe }}
-
-        <div class="dropdown" style="float:right; margin-right:1em;">
-            <button class="dropbtn"> MENU </button>
-            <div class="dropdown-content" style="right:0;">
-                <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
-                <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
-                <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
-                <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
-                <a href="{{ url_for('recommendations', id=userid) }}"> YOU MAY ALSO LIKE </a>
-                <a href="{{ url_for('logout') }}">  LOG OUT </a>
-            </div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="{{ url_for('view_profile', id=userid) }}">{{ username }}</a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <div class="dropdown bg-dark" style="float:right; margin-right:1em;">
+                        <button class="dropbtn nav-link bg-dark" style="padding: 10px 30px"> MENU </button>
+                        <div class="dropdown-content bg-dark" style="right:0;">
+                            <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
+                            <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
+                            <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
+                            <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
+                            <a href="{{ url_for('recommendations', id=userid) }}"> YOU MAY ALSO LIKE </a>
+                            <a href="{{ url_for('logout') }}">  LOG OUT </a>
+                        </div>
+                    </div>
+                </div>
+            </ul>
         </div>
-    </h1>
+    </nav>
+    <div class="container-fluid" style="margin-top:20px">
+        <div class="card" style="width: 20rem;">
 
+            <img class="card-img-top" src='data:image/jpg;base64, {{ photo[0] }}' alt="Card image cap">
 
-<div style="margin-top:120px">
-    <div class="wrapper" style="top:0">
-        <ul class="center">
-            <li>
-                <a href="{{ url_for('view_profile', id=uploader_id) }}"> {{ uploader_name }} </a> > <a href="{{ url_for('view_album_content', album_id=album_id) }}"> {{ album_name }} </a> > {{ photo[1]|safe }}
-            </li>
-            <li style="background-color: white">
-                <img src='data:image/jpg;base64, {{ photo[0] }}' style="width:75%"/>
-            </li>
-            {% if mypic %}
-                <li>
-                    <a href="{{ url_for('delete_photo', photo_id=photo[2]) }}" style="background-color:#cc0404 ;text-decoration: none; color:white"> DELETE </a>
-                </li>
-            {% endif %}
-            {% if likedby %}
-                <li>
-                    {{ like_num }} likes:
-                    {% for user in likedby %}
-                         <a href="{{ url_for('view_profile', id=user[0]) }}" > {{ user[1] }}</a>,
-                    {% endfor %}
-                </li>
-            {% endif %}
-            {% if not liked %}
-                <li>
-                    <a href="{{ url_for('like', photo_id=photo[2]) }}" style="text-decoration: none; color:white"> LIKE </a>
-                </li>
-            {% else %}
-                <li>
-                    <a href="{{ url_for('unlike', photo_id=photo[2]) }}" style="text-decoration: none; color:white"> UNLIKE </a>
-                </li>
-            {% endif %}
-            {% for comment in comments %}
-                {% if comment[1] != 'anon' %}
-                <li>
-                    <a href="{{ url_for('view_profile', id=comment[0]) }}">
-                        {{ comment[1] }}
-                    </a>
-                    said: {{ comment[2]|safe }}
-                    {% if userid == comment[0] %}
-                    <a href="{{ url_for('delete_comment', comment_id=comment[3]) }}" style="background-color:#cc0404 ;text-decoration: none; color:white"> DELETE </a>
-                    {% endif %}
-                </li>
-                {% else %}
-                <li> {{ comment[1] }} said: {{ comment[2]|safe }} </li>
+            <div class="card-block">
+                {% if mypic %}
+                    <a class="card-link" href="{{ url_for('delete_photo', photo_id=photo[2]) }}" style="text-decoration: none; color:#cc0404"> DELETE </a>
                 {% endif %}
-            {% endfor %}
-            {% if not userid == uploader_id %}
-            <li>
+                {% if not liked %}
+                    <a href="{{ url_for('like', photo_id=photo[2]) }}" style="text-decoration: none; color:#156A93" class="card-link">like</a>
+                {% else %}
+                    <a href="{{ url_for('unlike', photo_id=photo[2]) }}" style="text-decoration: none; color:#cc0404" class="card-link">unlike</a>
+                {% endif %}
+            </div>
+
+            <div class="card-block">
+                <h4 class="card-title"> {{ photo[2]|safe }} </h4>
+                <p class="card-text"> <a href="{{ url_for('view_profile', id=uploader_id) }}"> {{ uploader_name }} </a> > <a href="{{ url_for('view_album_content', album_id=album_id) }}"> {{ album_name }} </a> > {{ photo[1]|safe }} </p>
+            </div>
+
+            <ul class="list-group list-group-flush">
+
+                {% if likedby %}
+                    <li class="list-group-item">
+                        {{ like_num }} likes:
+                        {% for user in likedby %}
+                            <a href="{{ url_for('view_profile', id=user[0]) }}" > {{ user[1] }}</a>,
+                        {% endfor %}
+                    </li>
+                {% endif %}
+
+                {% for comment in comments %}
+                    {% if comment[1] != 'anon' %}
+                        <li class="list-group-item">
+                            <a href="{{ url_for('view_profile', id=comment[0]) }}">
+                                {{ comment[1] }}
+                            </a>
+                            said: {{ comment[2]|safe }}
+                            {% if userid == comment[0] %}
+                                <a href="{{ url_for('delete_comment', comment_id=comment[3]) }}" style="background-color:#cc0404 ;text-decoration: none; color:white"> DELETE </a>
+                            {% endif %}
+                        </li>
+                    {% else %}
+                        <li class="list-group-item"> {{ comment[1] }} said: {{ comment[2]|safe }} </li>
+                    {% endif %}
+                {% endfor %}
+                {% if not userid == uploader_id %}
+                    <li class="list-group-item">
+                        <form class='comments' action="{{ url_for('comment', photo_id=photo[2]) }}" method=POST>
+                            <input type="text" name=comment maxlength=300 required placeholder=" make a comment?" ><br>
+                            <input type="submit" value="COMMENT">
+                        </form>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+{% else %}
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">Lance and Wensi's PhotoShare</a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') }}">HOME
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login_page') }}">LOGIN </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('signup_page') }}"> SIGN UP </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('search')}}"  >SEARCH
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('top_users') }}">TOP-USERS</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="margin-top:20px">
+        <div class="card" style="width: 20rem;">
+
+            <img class="card-img-top" src='data:image/jpg;base64, {{ photo[0] }}' alt="Card image cap">
+
+            <div class="card-block">
+                <h4 class="card-title"> {{ photo[2]|safe }} </h4>
+                <p class="card-text"> <a href="{{ url_for('view_profile', id=uploader_id) }}"> {{ uploader_name }} </a> > <a href="{{ url_for('view_album_content', album_id=album_id) }}"> {{ album_name }} </a> > {{ photo[1]|safe }} </p>
+            </div>
+
+            <ul class="list-group list-group-flush">
+
+                {% if likedby %}
+                    <li class="list-group-item">
+                        {{ like_num }} likes:
+                        {% for user in likedby %}
+                            <a href="{{ url_for('view_profile', id=user[0]) }}" > {{ user[1] }}</a>,
+                        {% endfor %}
+                    </li>
+                {% endif %}
+
+                {% for comment in comments %}
+                    {% if comment[1] != 'anon' %}
+                        <li class="list-group-item">
+                            <a href="{{ url_for('view_profile', id=comment[0]) }}">
+                                {{ comment[1] }}
+                            </a>
+                            said: {{ comment[2]|safe }}
+                            {% if userid == comment[0] %}
+                                <a href="{{ url_for('delete_comment', comment_id=comment[3]) }}" style="background-color:#cc0404 ;text-decoration: none; color:white"> DELETE </a>
+                            {% endif %}
+                        </li>
+                    {% else %}
+                        <li class="list-group-item"> {{ comment[1] }} said: {{ comment[2]|safe }} </li>
+                    {% endif %}
+                {% endfor %}
+
+                <li class="list-group-item">
                 <form class='comments' action="{{ url_for('comment', photo_id=photo[2]) }}" method=POST>
                     <input type="text" name=comment maxlength=300 required placeholder=" make a comment?" ><br>
                     <input type="submit" value="COMMENT">
                 </form>
-            </li>
-            {% endif %}
-        </ul>
-    </div>
-</div>
-
-
-{% else %}
-
-    <h1 class='profile_header' style="top:8px; position:fixed">
-
-        <a href="{{ url_for('view_album_content', album_id=album_id) }}"> <button class='logout' style="padding: 42px 20px; top:0px; float:left"> < </button> </a>
-
-        <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
-
-        {{ photo[1]|safe }}
-
-        <a href="{{ url_for('signup_page') }}"><button class='logout' style="top:0px; float:right"> SIGN UP </button></a>
-
-        <a href="{{ url_for('login_page') }}"><button class='logout' style="top:0px; float:right"> LOG IN </button></a>
-
-    </h1>
-
-<div style="margin-top:120px">
-    <div class="wrapper" style="top:0">
-        <ul class="center">
-            <li>
-                <a href="{{ url_for('view_profile', id=uploader_id) }}"> {{ uploader_name }} </a> > <a href="{{ url_for('view_album_content', album_id=album_id) }}"> {{ album_name }} </a> > {{ photo[1]|safe }}
-            </li>
-            <li style="background-color: white">
-                <img src='data:image/jpg;base64, {{ photo[0] }}' style="width:75%"/>
-            </li>
-            {% if likedby %}
-                <li>
-                    {{ like_num }} likes:
-                    {% for user in likedby %}
-                        <a href="{{ url_for('view_profile', id=user[0]) }}"> {{ user[1] }}</a>,
-                    {% endfor %}
                 </li>
-            {% endif %}
-            {% for comment in comments %}
-                {% if comment[1] != 'anon' %}
-                    <li> <a href="{{ url_for('view_profile', id=comment[0]) }}">  {{ comment[1] }} </a> said: {{ comment[2]|safe }}</li>
-                {% else %}
-                    <li> {{ comment[1] }} said: {{ comment[2]|safe }}</li>
-                {% endif %}
-            {% endfor %}
-            <li>
-                <form class='comments' action="{{ url_for('comment', photo_id=photo[2]) }}" method=POST>
-                    <input type="text" name=comment maxlength=150 required placeholder=" make an anonymous comment?" ><br>
-                    <input type="submit" value="COMMENT">
-                </form>
-            </li>
-        </ul>
+
+            </ul>
+        </div>
     </div>
-</div>
 
 {% endif %}
 
+
+       <!-- Footer -->
+    <footer class="py-4 bg-dark fixed-bottom">
+        <p class="m-0 text-center text-white">Copyright &copy; Lance and Wensi's PhotoShare 2017</p>
+    </footer>
+
+  </body>
+
+</html>
 
 
