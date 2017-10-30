@@ -32,7 +32,7 @@
                     <div class="dropdown bg-dark" style="float:right; margin-right:1em;">
                         <button class="dropbtn nav-link bg-dark" style="padding: 10px 30px"> MENU </button>
                         <div class="dropdown-content bg-dark" style="right:0;">
-                            <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
+                            <a href="{{ url_for('upload', id=userid) }}"> CREATE ALBUM </a>
                             <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
                             <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
                             <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
@@ -80,29 +80,17 @@
 <br>
 <br>
 
- <div class="container-fluid" style="margin-top:5px; margin-left:38%">
-    <div class="card" style="width: 20rem; text-align:center">
+<div class="container-fluid">
+    <div class="card" style="text-align:center; width:100%">
         <div class="card-block" style="text-align:center">
-            <h4 class="card-title"> Search </h4>
-        </div>
-        <ul class="list-group list-group-flush">
             <form class='search_form' action="{{ url_for('search') }}" id="searchform" method=POST >
-                <li class="list-group-item">
-                    <input type=text name=search_word value="{{request.form.search_word}}" required size="18" maxlength=25 placeholder="Input search words">
-                </li>
-
-                <li class="list-group-item">
-                    <select name="search_type" form = "searchform">
-                        <option value="photo">Photo</option>
+                <input type=text name=search_word value="{{request.form.search_word}}" required size="50" maxlength=25 placeholder="search photoshare">
+                <select name="search_type" form = "searchform">
+                        <option value="photo"  selected = "selected">Photo</option>
                         <option value="user">User</option>
-                        <option value="comment" selected = "selected">Comment</option>
-                    </select>
-                </li>
-                <li class="list-group-item">
-                    <input type=submit value="SEARCH">
-                </li>
-            </form>
-        </ul>
+                        <option value="comment">Comment</option>
+                </select>
+        </div>
     </div>
 </div>
 <br>
@@ -113,9 +101,9 @@
 
 {%  if (search_type == 'users') or (search_type == 'comments') %}
 
-    <div class="container" position="relative">
+    <div class="my-4 text-center text-lg-center">
         <b>SEARCH RESULTS:</b>
-        <ul>
+        <ul style="list-style: none">
             {% for result in search_results %}
                 {% if result[1] != 'anon' and result[1] !='anon anon' %}
                     <li> <a href="{{ url_for('view_profile', id=result[0]) }}"> {{ result[1] }} </a> </li>

@@ -33,7 +33,7 @@
                     <div class="dropdown bg-dark" style="float:right; margin-right:1em;">
                         <button class="dropbtn nav-link bg-dark" style="padding: 10px 30px"> MENU </button>
                         <div class="dropdown-content bg-dark" style="right:0;">
-                            <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
+                            <a href="{{ url_for('upload', id=userid) }}"> CREATE ALBUM </a>
                             <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
                             <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
                             <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
@@ -82,7 +82,7 @@
 <div class="container-fluid" style="margin-top:20px">
     {% for user in all_users %}
         {% if user[1] != 'anon anon' and user[1] != 'anon' %}
-            <a href="{{ url_for('view_profile', id=user[0]) }}" style="background-color:#495057; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ user[1] }} </a>
+            <a href="{{ url_for('view_profile', id=user[0]) }}" style="background-color:#843712; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ user[1] }} </a>
         {% endif %}
     {% endfor %}
     <p style="clear: both;">

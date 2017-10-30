@@ -56,7 +56,7 @@ def signup():
     #test password mismatch
     result = request.form
     if result['password1'] != result['password2']:
-        return signup("Password Mismatch")
+        return signup_page("Password Mismatch")
 
     #need other input checks here (like those in mysql)
     email = result['email']
@@ -147,12 +147,23 @@ def view_profile(id):
         if int(id) == int(item[0]):
             person_name = item[1]
 
+    #get album_id of all albums of user
+    query = 'SELECT album_id, user_id FROM ALBUMS ORDER BY album_id DESC'
+    cursor.execute(query)
+    all_albums = []
+    for item in cursor:
+        if int(item[1]) == int(id):
+            all_albums.append(int(item[0]))
+
     #get all_photos
-    query = 'SELECT photo_id, DATA, CAPTION FROM PHOTOS ORDER BY photo_id DESC LIMIT 100'
+    query = 'SELECT photo_id, DATA, CAPTION, album_id FROM PHOTOS ORDER BY photo_id DESC LIMIT 100'
     cursor.execute(query)
     all_photos = []
+    user_photos = []
     for item in cursor:
         all_photos.append([item[0], item[1], item[2]])
+        if int(item[3]) in all_albums:
+            user_photos.append([item[0], item[1], item[2]])
 
     #if you're logged in
     if session.get('loggedin', None):
@@ -162,14 +173,11 @@ def view_profile(id):
         my_name = session.get('my_name', None)
 
         if int(userid) == int(id):
-            same=True
             return render_template('profile.html', name=person_name, username=my_name,
-                                   loggedin=session.get('loggedin', None),
-                                   myprofile=same, userid=userid, id=id, photos=all_photos)
-        else:
-            same=False
+                                   loggedin=True,
+                                   myprofile=True, userid=userid, id=id, photos=all_photos)
 
-        # get friends of id
+        #get friends of id
         query = 'SELECT user_id1, user_id2 FROM FRIENDSHIP'
         cursor.execute(query)
         all_friends = []
@@ -178,17 +186,17 @@ def view_profile(id):
                 all_friends.append(int(item[1]))
             elif int(id) == int(item[1]):
                 all_friends.append(int(item[0]))
-
+                
         if userid in all_friends:
             friends = True
         else:
             friends = False
+        
+            return render_template('profile.html', name=person_name, username=my_name, loggedin=True,
+                               myprofile=False, userid=userid, id=id, photos=all_photos, user_photos=user_photos, friends=friends)
 
-        return render_template('profile.html', name=person_name, username=my_name, loggedin=session.get('loggedin', None),
-                               myprofile=same, userid=userid, id=id, photos=all_photos, friends=friends)
-
-    #otherwise
-    return render_template('profile.html', name=person_name, loggedin=False, id=id)
+        #otherwise
+        return render_template('profile.html', name=person_name, loggedin=False, id=id, user_photos=user_photos)
 
 
 def allowed_file(filename):
