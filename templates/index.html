@@ -1,47 +1,71 @@
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<!DOCTYPE html>
+<html lang="en">
 
-<h1 class='profile_header' style="top:8px; position:fixed">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
+      <title> Photoshare </title>
 
-    <a href="{{ url_for('top_users') }}"><button class='logout' style="top:0px; float:left"> TOP USERS </button></a>
+      <link type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
+      <link type="text/css" href="{{ url_for('static', filename='thumbnail-gallery.css') }}" rel="stylesheet">
+  </head>
 
-    <a href="{{ url_for('search') }}"><button class='logout' style="top:0px; float:left"> SEARCH </button></a>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">Lance and Wensi's PhotoShare</a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('home') }}">HOME
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login_page') }}">LOGIN</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('signup_page') }}"> SIGN UP </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('search')}}"  >SEARCH</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('top_users') }}">TOP-USERS</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-    Welcome
+    <!-- Page Content -->
 
-    <a href="{{ url_for('signup_page') }}"><button class='logout' style="top:0px; float:right"> SIGN UP </button></a>
+    <h4 class="my-4 text-center text-lg-center"> Welcome to Photoshare </h4>
 
-    <a href="{{ url_for('login_page') }}"><button class='logout' style="top:0px; float:right"> LOG IN </button></a>
+        <div class="row text-center text-lg-left">
+            {% for photo in photos %}
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a href="{{ url_for('view_photo', photo_id=photo[0]) }}" class="d-block mb-4 h-100">
+                        <img class="img-fluid img-thumbnail" src='data:image/jpg;base64, {{ photo[1] }}' alt="">
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
 
-</h1>
+     <!-- Footer -->
+    <footer class="py-4 bg-dark">
+        <p class="m-0 text-center text-white">Copyright &copy; Lance and Wensi's PhotoShare 2017</p>
+    </footer>
 
-<div style="margin-top:120px">
-    {% for photo in photos %}
-        <a href="{{ url_for('view_photo', photo_id=photo[0]) }}">
-            <img src='data:image/jpg;base64, {{ photo[1] }}' style="float:left; width:23%; margin-right:1%; margin-bottom:.5em"/>
-        </a>
-    {% endfor %}
-    <p style="clear: both;"></p>
-</div>
+    <!-- Bootstrap core JavaScript -->
 
-<footer>
-  <div class="footer-top">
-    <div class="wrapper" style="float:top">
-      &copy 2017 Lance Galletti
-    </div>
-    <div style="foat:bottom">
-        <ul style=" width: 100%; margin: 0; padding: 0;">
-            <li class="github" style=" box-sizing: border-box; display: inline-block; list-style: outside none none; float: left; overflow: hidden; width: 33.3333%; font-size: 20px;">
-                <a href="https://github.com/galletti94" style="text-decoration:none; color:black">GitHub</a>
-            </li>
-            <li class="website" style=" box-sizing: border-box; display: inline-block; list-style: outside none none; float: left; overflow: hidden; width: 33.3333%; font-size: 20px;">
-                <a href="http://gallettilance.org" style="text-decoration:none; color:black" data-hover="background: #ffffff"> My Website </a>
-            </li>
-            <li class="linkedin" style=" box-sizing: border-box; display: inline-block; list-style: outside none none; float: left; overflow: hidden; width: 33.3333%; font-size: 20px;">
-                <a href="https://linkedin.com/in/lancegalletti" style="text-decoration:none; color:black">LinkedIn</a>
-            </li>
-        </ul>
-    </div>
-  </div>
-</footer>
+
+  </body>
+</html>
+
+
+
+
+

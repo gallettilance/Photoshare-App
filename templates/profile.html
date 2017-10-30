@@ -1,76 +1,143 @@
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<!DOCTYPE html>
+<html lang="en">
 
-<title> {{ name }}'s Profile </title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+      <title> {{ name }}'s Profile </title>
+
+      <link type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
+      <link type="text/css" href="{{ url_for('static', filename='thumbnail-gallery.css') }}" rel="stylesheet">
+
+  </head>
+
+  <body>
 
 {% if loggedin %}
 
-    <h1 class='profile_header' style="top:8px;position:fixed; margin-right:1em">
-        <a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="top:0px; float:left"> {{ username }} </button></a>
-
-        <a href="{{ url_for('top_users') }}"><button class='logout' style="top:0px; float:left"> TOP USERS </button></a>
-
-        {{ name }}
-
-        <div class="dropdown" style="float:right; margin-right:1em;">
-            <button class="dropbtn"> MENU </button>
-            <div class="dropdown-content" style="right:0;">
-                <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
-                <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
-                <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
-                <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
-                <a href="{{ url_for('recommendations', id=userid) }}"> YOU MAY ALSO LIKE </a>
-                <a href="{{ url_for('logout') }}">  LOG OUT </a>
-            </div>
-        </div>
-    </h1>
-
-
-    {% if not myprofile %}
-        <div class='wrapper'>
-            <ul class='center'>
-                <li><a href="{{ url_for('view_all_albums', uploader_id=id ) }}" style="text-decoration: none; color:white"> {{ name }}'s ALBUMS </a> </li>
-                <li><a href="{{ url_for('view_friends', id=id) }}" style="text-decoration: none; color:white"> {{ name }}'s FRIENDS </a> </li>
-                {% if not friends %}
-                    <li><a href="{{ url_for('friend_add', friend_id=id) }}" style="text-decoration: none; color:white"> BE FRIENDS </a> </li>
-                {% else %}
-                    <li><a href="{{ url_for('unfriend', friend_id=id) }}" style="text-decoration: none; color:white"> UNFRIEND </a> </li>
-                {% endif %}
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="{{ url_for('view_profile', id=userid) }}">{{ username }}</a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item" style="line-height: 36px">
+                    <a class="nav-link" href="{{ url_for('top_users') }}"> TOP USERS </a>
+                </li>
+                <li class="nav-item" style="line-height: 36px">
+                    <a class="nav-link" href="{{ url_for('all_users') }}"> ALL USERS </a>
+                </li>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <div class="dropdown bg-dark" style="float:right; margin-right:1em;">
+                        <button class="dropbtn nav-link bg-dark" style="padding: 10px 30px"> MENU </button>
+                        <div class="dropdown-content bg-dark" style="right:0;">
+                            <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
+                            <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
+                            <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
+                            <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
+                            <a href="{{ url_for('recommendations', id=userid) }}"> YOU MAY ALSO LIKE </a>
+                            <a href="{{ url_for('logout') }}">  LOG OUT </a>
+                        </div>
+                    </div>
+                </div>
             </ul>
         </div>
-    {% else %}
-        <div style="margin-top:120px">
-        {% for photo in photos %}
-            <a href="{{ url_for('view_photo', photo_id=photo[0]) }}">
-                <img src='data:image/jpg;base64, {{ photo[1] }}' style="float:left; width:23%; margin-right:1%; margin-bottom:.5em"/>
-            </a>
-        {% endfor %}
-            <p style="clear: both;"></p>
+    </nav>
+
+    {% if not myprofile %}
+
+        <h4 class="my-4 text-center text-lg-center"> {{ name }}'s Profile </h4>
+
+        <div class='container' style="width:100%; height:100%; margin-top: 15em">
+            <li class="list-group-item float-left" style="width:100%; background-color:#495057">
+                <a href="{{ url_for('view_all_albums', uploader_id=id ) }}" class="rounded float-left" style="text-decoration: none; color:white">{{ name }}'s ALBUMS </a>
+                <a href="{{ url_for('view_friends', id=id ) }}" class="rounded float-right" style="text-decoration: none; color:white">{{ name }}'s FRIENDS </a>
+            </li>
+
+            <li class="list-group-item float-left" style="width:100%; background-color:#495057">
+                {% if not friends %}
+                    <a href="{{ url_for('friend_add', friend_id=id) }}" class="rounded center" style="text-decoration: none; color:white"> Friend </a>
+                {% else %}
+                     <a href="{{ url_for('unfriend', friend_id=id) }}" style="text-decoration: none; color:white; text-align:center"> Unfriend </a>
+                {% endif %}
+            </li>
         </div>
+
+
+        <!-- Footer -->
+        <footer class="py-4 bg-dark fixed-bottom">
+            <p class="m-0 text-center text-white">Copyright &copy; Lance and Wensi's PhotoShare 2017</p>
+        </footer>
+
+    {% else %}
+
+        <div class="row text-center text-lg-left" style="margin-top:20px; margin-bottom:20px">
+        {% for photo in photos %}
+            <div class="col-lg-3 col-md-4 col-xs-6">
+                <a href="{{ url_for('view_photo', photo_id=photo[0]) }}" class="d-block mb-4 h-100">
+                    <img class="img-fluid img-thumbnail" src='data:image/jpg;base64, {{ photo[1] }}' alt="">
+                </a>
+            </div>
+        {% endfor %}
+        </div>
+
+        <!-- Footer -->
+        <footer class="py-4 bg-dark">
+            <p class="m-0 text-center text-white">Copyright &copy; Lance and Wensi's PhotoShare 2017</p>
+        </footer>
     {% endif %}
+
 
 
 {% else %}
 
-    <h1 class='profile_header' style="top:8px; position:fixed">
-        <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">Lance and Wensi's PhotoShare</a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') }}">HOME
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login_page') }}">LOGIN </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('signup_page') }}"> SIGN UP </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('search')}}"  >SEARCH
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('top_users') }}">TOP-USERS</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-        <a href="{{ url_for('top_users') }}"><button class='logout' style="top:0px; float:left"> TOP USERS </button></a>
+    <h4 class="my-4 text-center text-lg-center"> {{ name }}'s Profile </h4>
 
-        {{ name }}
-
-        <a href="{{ url_for('signup_page') }}"><button class='logout' style="top:0px; float:right"> SIGN UP </button></a>
-
-        <a href="{{ url_for('login_page') }}"><button class='logout' style="top:0px; float:right"> LOG IN </button></a>
-
-    </h1>
-
-    <div class='wrapper'>
-        <ul class='center'>
-            <li><a href="{{ url_for('view_all_albums', uploader_id=id ) }}" style="text-decoration: none; color:white"> {{ name }}'s ALBUMS </a> </li>
-            <li><a href="{{ url_for('view_friends', id=id ) }}" style="text-decoration: none; color:white"> {{ name }}'s FRIENDS </a> </li>
-        </ul>
+    <div class='container' style="width:100%; height:100%; margin-top: 15em">
+        <li class="list-group-item float-left" style="width:100%; background-color:#495057">
+            <a href="{{ url_for('view_all_albums', uploader_id=id ) }}" class="rounded float-left" style="text-decoration: none; color:white">{{ name }}'s ALBUMS </a>
+            <a href="{{ url_for('view_friends', id=id ) }}" class="rounded float-right" style="text-decoration: none; color:white">{{ name }}'s FRIENDS </a>
+        </li>
     </div>
 
+    <!-- Footer -->
+    <footer class="py-4 bg-dark fixed-bottom">
+        <p class="m-0 text-center text-white">Copyright &copy; Lance and Wensi's PhotoShare 2017</p>
+    </footer>
+
 {% endif %}
+
+
+  </body>
+</html>
 
 

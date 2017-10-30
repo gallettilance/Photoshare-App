@@ -1,49 +1,93 @@
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<!DOCTYPE html>
+<html lang="en">
 
-<title> {{ tag }} </title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+      <title> Search </title>
+
+      <link type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
+      <link type="text/css" href="{{ url_for('static', filename='thumbnail-gallery.css') }}" rel="stylesheet">
+
+  </head>
+
+  <body>
 
 {% if loggedin %}
-
-    <h1 class='profile_header' style="top:8px;position:fixed; margin-right:1em">
-        <a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="top:0px; float:left"> {{ username }} </button></a>
-
-        {{ tag }}
-
-        <div class="dropdown" style="float:right; margin-right:1em;">
-            <button class="dropbtn"> MENU </button>
-            <div class="dropdown-content" style="right:0;">
-                <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
-                <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
-                <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
-                <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
-                <a href="{{ url_for('recommendations', id=userid) }}"> YOU MAY ALSO LIKE </a>
-                <a href="{{ url_for('logout') }}">  LOG OUT </a>
-            </div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="{{ url_for('view_profile', id=userid) }}">{{ username }}</a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item" style="line-height: 36px">
+                    <a class="nav-link" href="{{ url_for('top_users') }}"> TOP USERS </a>
+                </li>
+                <li class="nav-item" style="line-height: 36px">
+                    <a class="nav-link" href="{{ url_for('all_users') }}"> ALL USERS </a>
+                </li>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <div class="dropdown bg-dark" style="float:right; margin-right:1em;">
+                        <button class="dropbtn nav-link bg-dark" style="padding: 10px 30px"> MENU </button>
+                        <div class="dropdown-content bg-dark" style="right:0;">
+                            <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
+                            <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
+                            <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
+                            <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
+                            <a href="{{ url_for('recommendations', id=userid) }}"> YOU MAY ALSO LIKE </a>
+                            <a href="{{ url_for('logout') }}">  LOG OUT </a>
+                        </div>
+                    </div>
+                </div>
+            </ul>
         </div>
-    </h1>
+    </nav>
 
 {% else %}
 
-    <h1 class='profile_header' style="top:8px">
-        <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
-
-        {{ tag }}
-
-        <a href="{{ url_for('signup_page') }}"><button class='logout' style="top:0px; float:right"> SIGN UP </button></a>
-
-        <a href="{{ url_for('login_page') }}"><button class='logout' style="top:0px; float:right"> LOG IN </button></a>
-
-    </h1>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">{{ tag }}</a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') }}">HOME
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login_page') }}">LOGIN </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('signup_page') }}"> SIGN UP </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('search')}}"  >SEARCH
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('top_users') }}">TOP-USERS</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
 {% endif %}
-    
-<div style="margin-top:120px">
-    {% for photo in photos %}
-        <a href="{{ url_for('view_photo', photo_id=photo[0]) }}">
-            <img src='data:;base64, {{ photo[1] }}' style="float:left; width:23%; margin-right:1%; margin-bottom:.5em"/>
-        </a>
-    {% endfor %}
-    <a class="plus" href="{{ url_for('top_tags') }}" style="background-color:#1b85b8; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> TOP TAGS </a>
-    <p style="clear: both;">
-</div>
 
+<h4 class="my-4 text-center text-lg-center"> {{ tag }} </h4>
+
+<div class="row text-center text-lg-left" style="margin-top:20px">
+    {% for photo in photos %}
+        <div class="col-lg-3 col-md-4 col-xs-6">
+            <a href="{{ url_for('view_photo', photo_id=photo[0]) }}" class="d-block mb-4 h-100">
+                <img class="img-fluid img-thumbnail" src='data:image/jpg;base64, {{ photo[1] }}' alt="">
+            </a>
+        </div>
+    {% endfor %}
+
+    <div class="col-lg-3 col-md-4 col-xs-6" style="margin-left:.5em; margin-right:.5em;">
+        <a class="img-fluid img-thumbnail" href="{{ url_for('top_tags') }}" style="background-color:#495057; line-height: 90px; vertical_align:middle; text-align:center; text-decoration: none; color:white; float:left; height:100px; width:100px;"> TOP TAGS </a>
+    </div>
+</div>

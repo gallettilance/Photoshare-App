@@ -1,68 +1,123 @@
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<!DOCTYPE html>
+<html lang="en">
 
-<title> search </title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+      <title> Search </title>
+
+      <link type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
+      <link type="text/css" href="{{ url_for('static', filename='thumbnail-gallery.css') }}" rel="stylesheet">
+
+  </head>
+
+  <body>
 
 {% if loggedin %}
-
-    <h1 class='profile_header' style="top:8px;position:fixed; margin-right:1em">
-        <a href="{{ url_for('view_profile', id=userid) }}"><button class='logout' style="top:0px; float:left"> {{ username }} </button></a>
-
-        <a href="{{ url_for('all_users') }}"><button class='logout' style="top:0px; float:left"> ALL USERS </button></a>
-
-        SEARCH
-
-        <div class="dropdown" style="float:right; margin-right:1em;">
-            <button class="dropbtn"> MENU </button>
-            <div class="dropdown-content" style="right:0;">
-                <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
-                <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
-                <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
-                <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
-                <a href="{{ url_for('recommendations', id=userid) }}"> YOU MAY ALSO LIKE </a>
-                <a href="{{ url_for('logout') }}">  LOG OUT </a>
-            </div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="{{ url_for('view_profile', id=userid) }}">{{ username }}</a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item" style="line-height: 36px">
+                    <a class="nav-link" href="{{ url_for('top_users') }}"> TOP USERS </a>
+                </li>
+                <li class="nav-item" style="line-height: 36px">
+                    <a class="nav-link" href="{{ url_for('all_users') }}"> ALL USERS </a>
+                </li>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <div class="dropdown bg-dark" style="float:right; margin-right:1em;">
+                        <button class="dropbtn nav-link bg-dark" style="padding: 10px 30px"> MENU </button>
+                        <div class="dropdown-content bg-dark" style="right:0;">
+                            <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
+                            <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
+                            <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
+                            <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
+                            <a href="{{ url_for('recommendations', id=userid) }}"> YOU MAY ALSO LIKE </a>
+                            <a href="{{ url_for('logout') }}">  LOG OUT </a>
+                        </div>
+                    </div>
+                </div>
+            </ul>
         </div>
-    </h1>
+    </nav>
 
 {% else %}
 
-<h1 class='profile_header' style="top:8px">
-    <a href="{{ url_for('home') }}"><button class='logout' style="top:0px; float:left"> HOME </button></a>
-
-    <a href="{{ url_for('all_users') }}"><button class='logout' style="top:0px; float:left"> ALL USERS </button></a>
-
-    SEARCH
-
-    <a href="{{ url_for('signup_page') }}"><button class='logout' style="top:0px; float:right"> SIGN UP </button></a>
-
-    <a href="{{ url_for('login_page') }}"><button class='logout' style="top:0px; float:right"> LOG IN </button></a>
-
-</h1>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">Lance and Wensi's PhotoShare</a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') }}">HOME
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login_page') }}">LOGIN </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('signup_page') }}"> SIGN UP </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('search')}}"  >SEARCH
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('top_users') }}">TOP-USERS</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
 {% endif %}
 
+    <!-- Page Content -->
+<br>
+<br>
 
-<div class='wrapper'>
-    <form class='search_form' action="{{ url_for('search') }}" id="searchform" method=POST>
-        Search:
-        <input type=text name=search_word value="{{request.form.search_word}}" required maxlength=25 placeholder="input your search contain here">
+<div class="container" position="center" style="margin-top:5px">
+    <div class="card" style="width: 20rem; text-align:center">
+        <div class="card-block" style="text-align:center">
+            <h4 class="card-title"> Search </h4>
+        </div>
+        <ul class="list-group list-group-flush">
+            <form class='search_form' action="{{ url_for('search') }}" id="searchform" method=POST >
+                <li class="list-group-item">
+                    <input type=text name=search_word value="{{request.form.search_word}}" required size="18" maxlength=25 placeholder="Input search words">
+                </li>
 
-        <input type="submit" value="search">
-    </form>
-
-    <select name="search_type" form = "searchform">
-            <option value="photo">Photo</option>
-            <option value="user">User</option>
-            <option value="comment" selected = "selected">Comment</option>
-    </select>
+                <li class="list-group-item">
+                    <select name="search_type" form = "searchform">
+                        <option value="photo">Photo</option>
+                        <option value="user">User</option>
+                        <option value="comment" selected = "selected">Comment</option>
+                    </select>
+                </li>
+                <li class="list-group-item">
+                    <input type=submit value="SEARCH">
+                </li>
+            </form>
+        </ul>
+    </div>
 </div>
+<br>
+<br>
+<br>
+<br>
+<br>
 
-<!-- render search results  -->
 {%  if (search_type == 'users') or (search_type == 'comments') %}
-    <div class="wrapper">
-        <ul class="center">
+
+    <div class="container" position="relative">
+        <b>SEARCH RESULTS:</b>
+        <ul>
             {% for result in search_results %}
-                {% if result[1] != 'anon anon' and result[1] != 'anon' %}
+                {% if result[1] != 'anon' and result[1] !='anon anon' %}
                     <li> <a href="{{ url_for('view_profile', id=result[0]) }}"> {{ result[1] }} </a> </li>
                 {% else %}
                     <li> {{ result[1] }} </li>
@@ -70,12 +125,39 @@
             {% endfor %}
         </ul>
     </div>
-{%  else %}
-    <div class="wrapper">
+
+    <!-- Footer -->
+    <footer class="py-4 bg-dark fixed-bottom">
+        <p class="m-0 text-center text-white">Copyright &copy; Lance and Wensi's PhotoShare 2017</p>
+    </footer>
+
+
+{%  elif search_type == 'photos' %}
+
+    <div class="row text-center text-lg-left">
         {% for result in search_results %}
-            <a href="{{ url_for('view_photo', photo_id=result[0]) }}">
-                <img src='data:;base64, {{ result[1] }}' style="float:left; width:23%; margin-right:1%; margin-bottom:.5em"/>
-            </a>
+            <div class="col-lg-3 col-md-4 col-xs-6">
+                <a href="{{ url_for('view_photo', photo_id=result[0]) }}" class="d-block mb-4 h-100">
+                    <img class="img-fluid img-thumbnail" src='data:image/jpg;base64, {{ result[1] }}' alt="">
+                </a>
+            </div>
         {% endfor %}
     </div>
+
+    <!-- Footer -->
+    <footer class="py-4 bg-dark">
+        <p class="m-0 text-center text-white">Copyright &copy; Lance and Wensi's PhotoShare 2017</p>
+    </footer>
+
+{% else %}
+
+    <!-- Footer -->
+    <footer class="py-4 bg-dark fixed-bottom">
+        <p class="m-0 text-center text-white">Copyright &copy; Lance and Wensi's PhotoShare 2017</p>
+    </footer>
+
 {% endif %}
+
+
+  </body>
+</html>
