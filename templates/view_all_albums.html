@@ -76,26 +76,23 @@
 
 <h4 class="my-4 text-center text-lg-center"> {{ uploader_name }}'s Albums </h4>
 
-<div class="container-fluid" style="margin-top:20px">
-    {% for alb in all_albums %}
-        <a class="plus" href="{{ url_for('view_album_content', album_id=alb[0]) }}" style="background-color:#156A93; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ alb[1] }} </a>
-    {% endfor %}
-
 
 <div class="col-lg-3 col-md-4 col-xs-6" style="margin-left:.5em; margin-right:.5em;">
-        {% if loggedin %}
-            {% if userid == uploader_id %}
-                <a class="plus" href="{{ url_for('upload', id=userid) }}" style="background-color:#105475; text-decoration: none; color:white; float:left; padding: 35px 25px; margin-right:1%; margin-bottom:.5em"> NEW ALBUM </a>
-            {% else %}
-                <a class="plus" href="{{ url_for('view_profile', id=uploader_id) }}" style="background-color:#843712; text-decoration: none; color:white; float:left; padding: 35px 25px; margin-right:1%; margin-bottom:.5em"> {{ uploader_name }} </a>
-            {% endif %}
-        {% else %}
-            <a class="plus" href="{{ url_for('view_profile', id=uploader_id) }}" style="background-color:#843712; text-decoration: none; color:white; float:left; padding: 35px 25px; margin-right:1%; margin-bottom:.5em"> {{ uploader_name }} </a>
-        {% endif %}
-    <p style="clear: both;">
+  {% for alb in all_albums %}
+  <a class="plus" href="{{ url_for('view_album_content', album_id=alb[0]) }}" style="background-color:#156A93; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ alb[1] }} </a>
+  {% endfor %}
+  {% if loggedin %}
+  {% if userid == uploader_id %}
+  <a class="plus" href="{{ url_for('upload', id=userid) }}" style="background-color:#105475; text-decoration: none; color:white; float:left; padding: 35px 25px; margin-right:1%; margin-bottom:.5em"> NEW ALBUM </a>
+  {% else %}
+  <a class="plus" href="{{ url_for('view_profile', id=uploader_id) }}" style="background-color:#843712; text-decoration: none; color:white; float:left; padding: 35px 25px; margin-right:1%; margin-bottom:.5em"> {{ uploader_name }} </a>
+  {% endif %}
+  {% else %}
+  <a class="plus" href="{{ url_for('view_profile', id=uploader_id) }}" style="background-color:#843712; text-decoration: none; color:white; float:left; padding: 35px 25px; margin-right:1%; margin-bottom:.5em"> {{ uploader_name }} </a>
+  {% endif %}
+  <p style="clear: both;">
 </div>
 
-</div>
 
 
        <!-- Footer -->
