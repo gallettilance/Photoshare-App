@@ -20,9 +20,11 @@
         <a class="navbar-brand" href="{{ url_for('view_profile', id=userid) }}">{{ username }}</a>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('all_users') }}"> ALL USERS
-                    </a>
+                <li class="nav-item" style="line-height: 36px">
+                    <a class="nav-link" href="{{ url_for('top_users') }}"> TOP USERS </a>
+                </li>
+                <li class="nav-item" style="line-height: 36px">
+                    <a class="nav-link" href="{{ url_for('all_users') }}"> ALL USERS </a>
                 </li>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <div class="dropdown bg-dark" style="float:right; margin-right:1em;">
