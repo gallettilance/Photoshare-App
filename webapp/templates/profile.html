@@ -45,16 +45,16 @@
         <h4 class="my-4 text-center text-lg-center"> {{ name }}'s Profile </h4>
 
         <div class='container' style="width:100%; height:100%; margin-top: 15em">
-            <li class="list-group-item float-left" style="width:100%; background-color:#156A93">
-                <a href="{{ url_for('view_all_albums', uploader_id=id ) }}" class="rounded float-left" style="text-decoration: none; color:black">{{ name }}'s ALBUMS </a>
-                <a href="{{ url_for('view_friends', id=id ) }}" class="rounded float-right" style="text-decoration: none; color:black">{{ name }}'s FRIENDS </a>
+            <li class="list-group-item float-left" style="width:100%; background-color:#495057">
+                <a href="{{ url_for('view_all_albums', uploader_id=id ) }}" class="rounded float-left" style="text-decoration: none; color:white">{{ name }}'s ALBUMS </a>
+                <a href="{{ url_for('view_friends', id=id ) }}" class="rounded float-right" style="text-decoration: none; color:white">{{ name }}'s FRIENDS </a>
             </li>
 
-            <li class="list-group-item float-left" style="width:100%; background-color:#156A93">
+            <li class="list-group-item float-left" style="width:100%; background-color:#495057">
                 {% if not friends %}
-                    <a href="{{ url_for('friend_add', friend_id=id) }}" class="rounded center" style="text-decoration: none; color:black"> Friend </a>
+                    <a href="{{ url_for('friend_add', friend_id=id) }}" class="rounded center" style="text-decoration: none; color:white"> Friend </a>
                 {% else %}
-                     <a href="{{ url_for('unfriend', friend_id=id) }}" style="text-decoration: none; color:black; text-align:center"> Unfriend </a>
+                     <a href="{{ url_for('unfriend', friend_id=id) }}" style="text-decoration: none; color:white; text-align:center"> Unfriend </a>
                 {% endif %}
             </li>
         </div>
@@ -117,9 +117,9 @@
     <h4 class="my-4 text-center text-lg-center"> {{ name }}'s Profile </h4>
 
     <div class='container' style="width:100%; height:100%; margin-top: 15em">
-        <li class="list-group-item float-left" style="width:100%; background-color:#156A93">
-            <a href="{{ url_for('view_all_albums', uploader_id=id ) }}" class="rounded float-left" style="text-decoration: none; color:black">{{ name }}'s ALBUMS </a>
-            <a href="{{ url_for('view_friends', id=id ) }}" class="rounded float-right" style="text-decoration: none; color:black">{{ name }}'s FRIENDS </a>
+        <li class="list-group-item float-left" style="width:100%; background-color:#495057">
+            <a href="{{ url_for('view_all_albums', uploader_id=id ) }}" class="rounded float-left" style="text-decoration: none; color:white">{{ name }}'s ALBUMS </a>
+            <a href="{{ url_for('view_friends', id=id ) }}" class="rounded float-right" style="text-decoration: none; color:white">{{ name }}'s FRIENDS </a>
         </li>
     </div>
 

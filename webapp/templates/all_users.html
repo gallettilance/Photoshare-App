@@ -76,7 +76,7 @@
 <div class="container-fluid" style="margin-top:20px">
     {% for user in all_users %}
         {% if user[1] != 'anon anon' and user[1] != 'anon' %}
-            <a href="{{ url_for('view_profile', id=user[0]) }}" style="background-color:#156A93; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ user[1] }} </a>
+            <a href="{{ url_for('view_profile', id=user[0]) }}" style="background-color:#495057; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ user[1] }} </a>
         {% endif %}
     {% endfor %}
     <p style="clear: both;">

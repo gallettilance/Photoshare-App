@@ -84,12 +84,12 @@
     <div class="col-lg-3 col-md-4 col-xs-6" style="margin-left:.5em; margin-right:.5em;">
         {% if loggedin %}
             {% if userid == uploader_id %}
-            <a class="plus" href="{{ url_for('upload_photo', album_id=album_id) }}" style="background-color:#008CBA; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> + </a>
-            <a class="plus" href="{{ url_for('delete_album', album_id=album_id) }}" style="background-color:#cc0404; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> DELETE </a>
+            <a class="plus" href="{{ url_for('upload_photo', album_id=album_id) }}" style="background-color:#495057; text-decoration: none; color:white; float:left; padding: 35px 35px; margin-right:1%; margin-bottom:.5em"> UPLOAD </a>
+            <a class="plus" href="{{ url_for('delete_album', album_id=album_id) }}" style="background-color:#495057; text-decoration: none; color:RED; float:left; padding: 35px 35px; margin-right:1%; margin-bottom:.5em"> DELETE </a>
             {% endif %}
         {% endif %}
 
-        <a class="img-fluid img-thumbnail" href="{{ url_for('view_profile', id=uploader_id) }}" style="background-color:#008CBA; line-height: 90px; vertical_align:middle; text-align:center; text-decoration: none; color:white; float:left; height:100px; width:100px;"> {{ uploader_name }}</a>
+
     </div>
 </div>
 

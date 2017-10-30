@@ -75,7 +75,9 @@
 
 <div class="container-fluid" style="margin-top:20px">
         {% for topuser in top10 %}
-        <a href="{{ url_for('view_profile', id=topuser[0]) }}" style="background-color:#156A93; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ topuser[1] }} </a>
+         <a href="{{ url_for('view_profile', id=topuser[0]) }}" style="background-color:#495057; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ topuser[1] }} </a>
+
+
         {% endfor %}
         <p style="clear: both;">
 </div>

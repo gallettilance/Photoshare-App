@@ -49,7 +49,7 @@
                     <a class="card-link" href="{{ url_for('delete_photo', photo_id=photo[2]) }}" style="text-decoration: none; color:#cc0404"> DELETE </a>
                 {% endif %}
                 {% if not liked %}
-                    <a href="{{ url_for('like', photo_id=photo[2]) }}" style="text-decoration: none; color:#156A93" class="card-link">like</a>
+                    <a href="{{ url_for('like', photo_id=photo[2]) }}" style="text-decoration: none; color:#495057" class="card-link">like</a>
                 {% else %}
                     <a href="{{ url_for('unlike', photo_id=photo[2]) }}" style="text-decoration: none; color:#cc0404" class="card-link">unlike</a>
                 {% endif %}
