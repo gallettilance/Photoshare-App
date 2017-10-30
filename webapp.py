@@ -195,8 +195,10 @@ def view_profile(id):
             return render_template('profile.html', name=person_name, username=my_name, loggedin=True,
                                myprofile=False, userid=userid, id=id, photos=all_photos, user_photos=user_photos, friends=friends)
 
-        #otherwise
-        return render_template('profile.html', name=person_name, loggedin=False, id=id, user_photos=user_photos)
+    #otherwise
+    return render_template('profile.html', name=person_name, loggedin=False, id=id, user_photos=user_photos)
+
+    
 
 
 def allowed_file(filename):
