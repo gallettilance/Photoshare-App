@@ -47,8 +47,9 @@
     <br>
     <br>
 
-    <div class='container' position="center">
-        <p><b> {{ message }} </b></p>
+    <h4 class="my-4 text-center text-lg-center"> {{ message }} </h4>
+
+    <div class="my-4 text-center text-lg-center">
         <form class='form' action="{{ url_for('signup') }}" position="auto" method=POST>
             Email:<br>
             <input type=email name=email value="{{request.form.email}}" required maxlength=25 placeholder=""><br>
