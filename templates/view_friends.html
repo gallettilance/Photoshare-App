@@ -84,14 +84,18 @@
     <p style="clear: both;">
 </div>
 
-<div class='container' style="width:100%; margin-top: .5em">
+<div class='container' style="width:100%; margin-top: .5em; margin-bottom:.5em">
     <li class="list-group-item float-left" style="width:100%; background-color:#156A93; text-align:center; color:white">
         recommendations
     </li>
 </div>
 
+<br>
+<br>
+<br>
+
 {% if (userid == id) %}
-<div class="container-fluid" style="margin-top:20px">
+<div class="container-fluid" style="margin-top:.5em">
     {% for friend in recommended_friends %}
         <a href="{{ url_for('view_profile', id=friend[0]) }}" style="background-color:#105475; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ friend[1] }} </a>
     {% endfor %}
