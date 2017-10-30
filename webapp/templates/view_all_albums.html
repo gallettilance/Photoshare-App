@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-      <title> Search </title>
+      <title> Album </title>
 
       <link type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
       <link type="text/css" href="{{ url_for('static', filename='thumbnail-gallery.css') }}" rel="stylesheet">
@@ -32,7 +32,7 @@
                     <div class="dropdown bg-dark" style="float:right; margin-right:1em;">
                         <button class="dropbtn nav-link bg-dark" style="padding: 10px 30px"> MENU </button>
                         <div class="dropdown-content bg-dark" style="right:0;">
-                            <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
+                            <a href="{{ url_for('upload', id=userid) }}"> CREATE ALBUM </a>
                             <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
                             <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
                             <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
@@ -78,9 +78,23 @@
 
 <div class="container-fluid" style="margin-top:20px">
     {% for alb in all_albums %}
-        <a href="{{ url_for('view_album_content', album_id=alb[0]) }}" style="background-color:#495057; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ alb[1] }} </a>
+        <a href="{{ url_for('view_album_content', album_id=alb[0]) }}" style="background-color:#156A93; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ alb[1] }} </a>
     {% endfor %}
+
+
+<div class="col-lg-3 col-md-4 col-xs-6" style="margin-left:.5em; margin-right:.5em;">
+        {% if loggedin %}
+            {% if userid == uploader_id %}
+                <a class="plus" href="{{ url_for('upload', id=userid) }}" style="background-color:#105475; text-decoration: none; color:white; float:left; padding: 35px 25px; margin-right:1%; margin-bottom:.5em"> NEW ALBUM </a>
+            {% else %}
+                <a class="plus" href="{{ url_for('view_profile', id=uploader_id) }}" style="background-color:#843712; text-decoration: none; color:white; float:left; padding: 35px 25px; margin-right:1%; margin-bottom:.5em"> {{ uploader_name }} </a>
+            {% endif %}
+        {% else %}
+            <a class="plus" href="{{ url_for('view_profile', id=uploader_id) }}" style="background-color:#843712; text-decoration: none; color:white; float:left; padding: 35px 25px; margin-right:1%; margin-bottom:.5em"> {{ uploader_name }} </a>
+        {% endif %}
     <p style="clear: both;">
+</div>
+
 </div>
 
 

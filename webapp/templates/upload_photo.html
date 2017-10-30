@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-      <title> Search </title>
+      <title> Upload Photo </title>
 
       <link type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
       <link type="text/css" href="{{ url_for('static', filename='thumbnail-gallery.css') }}" rel="stylesheet">
@@ -31,7 +31,7 @@
                     <div class="dropdown bg-dark" style="float:right; margin-right:1em;">
                         <button class="dropbtn nav-link bg-dark" style="padding: 10px 30px"> MENU </button>
                         <div class="dropdown-content bg-dark" style="right:0;">
-                            <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
+                            <a href="{{ url_for('upload', id=userid) }}"> CREATE ALBUM </a>
                             <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
                             <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
                             <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
@@ -45,27 +45,24 @@
     </nav>
 
 <div class="container-fluid" style="margin-top:20px">
-    <div class="card" style="width: 20rem; text-align:center">
-        <div class="card-block" style="text-align:center">
+    <div class="card" style="width: 100%; text-align:center">
+        <div class="card-block" style="background-color:#156A93; text-align:center; color:white">
             <h4 class="card-title"> Upload Photo </h4>
         </div>
         <ul class="list-group list-group-flush">
             <form class="loginform" enctype="multipart/form-data" action="{{ url_for('upload_photo', album_id=album_id) }}" method=POST>
                 <li class="list-group-item">
-                    Caption <br>
-                    <input type=text name=caption maxlength=30 required><br>
+                    <input type=text name=caption maxlength=30 required placeholder="caption"><br>
                 </li>
-
                 <li class="list-group-item">
-                    Photo <br>
                     <input type=file name=img accept="image/jpg, image/gif, image/png, image/jpeg" required><br><br>
                 </li>
                 <li class="list-group-item">
                     <input type=submit value="UPLOAD">
                 </li>
             </form>
-            <li class="list-group-item">
-                <a href="{{ url_for('view_profile', id=userid) }}" style="text-decoration:none; color:black">  DONE </a>
+            <li class="list-group-item" style="background-color: #156A93">
+                <a href="{{ url_for('view_album_content', album_id=album_id) }}" style="text-decoration:none; color:black"> DONE </a>
             </li>
         </ul>
     </div>

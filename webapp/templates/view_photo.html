@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-      <title> {{ name }} </title>
+      <title> Photo </title>
 
       <link type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
       <link type="text/css" href="{{ url_for('static', filename='thumbnail-gallery.css') }}" rel="stylesheet">
@@ -33,7 +33,7 @@
                     <div class="dropdown bg-dark" style="float:right; margin-right:1em;">
                         <button class="dropbtn nav-link bg-dark" style="padding: 10px 30px"> MENU </button>
                         <div class="dropdown-content bg-dark" style="right:0;">
-                            <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
+                            <a href="{{ url_for('upload', id=userid) }}"> CREATE ALBUM </a>
                             <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
                             <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
                             <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
@@ -45,7 +45,7 @@
             </ul>
         </div>
     </nav>
-    <div class="container-fluid" style="margin-top:20px">
+    <div class="container-fluid" style="margin-top:20px; margin-left:38%; margin-bottom: 100px">
         <div class="card" style="width: 20rem;">
 
             <img class="card-img-top" src='data:image/jpg;base64, {{ photo[0] }}' alt="Card image cap">
@@ -132,7 +132,7 @@
         </div>
     </nav>
 
-    <div class="container-fluid" style="margin-top:20px">
+    <div class="container-fluid" style="margin-top:20px; margin-left:38%; margin-bottom: 100px">
         <div class="card" style="width: 20rem;">
 
             <img class="card-img-top" src='data:image/jpg;base64, {{ photo[0] }}' alt="Card image cap">
@@ -184,7 +184,7 @@
 
 
        <!-- Footer -->
-    <footer class="py-4 bg-dark fixed-bottom">
+    <footer class="py-4 bg-dark" style="position:relative">
         <p class="m-0 text-center text-white">Copyright &copy; Lance and Wensi's PhotoShare 2017</p>
     </footer>
 

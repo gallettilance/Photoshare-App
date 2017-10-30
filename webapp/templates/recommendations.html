@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-      <title> Search </title>
+      <title> Recommendations </title>
 
       <link type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
       <link type="text/css" href="{{ url_for('static', filename='thumbnail-gallery.css') }}" rel="stylesheet">
@@ -30,7 +30,7 @@
                     <div class="dropdown bg-dark" style="float:right; margin-right:1em;">
                         <button class="dropbtn nav-link bg-dark" style="padding: 10px 30px"> MENU </button>
                         <div class="dropdown-content bg-dark" style="right:0;">
-                            <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
+                            <a href="{{ url_for('upload', id=userid) }}"> CREATE ALBUM </a>
                             <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
                             <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
                             <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>

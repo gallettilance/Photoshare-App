@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-      <title> Search </title>
+      <title> Friends </title>
 
       <link type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
       <link type="text/css" href="{{ url_for('static', filename='thumbnail-gallery.css') }}" rel="stylesheet">
@@ -32,7 +32,7 @@
                     <div class="dropdown bg-dark" style="float:right; margin-right:1em;">
                         <button class="dropbtn nav-link bg-dark" style="padding: 10px 30px"> MENU </button>
                         <div class="dropdown-content bg-dark" style="right:0;">
-                            <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
+                            <a href="{{ url_for('upload', id=userid) }}"> CREATE ALBUM </a>
                             <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
                             <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
                             <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
@@ -79,24 +79,32 @@
 
 <div class="container-fluid" style="margin-top:20px">
     {% for friend in friends %}
-        <a href="{{ url_for('view_profile', id=friend[0]) }}" style="background-color:#495057; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ friend[1] }} </a>
+        <a href="{{ url_for('view_profile', id=friend[0]) }}" style="background-color:#843712; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ friend[1] }} </a>
     {% endfor %}
     <p style="clear: both;">
 </div>
 
-<div class='container' style="width:100%; margin-top: .5em">
-    <li class="list-group-item float-left" style="width:100%; background-color:#156A93; text-align:center; color:white">
-        recommendations
-    </li>
-</div>
 
 {% if (userid == id) %}
-<div class="container-fluid" style="margin-top:20px">
-    {% for friend in recommended_friends %}
-        <a href="{{ url_for('view_profile', id=friend[0]) }}" style="background-color:#105475; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ friend[1] }} </a>
-    {% endfor %}
-    <p style="clear: both;">
-</div>
+
+    <div class='container' style="width:100%; margin-top: .5em">
+        <li class="list-group-item float-left" style="width:100%; background-color:#156A93; text-align:center; color:white">
+            recommendations
+        </li>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+
+    <div class="container-fluid" style="margin-top:20px">
+        {% for friend in recommended_friends %}
+            <a href="{{ url_for('view_profile', id=friend[0]) }}" style="background-color:#105475; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ friend[1] }} </a>
+        {% endfor %}
+        <p style="clear: both;">
+    </div>
+
 {% endif %}
 
 

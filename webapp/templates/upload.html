@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-      <title> Search </title>
+      <title> Create Album </title>
 
       <link type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
       <link type="text/css" href="{{ url_for('static', filename='thumbnail-gallery.css') }}" rel="stylesheet">
@@ -31,7 +31,7 @@
                     <div class="dropdown bg-dark" style="float:right; margin-right:1em;">
                         <button class="dropbtn nav-link bg-dark" style="padding: 10px 30px"> MENU </button>
                         <div class="dropdown-content bg-dark" style="right:0;">
-                            <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
+                            <a href="{{ url_for('upload', id=userid) }}"> CREATE ALBUM </a>
                             <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
                             <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
                             <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
@@ -44,19 +44,18 @@
         </div>
     </nav>
 
-    <div class="container-fluid" style="margin-top:20px">
-        <div class="card" style="width: 20rem;">
-            <div class="card-block" style="text-align:center">
+    <div class="container-fluid center" style="margin-top:20px">
+        <div class="card" style="width: 100%; text-align:center">
+            <div class="card-block" style="background-color:#156A93; text-align:center; color:white">
                 <h4 class="card-title"> Create Album </h4>
             </div>
             <ul class="list-group list-group-flush">
                 <form class="loginform" action="{{ url_for('create_album') }}" method=POST>
                     <li class="list-group-item">
-                        Album Name
-                        <input type=text name=album maxlength=30 required>
+                        <input type=text name=album maxlength=30 required placeholder="Album Name">
                     </li>
                      <li class="list-group-item">
-                         <input type=submit value="CREATE ALBUM">
+                         <input type=submit value="CREATE">
                      </li>
                 </form>
             </ul>

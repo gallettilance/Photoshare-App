@@ -33,7 +33,7 @@
                     <div class="dropdown bg-dark" style="float:right; margin-right:1em;">
                         <button class="dropbtn nav-link bg-dark" style="padding: 10px 30px"> MENU </button>
                         <div class="dropdown-content bg-dark" style="right:0;">
-                            <a href="{{ url_for('upload', id=userid) }}"> UPLOAD </a>
+                            <a href="{{ url_for('upload', id=userid) }}"> CREATE ALBUM </a>
                             <a href="{{ url_for('view_all_albums', uploader_id=userid) }}"> MYALBUMS  </a>
                             <a href="{{ url_for('view_friends', id=userid) }}"> MYFRIENDS </a>
                             <a href="{{ url_for('search', id=userid) }}">  SEARCH </a>
@@ -50,19 +50,33 @@
 
         <h4 class="my-4 text-center text-lg-center"> {{ name }}'s Profile </h4>
 
-        <div class='container' style="width:100%; height:100%; margin-top: 15em">
-            <li class="list-group-item float-left" style="width:100%; background-color:#495057">
-                <a href="{{ url_for('view_all_albums', uploader_id=id ) }}" class="rounded float-left" style="text-decoration: none; color:white">{{ name }}'s ALBUMS </a>
-                <a href="{{ url_for('view_friends', id=id ) }}" class="rounded float-right" style="text-decoration: none; color:white">{{ name }}'s FRIENDS </a>
-            </li>
+        <div class='container' style="width:100%; margin-top: 20px">
+            <ul class="navbar-nav ml-auto">
+                <li class="list-group-item nav-item" style=" background-color:#156A93">
+                    <a href="{{ url_for('view_all_albums', uploader_id=id ) }}" class=" nav-link rounded float-left" style="text-decoration: none; color:white">{{ name }}'s ALBUMS </a>
+                    <a href="{{ url_for('view_friends', id=id ) }}" class="nav-link rounded float-right" style="text-decoration: none; color:white">{{ name }}'s FRIENDS </a>
+                </li>
+            </ul>
 
-            <li class="list-group-item float-left" style="width:100%; background-color:#495057">
+            <ul class="navbar-nav ml-auto" style="text-align:center">
+                <li class="list-group-item nav-item" style=" background-color:#843712; text-align:center">
                 {% if not friends %}
-                    <a href="{{ url_for('friend_add', friend_id=id) }}" class="rounded center" style="text-decoration: none; color:white"> Friend </a>
+                    <a href="{{ url_for('friend_add', friend_id=id) }}" class="nav-link rounded center" style="text-decoration: none; color:white"> Friend </a>
                 {% else %}
-                     <a href="{{ url_for('unfriend', friend_id=id) }}" style="text-decoration: none; color:white; text-align:center"> Unfriend </a>
+                     <a href="{{ url_for('unfriend', friend_id=id) }}" class="nav-link rounded center"  style="text-decoration: none; color:white; text-align:center"> Unfriend </a>
                 {% endif %}
-            </li>
+                </li>
+            </ul>
+        </div>
+
+        <div class="row text-center text-lg-left" style="margin-top:20px; margin-bottom:20px">
+        {% for photo in user_photos %}
+            <div class="col-lg-3 col-md-4 col-xs-6">
+                <a href="{{ url_for('view_photo', photo_id=photo[0]) }}" class="d-block mb-4 h-100">
+                    <img class="img-fluid img-thumbnail" src='data:image/jpg;base64, {{ photo[1] }}' alt="">
+                </a>
+            </div>
+        {% endfor %}
         </div>
 
 
@@ -122,12 +136,26 @@
 
     <h4 class="my-4 text-center text-lg-center"> {{ name }}'s Profile </h4>
 
-    <div class='container' style="width:100%; height:100%; margin-top: 15em">
-        <li class="list-group-item float-left" style="width:100%; background-color:#495057">
-            <a href="{{ url_for('view_all_albums', uploader_id=id ) }}" class="rounded float-left" style="text-decoration: none; color:white">{{ name }}'s ALBUMS </a>
-            <a href="{{ url_for('view_friends', id=id ) }}" class="rounded float-right" style="text-decoration: none; color:white">{{ name }}'s FRIENDS </a>
-        </li>
+    <div class='container' style="width:100%; height:100%; margin-top: 20px">
+        <ul class="navbar-nav ml-auto">
+            <li class="list-group-item nav-item" style=" background-color:#156A93">
+                <a href="{{ url_for('view_all_albums', uploader_id=id ) }}" class=" nav-link rounded float-left" style="text-decoration: none; color:white">{{ name }}'s ALBUMS </a>
+                <a href="{{ url_for('view_friends', id=id ) }}" class="nav-link rounded float-right" style="text-decoration: none; color:white">{{ name }}'s FRIENDS </a>
+            </li>
+        </ul>
     </div>
+
+    <div class="row text-center text-lg-left" style="margin-top:20px; margin-bottom:20px">
+        {% for photo in user_photos %}
+            <div class="col-lg-3 col-md-4 col-xs-6">
+                <a href="{{ url_for('view_photo', photo_id=photo[0]) }}" class="d-block mb-4 h-100">
+                    <img class="img-fluid img-thumbnail" src='data:image/jpg;base64, {{ photo[1] }}' alt="">
+                </a>
+            </div>
+        {% endfor %}
+        </div>
+
+
 
     <!-- Footer -->
     <footer class="py-4 bg-dark fixed-bottom">
