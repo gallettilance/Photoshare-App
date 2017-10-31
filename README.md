@@ -7,7 +7,7 @@ It's online! https://photoshare-app.herokuapp.com
 ## Introduction:
 
 
-This is a web-based photo sharing application with a database system. It consists of a relational schema (photoshare.sql), the control file (web app.py), and a set of html files. 
+Built by Lance Galletti and Wensi You, this is a web-based photo sharing application with a database system. It consists of a relational schema (photoshare.sql), the control file (web app.py), and a set of html files. 
 
 The following interaction with the database system are implemented: 
 
