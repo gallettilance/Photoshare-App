@@ -1,4 +1,4 @@
-# CS660_Project1 heroku-branch
+# Photoshare App Project - heroku-branch
 
 This branch is for deployment onto heroku
 
