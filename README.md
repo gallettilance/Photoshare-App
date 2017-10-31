@@ -1,4 +1,4 @@
-# CS660_Project1
+# Photoshare App Project
 
 
 It's online! https://photoshare-app.herokuapp.com 
