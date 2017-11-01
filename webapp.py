@@ -621,6 +621,97 @@ def like(photo_id):
     return view_photo(photo_id)
 
 
+@app.route('/view_my_tags/<id>', methods=['GET', 'POST'])   #can use to see any person's tags later
+def view_my_tags(id):
+
+    # get the name of the id
+    query = 'SELECT user_id, first_name FROM USERS'
+    cursor.execute(query)
+    for item in cursor:
+        if int(item[0]) == int(id):
+            my_name = item[1]
+
+
+    # get album_id of all albums of user
+    query = 'SELECT album_id, user_id FROM ALBUMS ORDER BY album_id DESC'
+    cursor.execute(query)
+    all_albums = []
+    for item in cursor:
+        if int(item[1]) == int(id):
+            all_albums.append(int(item[0]))
+
+    # get all_photos
+    query = 'SELECT photo_id, album_id FROM PHOTOS ORDER BY photo_id DESC LIMIT 100'
+    cursor.execute(query)
+    user_photos = []
+    for item in cursor:
+        if int(item[1]) in all_albums:
+            user_photos.append(item[0])
+
+    # select all tags associated with user_photos
+    query = 'SELECT photo_id, HASHTAG FROM ASSOCIATE'
+    all_tags = []
+    cursor.execute(query)
+    for item in cursor:
+        if int(item[0]) in user_photos:
+            all_tags.append(item[1])
+
+    all_tags = list(set(all_tags))
+
+    return render_template('my_tags.html', userid=id, username=my_name, all_tags=all_tags)
+
+
+@app.route('/view_tag_content/<tag>', methods=['GET', 'POST'])
+def view_tag_content(tag):
+
+    if tag[0] != '#':
+        tag = '#'+tag
+
+    # select all photos with that tag
+    query = 'SELECT photo_id, HASHTAG FROM ASSOCIATE'
+    all_photoids = []
+    cursor.execute(query)
+    for item in cursor:
+        if item[1] == tag:
+            all_photoids.append(int(item[0]))
+
+    userid = session.get('userid')
+    my_name = session.get('my_name')
+
+    # get album_id of all albums of user
+    query = 'SELECT album_id, user_id FROM ALBUMS ORDER BY album_id DESC'
+    cursor.execute(query)
+    all_albums = []
+    for item in cursor:
+        if int(item[1]) == int(userid):
+            all_albums.append(int(item[0]))
+
+    # get all_photos
+    query = 'SELECT photo_id, album_id FROM PHOTOS ORDER BY photo_id DESC LIMIT 100'
+    cursor.execute(query)
+    user_photos = []
+    for item in cursor:
+        if int(item[1]) in all_albums:
+            user_photos.append(int(item[0]))
+
+    tag_content_id = [int(x) for x in all_photoids if x in user_photos]
+
+    # get the photos
+    query = 'SELECT photo_id, DATA FROM PHOTOS'
+    all_photos = []
+    cursor.execute(query)
+    for item in cursor:
+        for photo in tag_content_id:
+            if photo == int(item[0]):
+                img = ''.join(list(str(item[1]))[2:-1])
+                all_photos.append([item[0], img])
+
+
+    return render_template('view_tag.html', tag=tag, photos=all_photos, loggedin=True,
+                           userid=userid, username=my_name)
+
+
+
 @app.route('/view_tag/<tag>', methods=['GET', 'POST'])
 def view_tag(tag):
 
