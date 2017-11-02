@@ -32,28 +32,6 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 cursor = conn.cursor()
 
-query = 'SELECT email, password FROM USERS'
-cursor.execute(query)
-userlst = []
-for item in cursor:
-    if item[0] != 'test_user@mail.com' and item[0] != 'test2@mail.com':
-        print(item[0])
-        print(item[1])
-        salt = item[0].encode('utf-8')
-        pw = hashlib.sha512(salt + item[1].encode('utf-8')).hexdigest()
-        print(item[1] + '   -->   ' + str(pw))
-        userlst.append([item[0], str(pw)])
-print()
-print()
-query2 = 'UPDATE users SET password = %s WHERE email = %s'
-for userlist in userlst:
-    print('updating '+userlist[0])
-    print()
-    cursor.execute(query2, (userlist[1], userlist[0]))
-    conn.commit()
-    
-    
-
 @app.route('/', methods=['POST', 'GET'])
 def home():
 
@@ -114,11 +92,12 @@ def signup():
     DoB = time.strptime(result['DoB'], '%Y-%m-%d')
 
     #exception handling here is for potential errors from database insertion
-    
-    cursor.execute(query,
+    try:
+        cursor.execute(query,
                    (result['email'], str(password), result['first_name'], result['last_name'],
                     time.strftime('%Y-%m-%d %H:%M:%S', DoB), result['hometown'], result['gender']))
-
+    except:
+        return signup_page("Oops! Something went wrong. Please try again")
 
     conn.commit()
 
