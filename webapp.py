@@ -5,6 +5,8 @@ import os, base64
 from urllib import parse
 import time
 import re
+import hashlib
+
 
 app = Flask(__name__, template_folder='templates')
 app.config['SESSION_TYPE']= 'memcached'
@@ -30,6 +32,27 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 cursor = conn.cursor()
 
+query = 'SELECT email, password FROM USERS'
+cursor.execute(query)
+userlst = []
+for item in cursor:
+    if item[0] != 'test_user@mail.com' and item[0] != 'test2@mail.com':
+        print(item[0])
+        print(item[1])
+        salt = item[0].encode('utf-8')
+        pw = hashlib.sha512(salt + item[1].encode('utf-8')).hexdigest()
+        print(item[1] + '   -->   ' + str(pw))
+        userlst.append([item[0], str(pw)])
+print()
+print()
+query2 = 'UPDATE users SET password = %s WHERE email = %s'
+for userlist in userlst:
+    print('updating '+userlist[0])
+    print()
+    cursor.execute(query2, (userlist[1], userlist[0]))
+    conn.commit()
+    
+    
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
@@ -58,7 +81,13 @@ def signup():
     if result['password1'] != result['password2']:
         return signup_page("Password Mismatch")
 
-    #need other input checks here (like those in mysql)
+    capitals = re.findall(r'[A_Z]', result['password'])
+    lowers =  re.findall(r'[a_z]', result['password'])
+    numbs =  re.findall(r'[0_9]', result['password'])
+
+    if len(capitals) < 2 or len(lowers) < 2 or len(numbs) < 2 or len(result['password']) < 8:
+        return signup_page("Please choose a password of length at least 8 with at least: 2 uppercase, 2 digits, and 2 lowercase characters")
+
     email = result['email']
     if email == 'anon@anon':
         return signup_page("This email is invalid")
@@ -76,18 +105,20 @@ def signup():
         if item[0] == email.lower():
             return signup_page("Please pay attention to upper and lower case in your email")
 
+    salt = result['email'].encode('utf-8')
+    password = hashlib.sha512(salt + result['password1'].encode('utf-8')).hexdigest()
+
     #insert data into database
     query = 'INSERT INTO USERS(EMAIL, PASSWORD, first_name, ' \
             'last_name, DOB, HOMETOWN, GENDER) VALUES (%s, %s, %s, %s, %s, %s, %s)'
     DoB = time.strptime(result['DoB'], '%Y-%m-%d')
 
     #exception handling here is for potential errors from database insertion
-    try:
-        cursor.execute(query,
-                   (result['email'], result['password1'], result['first_name'], result['last_name'],
+    
+    cursor.execute(query,
+                   (result['email'], str(password), result['first_name'], result['last_name'],
                     time.strftime('%Y-%m-%d %H:%M:%S', DoB), result['hometown'], result['gender']))
-    except:
-        return signup_page("Oops, something went wrong - please try again")
+
 
     conn.commit()
 
@@ -110,7 +141,7 @@ def login():
 
     result = request.form
     email = result['email']
-    password = result['password']
+    password = hashlib.sha512(email.encode('utf-8') + result['password'].encode('utf-8')).hexdigest()
 
     #check user has account
     query = 'SELECT EMAIL, PASSWORD, user_id, first_name FROM USERS'

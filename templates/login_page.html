@@ -51,7 +51,7 @@
     <h4 class="my-4 text-center text-lg-center"> {{ message }} </h4>
 
     <div class="my-4 text-center text-lg-center" style="margin-top:400px">
-        <form class="loginform" action="{{ url_for('login') }}" method=POST>
+        <form class="loginform" action="{{ url_for('login') }}" method='POST'>
             Username<br>
             <input type=text name=email value="{{request.form.email}}" size="15"><br>
 
