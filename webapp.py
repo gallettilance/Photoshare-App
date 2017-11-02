@@ -59,11 +59,11 @@ def signup():
     if result['password1'] != result['password2']:
         return signup_page("Password Mismatch")
 
-    capitals = re.findall(r'[A_Z]', result['password'])
-    lowers =  re.findall(r'[a_z]', result['password'])
-    numbs =  re.findall(r'[0_9]', result['password'])
+    capitals = re.findall(r'[A_Z]', result['password1'])
+    lowers =  re.findall(r'[a_z]', result['password1'])
+    numbs =  re.findall(r'[0_9]', result['password1'])
 
-    if len(capitals) < 2 or len(lowers) < 2 or len(numbs) < 2 or len(result['password']) < 8:
+    if len(capitals) < 2 or len(lowers) < 2 or len(numbs) < 2:
         return signup_page("Please choose a password of length at least 8 with at least: 2 uppercase, 2 digits, and 2 lowercase characters")
 
     email = result['email']
