@@ -218,12 +218,12 @@ def view_profile(id):
             elif int(id) == int(item[1]):
                 all_friends.append(int(item[0]))
                 
-        if userid in all_friends:
+        if int(userid) in all_friends:
             friends = True
         else:
             friends = False
         
-            return render_template('profile.html', name=person_name, username=my_name, loggedin=True,
+        return render_template('profile.html', name=person_name, username=my_name, loggedin=True,
                                myprofile=False, userid=userid, id=id, photos=all_photos, user_photos=user_photos, friends=friends)
 
     #otherwise
