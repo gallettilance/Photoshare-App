@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-      <title> Top Users </title>
+      <title> Settings </title>
 
       <link type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
       <link type="text/css" href="{{ url_for('static', filename='thumbnail-gallery.css') }}" rel="stylesheet">
@@ -15,8 +15,6 @@
   </head>
 
   <body>
-
-{% if loggedin %}
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -48,50 +46,20 @@
         </div>
     </nav>
 
-{% else %}
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="#">Lance and Wensi's PhotoShare</a>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('home') }}">HOME
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('login_page') }}">LOGIN </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('signup_page') }}"> SIGN UP </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('search')}}" > SEARCH </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ url_for('top_users') }}">TOP-USERS
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-{% endif %}
-
-<h4 class="my-4 text-center text-lg-center"> Top Users </h4>
-
-<div class="container-fluid" style="margin-top:20px">
-        {% for topuser in top10 %}
-         <a href="{{ url_for('view_profile', id=topuser[0]) }}" style="background-color:#843712; text-decoration: none; color:white; float:left; padding: 65px 65px; margin-right:1%; margin-bottom:.5em"> {{ topuser[1] }} </a>
+    <div class="container-fluid center" style="margin-top:20px">
+        <ul class="navbar-nav ml-auto" style="text-align-all:center; background-color:#ffffff">
+            <li class="nav-item" style="line-height: 36px; background-color:#156A93">
+                <h4> ARE YOU SURE ? </h4>
+            </li>
+            <li class="nav-item" style="line-height: 36px; background-color:#843712">
+                <a class="nav-link" href="{{ url_for('delete_account') }}" style="float:left"> YES, DELETE MY ACCOUNT! </a>
+                <a class="nav-link" href="{{ url_for('view_profile', id=userid) }}" style="float:right"> NO, CANCEL AND GO BACK </a>
+            </li>
+        </ul>
+    </div>
 
 
-        {% endfor %}
-        <p style="clear: both;">
-</div>
-
-
-       <!-- Footer -->
+<!-- Footer -->
     <footer class="py-4 bg-dark fixed-bottom">
         <p class="m-0 text-center text-white">Copyright &copy; <a href="http://gallettilance.org" style="color:white; text-decoration: none">Lance Galletti</a> & Wensi You 2017</p>
     </footer>

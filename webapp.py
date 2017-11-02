@@ -1208,6 +1208,35 @@ def recommendations(id):
     return render_template('recommendations.html', userid=userid, username=my_name, recommended_photos=recommended_photos)
 
 
+@app.route('/settings', methods=['GET', 'POST'])
+def settings():
+
+    userid = session.get('userid', None)
+    my_name = session.get('my_name', None)
+
+    return render_template('settings.html', userid=userid, username=my_name)
+
+@app.route('/confirm', methods=['GET', 'POST'])
+def confirm():
+
+    userid = session.get('userid', None)
+    my_name = session.get('my_name', None)
+
+    return render_template('confirm.html', userid=userid, username=my_name)
+
+
+@app.route('/delete_account', methods=['GET', 'POST'])
+def delete_account():
+
+    userid = session.get('userid', None)
+
+    query = 'DELETE FROM users WHERE user_id = %s'
+    cursor.execute(query, [int(userid)])
+    conn.commit()
+
+    return logout()
+
+
 if __name__=='__main__':
     app.secret_key = os.urandom(100)
     app.debug = True
