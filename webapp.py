@@ -63,8 +63,6 @@ def signup():
     lowers =  list(re.findall(r'[a_z]', result['password1']))
     numbs =  list(re.findall(r'[0_9]', result['password1']))
 
-    if len(capitals) < 2 or len(lowers) < 2 or len(numbs) < 2:
-        return signup_page("Please choose a password of length at least 8 with at least: 2 uppercase, 2 digits, and 2 lowercase characters")
 
     email = result['email']
     if email == 'anon@anon':
