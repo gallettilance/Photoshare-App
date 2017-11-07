@@ -492,17 +492,20 @@ def comment(photo_id):
 
     for tag in hashtags:
         if (tag not in all_tags) and len(tag)<40:
-            cursor.execute(query2, [tag])
-            conn.commit()
+            try:
+                cursor.execute(query2, [tag])
+                conn.commit()
+            except:
+                continue
             all_tags.append(tag)
 
     for tag in hashtags:
         if len(tag) < 40:
             try:
                 cursor.execute(query1, (photo_id, tag))
+                conn.commit()
             except:
-                break
-            conn.commit()
+                continue
 
     if session.get('loggedin', None):
 
@@ -533,9 +536,10 @@ def comment(photo_id):
         userid = anon_user[0]
         # insert comment and user id
         query = 'INSERT INTO COMMENTS(photo_id, CONTENT, user_id) VALUES (%s, %s, %s)'
-
+        
         cursor.execute(query, (photo_id, comm, userid))
         conn.commit()
+            
 
         return view_photo(photo_id=photo_id)
 
