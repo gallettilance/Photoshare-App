@@ -1144,7 +1144,6 @@ def friend_recommendation(userid, friends):
 def recommendations(id):
 
     #get all tags of photos of user
-
     query = 'SELECT album_id FROM ALBUMS WHERE user_id = %s'
     cursor.execute(query, int(id))
 
@@ -1185,6 +1184,8 @@ def recommendations(id):
     my_name = session.get('my_name', None)
 
     return render_template('recommendations.html', userid=userid, username=my_name, recommended_photos=recommended_photos)
+
+
 
 if __name__=='__main__':
     app.secret_key = os.urandom(100)
