@@ -9,5 +9,6 @@ pandas==0.21.0
 PyMySQL==0.7.11
 python-dateutil==2.6.1
 pytz==2017.3
+regex==2017.11.9
 six==1.11.0
 Werkzeug==0.12.2
