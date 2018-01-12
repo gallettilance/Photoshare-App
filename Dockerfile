@@ -19,3 +19,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server && \
     sleep 5 && \
     mysql -u root -e "create database photoshare" && \
     mysql -u root photoshare < ./database/photoshare.sql 
+
+EXPOSE ['5000']
+
+CMD ['python3', 'webapp.py']
