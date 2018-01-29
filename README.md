@@ -1,5 +1,6 @@
 # Photoshare App Project
 
+[![Build Status](https://travis-ci.org/galletti94/Photoshare-App?branch=master)](https://travis-ci.org/galletti94/Photoshare-App)
 
 It's online! https://photoshare-app.herokuapp.com 
 
