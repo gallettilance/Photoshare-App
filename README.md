@@ -1,6 +1,6 @@
 # Photoshare App Project - heroku-branch
 
-[![Build Status](https://travis-ci.org/galletti94/Photoshare-App?branch=heroku)](https://travis-ci.org/galletti94/Photoshare-App)
+[![Build Status](https://travis-ci.org/galletti94/Photoshare-App.svg?branch=heroku-branch)](https://travis-ci.org/galletti94/Photoshare-App)
 
 This branch is for deployment onto heroku
 
