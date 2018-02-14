@@ -2,8 +2,7 @@
 
 [![Build Status](https://travis-ci.org/galletti94/Photoshare-App.svg?branch=master)](https://travis-ci.org/galletti94/Photoshare-App)
 
-It's online! https://photoshare-app.herokuapp.com 
-
+It's online! https://photoshare-app.herokuapp.com Feel free to sign up and upload semi-professional pictures that you own (non-copyrighted)
 
 ## Introduction:
 
